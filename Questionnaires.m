@@ -9,7 +9,58 @@ P = getParameters();
 Paths = P.Paths;
 Participants = P.Participants;
 Sessions = P.Sessions;
+PlotProps = P.Powerpoint;
+Labels = P.Labels;
+StatsP = P.StatsP;
 
+
+Results = fullfile(Paths.Results, 'Questionnaires');
+if ~exist(Results, 'dir')
+    mkdir(Results)
+end
+TitleTag = 'RRT_Questionnaires_';
 
 %%% Load data
-[Answers, Labels, Types] = loadRRT(Paths, Participants, Sessions);
+[Answers, qLabels, Types] = loadRRT(Paths, Participants, Sessions);
+
+
+Questions = fieldnames(Answers);
+
+
+%% plot every question
+
+for Z  = [false true]
+    for Indx_Q = 1:numel(Questions)
+
+        Data = Answers.(Questions{Indx_Q});
+
+        % differences by question type
+        switch Types.(Questions{Indx_Q}){1}
+            case 'Radio'
+                YLims = [];
+            case 'MultipleChoice'
+                continue
+            otherwise
+                YLims = [0 1];
+        end
+
+        % z score data
+        if Z
+            YLims = [];
+            ZType = 'zscore';
+
+            Data = zScoreData(Data, 'first');
+
+        else
+            ZType = 'raw';
+        end
+
+
+        figure('Units','normalized', 'Position', [0 0 .5 .7])
+
+        Stats = data2D('line', Data, Labels.Sessions, qLabels.(Questions{Indx_Q}), ...
+            YLims, PlotProps.Color.Participants, StatsP, PlotProps);
+        title(Questions{Indx_Q}, 'FontSize', PlotProps.Text.TitleSize)
+        saveFig(strjoin({TitleTag, 'All', 'BySession', Questions{Indx_Q}, ZType}, '_'), Results, PlotProps)
+    end
+end

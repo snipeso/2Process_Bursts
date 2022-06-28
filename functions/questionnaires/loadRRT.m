@@ -51,10 +51,10 @@ Table.qLabels(FeelingQs) = repmat(Table.qLabels(find(strcmp(Table.qID, 'RT_FEE_4
 
 AllAnswers = struct();
 Labels = struct();
-Types = cell([1, size(qIDs, 1)]);
+Types = struct();
 
 for Indx_Q = 1:size(qIDs, 1)
-[AllAnswers.(qIDs{Indx_Q, 2}), Labels.(qIDs{Indx_Q, 2}), Types{Indx_Q}] = ...
+[AllAnswers.(qIDs{Indx_Q, 2}), Labels.(qIDs{Indx_Q, 2}), Types.(qIDs{Indx_Q, 2})] = ...
     qtable2matrix(Table, Participants, Sessions, qIDs{Indx_Q, 1});
 
 end
