@@ -6,16 +6,18 @@ Type = Table.qType{1};
 ColNames = Table.Properties.VariableNames;
 
 switch Type
-    case 'Slider'
+    case {'Slider', 'SliderGroup', 'TypeInput', 'Radio'}
         if isfield(Table, 'numAnswer')
-            Ans = Table.numAnswer;
+            Answers = Table.numAnswer;
         else
-            Ans = Table.numAnswer_1;
+            Answers = Table.numAnswer_1;
         end
     case 'MultipleChoice'
         Cols = ColNames(contains(ColNames, 'numAnswer'));
 
-        Ans = table2array(Table(:, Cols));
+        Answers = table2array(Table(:, Cols)); 
+    case 'skipped'
+        Answers = [];
     otherwise
         error('unknown type')
 end

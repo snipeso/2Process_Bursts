@@ -1,40 +1,43 @@
-function [Answers, Labels] = qtable2matrix(Table, Participants, Sessions, qID)
+function [Answers, Labels, Type] = qtable2matrix(Table, Participants, Sessions, qID)
 % pulls out all the answers to a specific question in a table, and sorts it
 % into a P x S matrix.
 
-if ismember(Table.qType(1), {'Slider'})
-Answers = nan(numel(Participants), numel(Sessions));
+% reduce table to just question of interest
+Table(~strcmp(Table.qID, qID), :) = [];
+Type = Table.qType(1);
+
+if ismember(Type, {'Slider', 'SliderGroup', 'TypeInput', 'Radio'})
+    Answers = nan(numel(Participants), numel(Sessions));
 else
-Answers = cell([numel(Participants), numel(Sessions)]);
+    Answers = cell([numel(Participants), numel(Sessions)]);
 end
 
 
 for Indx_P = 1:numel(Participants)
     for Indx_S = 1:numel(Sessions)
 
-        
+
         % get answer of specific session for specific participant
-        QuestionIndexes = strcmp(Table.qID, qID) & ...
-            strcmp(Table.dataset, Participants{Indx_P}) & ...
+        QuestionIndexes = strcmp(Table.dataset, Participants{Indx_P}) & ...
             strcmp(Table.Level2, Sessions{Indx_S});
 
-        Ans = qLoadByType(Table(QuestionIndexes, :));
-        
-        
         % handle problems
-        if numel(Ans) < 1
+        if nnz(QuestionIndexes) < 1
             continue
-        elseif numel(Ans) > 1
+        elseif nnz(QuestionIndexes) > 1
             error(['Not unique answers for ', qID, ' in ' Participants{Indx_P}, ' ', Sessions{Indx_S} ])
         end
-        
+
+        Ans = qLoadByType(Table(QuestionIndexes, :));
+
         % save in appropriate way
-        if numel(Ans) ==1 && (isa(Ans, 'double') || isa(Ans, 'single'))
+        if isempty(Ans)
+            continue
+        elseif numel(Ans) ==1 && (isa(Ans, 'double') || isa(Ans, 'single'))
             Answers(Indx_P, Indx_S) = Ans;
         else
             Answers{Indx_P, Indx_S} = Ans;
         end
-        
     end
 end
 
