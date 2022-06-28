@@ -12,6 +12,7 @@ Sessions = P.Sessions;
 PlotProps = P.Powerpoint;
 Labels = P.Labels;
 StatsP = P.StatsP;
+Gender = P.Gender;
 
 
 Results = fullfile(Paths.Results, 'Questionnaires');
@@ -63,4 +64,32 @@ for Z  = [false true]
         title(Questions{Indx_Q}, 'FontSize', PlotProps.Text.TitleSize)
         saveFig(strjoin({TitleTag, 'All', 'BySession', Questions{Indx_Q}, ZType}, '_'), Results, PlotProps)
     end
+end
+
+
+%% gender effects
+
+Colors = repmat(getColors(1, '', 'blue'), numel(Participants), 1);
+Female = strcmp(Gender, 'F');
+Colors(Female, :) = repmat(getColors(1, '', 'pink'), nnz(Female), 1);
+
+for Indx_Q = 1:numel(Questions)
+
+    Data = Answers.(Questions{Indx_Q});
+
+    % differences by question type
+    switch Types.(Questions{Indx_Q}){1}
+        case 'Radio'
+            YLims = [];
+        case 'MultipleChoice'
+            continue
+        otherwise
+            YLims = [0 1];
+    end
+    figure('Units','normalized', 'Position', [0 0 .5 .7])
+    Stats = groupDiff(Data, Labels.Sessions, qLabels.(Questions{Indx_Q}), YLims, Colors, StatsP, PlotProps);
+    title(Questions{Indx_Q}, 'FontSize', PlotProps.Text.TitleSize)
+    saveFig(strjoin({TitleTag, 'Gender', 'BySession', Questions{Indx_Q}}, '_'), Results, PlotProps)
+
+
 end
