@@ -11,14 +11,74 @@ Refresh = false;
 P = getParameters();
 Paths = P.Paths;
 Task = 'Oddball';
-
+Participants = P.Participants;
+Sessions = P.Sessions;
+PlotProps = P.Powerpoint;
 
 TaskData = fullfile(Paths.Data, 'Behavior', 'Oddball_Trials.mat');
 if ~exist(TaskData, 'file') || Refresh
     AllAnswers = importOddball(Paths.Datasets, Task, fullfile(Paths.Data, 'Behavior'));
     Answers = cleanupOddball(AllAnswers);
+    Answers = fixRTs(Answers, Paths);
     save(TaskData, 'Answers')
 else
     load(TaskData, 'Answers')
+end
+
+Results = fullfile(Paths.Results, 'Behavior');
+if ~exist(Results, 'dir')
+    mkdir(Results)
+end
+TitleTag = 'Behavior';
+
+%%% plots
+% TEMP FIX
+Answers.Type(strcmp(Answers.condition, "Target") & isnan(Answers.keyPress)) = 4;
+
+
+
+%% Plot reaction times
+
+%%
+[Matrix, Things] = tabulateTable(Answers, 'RT', 'mean', Participants, Sessions, []);
+
+ figure('Units','normalized', 'Position', [0 0 .5 .7])
+data2D('line', Matrix, P.Labels.Sessions, [], [], PlotProps.Color.Participants, P.StatsP, PlotProps)
+title('Reaction Times', 'FontSize', PlotProps.Text.TitleSize)
+ylabel('Seconds')
+saveFig(strjoin({TitleTag, 'All', 'BySession'}, '_'), Results, PlotProps)
+
+Data = zScoreData(Matrix, 'first');
+ figure('Units','normalized', 'Position', [0 0 .5 .7])
+data2D('line', Data, P.Labels.Sessions, [], [], PlotProps.Color.Participants, P.StatsP, PlotProps)
+title('Reaction Times', 'FontSize', PlotProps.Text.TitleSize)
+ylabel('z-score')
+saveFig(strjoin({TitleTag, 'All', 'BySession', 'zscore'}, '_'), Results, PlotProps)
+
+
+
+
+%%
+[Matrix, Things] = tabulateTable(Answers, 'Type', 'tabulate', Participants, Sessions, []);
+
+Matrix(:, :, 3) = Matrix(:, :, 3)-1;
+Types = {'CorrectRejection', 'CorrectResponse', 'FalseAlarm', 'Lapse'};
+
+for Indx_T = 1:numel(Things)
+
+    Data = squeeze(Matrix(:, :, Indx_T));
+ figure('Units','normalized', 'Position', [0 0 .5 .7])
+data2D('line', Data, P.Labels.Sessions, [], [], PlotProps.Color.Participants, P.StatsP, PlotProps)
+title(Types{Indx_T}, 'FontSize', PlotProps.Text.TitleSize)
+ylabel('#')
+saveFig(strjoin({TitleTag, 'All', 'BySession', Types{Indx_T} }, '_'), Results, PlotProps)
+
+Data = zScoreData(Data, 'first');
+ figure('Units','normalized', 'Position', [0 0 .5 .7])
+data2D('line', Data, P.Labels.Sessions, [], [], PlotProps.Color.Participants, P.StatsP, PlotProps)
+title(Types{Indx_T}, 'FontSize', PlotProps.Text.TitleSize)
+ylabel('z-score')
+saveFig(strjoin({TitleTag, 'All', 'BySession', Types{Indx_T}, 'zscore'}, '_'), Results, PlotProps)
+
 end
 

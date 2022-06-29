@@ -69,8 +69,6 @@ for Indx_P = 1:size(Datasets, 1)
             Output.(MissingCol{Indx_C}) = cell([size(Output, 1), 1]);
         end
         
-        
-        
         AllAnswers = [AllAnswers; Output];
     end
     

@@ -15,9 +15,13 @@ Answers.Session = string(Answers.Session);
 
 for Indx_T = 1:size(Answers, 1)
     Answers.Trial(Indx_T) =  AllAnswers.trialID{Indx_T}.id;
-    Answers.StimTime(Indx_T) =  AllAnswers.tone{Indx_T}.toneTime;
-    
     try
+   Answers.Triggers(Indx_T) = {AllAnswers.trialID{Indx_T}.triggers(:)'};
+    catch
+        a=1
+    end
+    Answers.StimTime(Indx_T) =  AllAnswers.tone{Indx_T}.toneTime;
+
     if iscell(AllAnswers.keyPresses{Indx_T})
     Answers.keyPress(Indx_T) = AllAnswers.keyPresses{Indx_T}{1}{2};
     Answers.button(Indx_T) =  string(AllAnswers.keyPresses{Indx_T}{1}{1});
@@ -27,11 +31,6 @@ for Indx_T = 1:size(Answers, 1)
     end
     Answers.RT(Indx_T) = Answers.keyPress(Indx_T) - Answers.StimTime(Indx_T);
 
-    catch
-
-
-        a=1
-    end
 
     % determine type of answer
     if strcmp(Answers.condition(Indx_T), 'Standard') && ~isnan(Answers.keyPress(Indx_T))
