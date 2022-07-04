@@ -19,7 +19,7 @@ Results = fullfile(Paths.Results, 'Questionnaires');
 if ~exist(Results, 'dir')
     mkdir(Results)
 end
-TitleTag = 'RRT_Questionnaires_';
+TitleTag = 'RRT_Questionnaires';
 
 %%% Load data
 [Answers, qLabels, Types] = loadRRT(Paths, Participants, Sessions);
@@ -40,6 +40,14 @@ for Z  = [false true]
             case 'Radio'
                 YLims = [];
             case 'MultipleChoice'
+
+                if ~Z
+                figure('Units','normalized', 'Position', [0 0 .5 .7])
+                plotMultipleChoice(Data, qLabels.(Questions{Indx_Q}), Labels.Sessions, PlotProps)
+                title(Questions{Indx_Q}, 'FontSize', PlotProps.Text.TitleSize)
+                saveFig(strjoin({TitleTag, 'All', 'BySession', Questions{Indx_Q}, ZType}, '_'), Results, PlotProps)
+                end
+                
                 continue
             otherwise
                 YLims = [0 1];
@@ -90,6 +98,4 @@ for Indx_Q = 1:numel(Questions)
     Stats = groupDiff(Data, Labels.Sessions, qLabels.(Questions{Indx_Q}), YLims, Colors, StatsP, PlotProps);
     title(Questions{Indx_Q}, 'FontSize', PlotProps.Text.TitleSize)
     saveFig(strjoin({TitleTag, 'Gender', 'BySession', Questions{Indx_Q}}, '_'), Results, PlotProps)
-
-
 end
