@@ -4,12 +4,13 @@ function [AllAnswers, Labels, Types] = loadRRT(Paths, Participants, Sessions)
 
 filename = 'Fixation_All.csv';
 
-qIDs = {'RT_OVR_1_sl1', 'GeneralExperience';
+qIDs = {'RT_OVR_1_sl1', 'Enjoyable';
+    'RT_OVR_1_sl2', 'Relaxing';
     'RRT_OVT_4', 'Motivation';
     'RT_FEE_1.1_sl1', 'Happy';
     'RT_FEE_1.1_sl2', 'Sad';
     'RT_FEE_1.1_sl3', 'Angry';
-    'RT_FEE_1.1_sl2', 'Afraid';
+    'RT_FEE_1.1_sl4', 'Afraid';
     'RT_FEE_1.2', 'ExtraFeelings';
     'RT_FEE_2', 'Tolerance';
     'RT_FEE_3', 'Stress';

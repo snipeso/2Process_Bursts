@@ -16,8 +16,7 @@ for Indx_P = 1:Dims(1)
     end
 end
 
-
-h = bar(Data', .5, 'stacked');
+h = bar(Data', .9, 'grouped');
 xticklabels(xLabels)
 ylabel('# answers')
 
@@ -30,5 +29,3 @@ end
 
 set(gca, 'FontName', PlotProps.Text.FontName, 'FontSize', PlotProps.Text.AxisSize)
 legend(Labels, 'location', 'northwest')
-
-A=2'

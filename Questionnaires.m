@@ -40,14 +40,6 @@ for Z  = [false true]
             case 'Radio'
                 YLims = [];
             case 'MultipleChoice'
-
-                if ~Z
-                figure('Units','normalized', 'Position', [0 0 .5 .7])
-                plotMultipleChoice(Data, qLabels.(Questions{Indx_Q}), Labels.Sessions, PlotProps)
-                title(Questions{Indx_Q}, 'FontSize', PlotProps.Text.TitleSize)
-                saveFig(strjoin({TitleTag, 'All', 'BySession', Questions{Indx_Q}, ZType}, '_'), Results, PlotProps)
-                end
-                
                 continue
             otherwise
                 YLims = [0 1];
@@ -72,6 +64,7 @@ for Z  = [false true]
         title(Questions{Indx_Q}, 'FontSize', PlotProps.Text.TitleSize)
         saveFig(strjoin({TitleTag, 'All', 'BySession', Questions{Indx_Q}, ZType}, '_'), Results, PlotProps)
     end
+    close all
 end
 
 
@@ -99,3 +92,24 @@ for Indx_Q = 1:numel(Questions)
     title(Questions{Indx_Q}, 'FontSize', PlotProps.Text.TitleSize)
     saveFig(strjoin({TitleTag, 'Gender', 'BySession', Questions{Indx_Q}}, '_'), Results, PlotProps)
 end
+
+
+
+%% plot type of thoughts
+
+Ans = Answers.Sleep;
+L = qLabels.Sleep;
+Data = zeros(numel(L), numel(Sessions));
+
+for Indx_P = 1:Dims(1)
+    for Indx_S = 1:Dims(2)
+        A = Ans{Indx_P, Indx_S};
+        A(isnan(A)) = [];
+        
+        if isempty(A)
+            continue
+        end
+        Data(A, Indx_S) = Data(A, Indx_S)+1;
+    end
+end
+
