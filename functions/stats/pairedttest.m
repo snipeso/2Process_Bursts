@@ -89,6 +89,7 @@ elseif numel(Dims1) == 2 && numel(Dims2) == 2 % C
     ES = stats.(StatsP.Paired.ES)';
     Stats.(StatsP.Paired.ES) = ES;
     
+    
 elseif numel(Dims1) == 2 && numel(Dims2) == 3 % D
     
     % get all p-values

@@ -16,14 +16,13 @@ Gender = P.Gender;
 
 Refresh = false;
 fs = 250;
-Task = 'Fixation';
+Task = 'Standing';
 
 Results = fullfile(Paths.Results, 'EEG', 'Bursts');
 if ~exist(Results, 'dir')
     mkdir(Results)
 end
 TitleTag = [Task, '_Bursts'];
-
 
 MegatTable_Filename = [Task, 'AllBursts.mat'];
 
@@ -47,7 +46,7 @@ X = [4 7 10 14.5 17.5 20 23 26.5];
 WMZ = 6:7;
 TestPoint = 8;
 
-for Z = zScore
+for Z = false %zScore
     for Indx_B = 1:2
         for Indx_V = 1:numel(Variables)
 
@@ -83,17 +82,18 @@ for Z = zScore
                 % fit data
                 Y  = mean(Matrix(:, 4:11), 'omitnan'); % get only 24h period
                 Struct = fitStruct(X, Y, WMZ, TestPoint);
+                Struct.Variable = [V, '_', Bands{Indx_B}, '_', Task];
                 Fits = catStruct(Fits, Struct);
 
             else
-                saveFig(strjoin({TitleTag, 'AllSessions'}, '_'), Results, PlotProps)
+                saveFig(strjoin({TitleTag, 'AllSessions',  V,  Bands{Indx_B}}, '_'), Results, PlotProps)
 
 
-                % look at gender differences as well
-                figure('Units','normalized', 'Position', [0 0 .5 .7])
-                Stats = groupDiff(Matrix, Labels.Sessions, [], [], Colors, StatsP, PlotProps);
-                title(Title, 'FontSize', PlotProps.Text.TitleSize)
-                saveFig(strjoin({TitleTag, 'Gender', 'BySession', V,  Bands{Indx_B}}, '_'), Results, PlotProps)
+%                 % look at gender differences as well
+%                 figure('Units','normalized', 'Position', [0 0 .5 .7])
+%                 Stats = groupDiff(Matrix, Labels.Sessions, [], [], Colors, StatsP, PlotProps);
+%                 title(Title, 'FontSize', PlotProps.Text.TitleSize)
+%                 saveFig(strjoin({TitleTag, 'Gender', 'BySession', V, Bands{Indx_B}}, '_'), Results, PlotProps)
             end
         end
     end

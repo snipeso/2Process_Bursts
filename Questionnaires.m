@@ -30,6 +30,11 @@ Questions = fieldnames(Answers);
 
 %% plot every question
 
+Fits = struct();
+X = [4 7 10 14.5 17.5 20 23 26.5];
+WMZ = 6:7;
+TestPoint = 8;
+
 for Z  = [false true]
     for Indx_Q = 1:numel(Questions)
 
@@ -52,6 +57,12 @@ for Z  = [false true]
 
             Data = zScoreData(Data, 'first');
 
+            % fit data
+            Y = mean(Data(:, 4:11), 'omitnan'); % get only 24h period
+            Struct = fitStruct(X, Y, WMZ, TestPoint);
+            Struct.Variable =  Questions{Indx_Q};
+            Fits = catStruct(Fits, Struct);
+
         else
             ZType = 'raw';
         end
@@ -67,6 +78,8 @@ for Z  = [false true]
     close all
 end
 
+Fit_Table = struct2table(Fits);
+writetable(Fit_Table, fullfile(Results, strjoin({TitleTag, 'Fits.csv'}, '_')))
 
 %% gender effects
 
@@ -105,7 +118,7 @@ for Indx_P = 1:Dims(1)
     for Indx_S = 1:Dims(2)
         A = Ans{Indx_P, Indx_S};
         A(isnan(A)) = [];
-        
+
         if isempty(A)
             continue
         end
@@ -113,3 +126,64 @@ for Indx_P = 1:Dims(1)
     end
 end
 
+
+
+%% plot WMZ effects
+
+
+TempQs = {
+    'KSS', 1;
+    'DifficultyWake', 1;
+    'SleepPropensity', 1;
+    'PhysicalTiredness', -1;
+    'EmotionalTiredness', -1;
+    'PsychTiredness', -1;
+    'SpiritTiredness', -1;
+    'Alertness', -1;
+    'Focus', -1;
+    'Motivation', -1;
+    'Tolerance', 1;
+    'Relaxing',-1;
+    'GeneralFeeling', -1;
+    'DifficultyFixating', 1;
+    'DifficultyOddball', 1;
+
+    };
+
+nQs = size(TempQs, 1);
+notWMZ = nan(numel(Participants), nQs, 2); % questions x z-score
+WMZ = notWMZ;
+Colors = repmat([.5 .5 .5], nQs, 1);
+notWMZ_Indx = 7:8;
+WMZ_Indx = 9:10;
+
+
+for Z = [false true]
+    for Indx_Q = 1:size(TempQs, 1)
+        Q = TempQs{Indx_Q, 1};
+        Data = Answers.(Q);
+
+        if strcmp(Types.(Q){1}, 'MultipleChoice')
+            continue
+        end
+
+        if Z
+            Data = zScoreData(Data, 'first');
+            Indx_Z = 2;
+        else
+            Indx_Z = 1;
+        end
+
+        Data = Data*TempQs{Indx_Q, 2};
+
+
+        notWMZ(:, Indx_Q, Indx_Z) = mean(Data(:, notWMZ_Indx), 2, 'omitnan');
+        WMZ(:, Indx_Q, Indx_Z) = mean(Data(:, WMZ_Indx), 2, 'omitnan');
+
+    end
+end
+
+Stats = hedgesG(notWMZ, WMZ, StatsP);
+figure('Units','normalized', 'OuterPosition', [0 0 .5 1])
+plotUFO(Stats.hedgesg, Stats.hedgesgCI, TempQs(:, 1), {'raw', 'zscored'}, Colors, 'vertical', PlotProps)
+ saveFig(strjoin({TitleTag, 'WMZ', 'HedgesG'}, '_'), Results, PlotProps)
