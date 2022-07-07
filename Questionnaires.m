@@ -32,7 +32,7 @@ Questions = fieldnames(Answers);
 
 Fits = struct();
 X = [4 7 10 14.5 17.5 20 23 26.5];
-WMZ = 6:7;
+After = 6:7;
 TestPoint = 8;
 
 for Z  = [false true]
@@ -59,7 +59,7 @@ for Z  = [false true]
 
             % fit data
             Y = mean(Data(:, 4:11), 'omitnan'); % get only 24h period
-            Struct = fitStruct(X, Y, WMZ, TestPoint);
+            Struct = fitStruct(X, Y, After, TestPoint);
             Struct.Variable =  Questions{Indx_Q};
             Fits = catStruct(Fits, Struct);
 
@@ -135,10 +135,6 @@ TempQs = {
     'KSS', 1;
     'DifficultyWake', 1;
     'SleepPropensity', 1;
-    'PhysicalTiredness', -1;
-    'EmotionalTiredness', -1;
-    'PsychTiredness', -1;
-    'SpiritTiredness', -1;
     'Alertness', -1;
     'Focus', -1;
     'Motivation', -1;
@@ -151,14 +147,14 @@ TempQs = {
     };
 
 nQs = size(TempQs, 1);
-notWMZ = nan(numel(Participants), nQs, 2); % questions x z-score
-WMZ = notWMZ;
+Before = nan(numel(Participants), nQs, 2); % questions x z-score
+After = Before;
 Colors = repmat([.5 .5 .5], nQs, 1);
 notWMZ_Indx = 7:8;
 WMZ_Indx = 9:10;
+Start_Indx = 5:6;
+Z = true;
 
-
-for Z = [false true]
     for Indx_Q = 1:size(TempQs, 1)
         Q = TempQs{Indx_Q, 1};
         Data = Answers.(Q);
@@ -170,20 +166,23 @@ for Z = [false true]
         if Z
             Data = zScoreData(Data, 'first');
             Indx_Z = 2;
-        else
-            Indx_Z = 1;
         end
 
         Data = Data*TempQs{Indx_Q, 2};
 
 
-        notWMZ(:, Indx_Q, Indx_Z) = mean(Data(:, notWMZ_Indx), 2, 'omitnan');
-        WMZ(:, Indx_Q, Indx_Z) = mean(Data(:, WMZ_Indx), 2, 'omitnan');
+        % Start vs preMWZ
+        Before(:, Indx_Q, 1) = mean(Data(:, Start_Indx), 2, 'omitnan');
+        After(:, Indx_Q, 1) = mean(Data(:, notWMZ_Indx), 2, 'omitnan');
 
+        % preWMZ vs WMZ
+          Before(:, Indx_Q, 2) = mean(Data(:, notWMZ_Indx), 2, 'omitnan');
+        After(:, Indx_Q, 2) = mean(Data(:, WMZ_Indx), 2, 'omitnan');
     end
-end
 
-Stats = hedgesG(notWMZ, WMZ, StatsP);
+Stats = hedgesG(Before, After, StatsP);
 figure('Units','normalized', 'OuterPosition', [0 0 .5 1])
-plotUFO(Stats.hedgesg, Stats.hedgesgCI, TempQs(:, 1), {'raw', 'zscored'}, Colors, 'vertical', PlotProps)
- saveFig(strjoin({TitleTag, 'WMZ', 'HedgesG'}, '_'), Results, PlotProps)
+plotUFO(Stats.hedgesg, Stats.hedgesgCI, TempQs(:, 1), {'\DeltaDay', '\DeltaWMZ'}, Colors, 'vertical', PlotProps)
+ylim([-3 3])
+saveFig(strjoin({TitleTag, 'WMZ', 'HedgesG'}, '_'), Results, PlotProps)
+

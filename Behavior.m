@@ -35,7 +35,15 @@ TitleTag = 'Behavior';
 % TEMP FIX
 Answers.Type(strcmp(Answers.condition, "Target") & isnan(Answers.keyPress)) = 4;
 
+Variables = {
+'RT',   1;
+'sdRT', 1;
+'Lapses', 1;
+'FalseAlarms', 1;
+'Performance', -1};
 
+nVariables = size(Variables, 1);
+AllData = nan(numel(Participants), nVariables, 2);
 
 %% Plot reaction times
 
@@ -54,6 +62,8 @@ title('Reaction Times', 'FontSize', PlotProps.Text.TitleSize)
 ylabel('z-score')
 saveFig(strjoin({TitleTag, 'All', 'BySession', 'RT', 'zscore'}, '_'), Results, PlotProps)
 
+
+AllData(:, )
 %% RT variability
 
 [STD, ~] = tabulateTable(Answers, 'RT', 'std', Participants, Sessions, []);
@@ -124,6 +134,5 @@ saveFig(strjoin({TitleTag, 'All', 'BySession', Types{Indx_T}, 'zscore'}, '_'), R
 
 %  figure('Units','normalized', 'Position', [0 0 .5 .7])
 %     Stats = groupDiff(Data, P.Labels.Sessions, [], [], Colors, P.StatsP, PlotProps);
-
 end
 
