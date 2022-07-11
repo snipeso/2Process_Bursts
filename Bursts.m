@@ -154,15 +154,15 @@ end
 
 
 
-
 VariableLabels = {'Amplitude', 'Quantity'};
-figure('Units','normalized', 'OuterPosition', [0 0 .5 .4])
+figure('Units','normalized', 'OuterPosition', [0 0 .5 .35])
 subplot(1, 2, 1)
 Stats = hedgesG(squeeze(Before(:, 1, :, :)), squeeze(After(:, 1, :, :)), StatsP);
 plotUFO(Stats.hedgesg, Stats.hedgesgCI, VariableLabels, {'\DeltaDay', '\DeltaWMZ'}, Colors, 'vertical', PlotProps)
-legend off
+
 ylim([-3.5 3.5])
-xlim([0 3])
+yticks(-3:1:3)
+xlim([0.25 2.75])
 ylabel("Hedge's G")
 title('Theta')
 
@@ -170,8 +170,10 @@ subplot(1, 2, 2)
 Stats = hedgesG(squeeze(Before(:, 2, :, :)), squeeze(After(:, 2, :, :)), StatsP);
 plotUFO(Stats.hedgesg, Stats.hedgesgCI, VariableLabels, {'\DeltaDay', '\DeltaWMZ'}, Colors, 'vertical', PlotProps)
 ylim([-3.5 3.5])
+yticks(-3:1:3)
+legend off
 ylabel("Hedge's G")
-xlim([0 3])
+xlim([0.25 2.75])
 title('Alpha')
 
 

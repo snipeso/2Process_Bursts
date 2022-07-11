@@ -38,12 +38,17 @@ Answers.Type(strcmp(Answers.condition, "Target") & isnan(Answers.keyPress)) = 4;
 Variables = {
 'RT',   1;
 'sdRT', 1;
-'Lapses', 1;
-'FalseAlarms', 1;
+'Lapse', 1;
+'FalseAlarm', 1;
 'Performance', -1};
 
+notWMZ_Indx = 7:8;
+WMZ_Indx = 9:10;
+Start_Indx = 5:6;
+
 nVariables = size(Variables, 1);
-AllData = nan(numel(Participants), nVariables, 2);
+Before = nan(numel(Participants), nVariables, 2);
+After = nan(numel(Participants), nVariables, 2);
 
 %% Plot reaction times
 
@@ -63,7 +68,10 @@ ylabel('z-score')
 saveFig(strjoin({TitleTag, 'All', 'BySession', 'RT', 'zscore'}, '_'), Results, PlotProps)
 
 
-AllData(:, )
+Before(:, 1, 1) =  mean(Data(:, Start_Indx), 2, 'omitnan'); 
+Before(:, 1, 2) =  mean(Data(:, notWMZ_Indx), 2, 'omitnan'); 
+After(:, 1, 1) =  mean(Data(:, notWMZ_Indx), 2, 'omitnan'); 
+After(:, 1, 2) =  mean(Data(:, WMZ_Indx), 2, 'omitnan'); 
 %% RT variability
 
 [STD, ~] = tabulateTable(Answers, 'RT', 'std', Participants, Sessions, []);
@@ -83,6 +91,11 @@ saveFig(strjoin({TitleTag, 'All', 'BySession', 'RT', 'std', 'zscore'}, '_'), Res
 
 
 [STD, ~] = tabulateTable(Answers, 'RT', 'std', Participants, Sessions, []);
+
+Before(:, 2, 1) =  mean(Data(:, Start_Indx), 2, 'omitnan'); 
+Before(:, 2, 2) =  mean(Data(:, notWMZ_Indx), 2, 'omitnan'); 
+After(:, 2, 1) =  mean(Data(:, notWMZ_Indx), 2, 'omitnan'); 
+After(:, 2, 2) =  mean(Data(:, WMZ_Indx), 2, 'omitnan'); 
 
 
 Var = STD./Means;
@@ -132,7 +145,36 @@ title(Types{Indx_T}, 'FontSize', PlotProps.Text.TitleSize)
 ylabel('z-score')
 saveFig(strjoin({TitleTag, 'All', 'BySession', Types{Indx_T}, 'zscore'}, '_'), Results, PlotProps)
 
-%  figure('Units','normalized', 'Position', [0 0 .5 .7])
-%     Stats = groupDiff(Data, P.Labels.Sessions, [], [], Colors, P.StatsP, PlotProps);
+Indx = find(strcmp(Variables(:, 1), Types{Indx_T}));
+
+if isempty(Indx)
+    continue
 end
+
+ figure('Units','normalized', 'Position', [0 0 .5 .7])
+    Stats = groupDiff(Data, P.Labels.Sessions, [], [], Colors, P.StatsP, PlotProps);
+saveFig(strjoin({TitleTag, 'Gender', 'BySession', Types{Indx_T}, 'zscore'}, '_'), Results, PlotProps)
+
+Data = Data*Variables{Indx, 2};
+
+Before(:, Indx, 1) =  mean(Data(:, Start_Indx), 2, 'omitnan'); 
+Before(:, Indx, 2) =  mean(Data(:, notWMZ_Indx), 2, 'omitnan'); 
+After(:, Indx, 1) =  mean(Data(:, notWMZ_Indx), 2, 'omitnan'); 
+After(:, Indx, 2) =  mean(Data(:, WMZ_Indx), 2, 'omitnan'); 
+
+
+end
+
+
+%% 
+
+Colors = repmat([.5 .5 .5], size(Variables, 1), 1);
+Stats = hedgesG(Before, After, P.StatsP);
+figure('Units','normalized', 'OuterPosition', [0 0 .35 .6])
+plotUFO(Stats.hedgesg, Stats.hedgesgCI, Variables, {'\DeltaDay', '\DeltaWMZ'}, Colors, 'vertical', PlotProps)
+ylim([-3.5 3.5])
+yticks(-3:1:3)
+ylabel("Hedge's G")
+saveFig(strjoin({TitleTag, 'WMZ', 'HedgesG'}, '_'), Results, PlotProps)
+
 

@@ -143,8 +143,8 @@ TempQs = {
     'GeneralFeeling', -1;
     'DifficultyFixating', 1;
     'DifficultyOddball', 1;
-
     };
+TempQs = flip(TempQs);
 
 nQs = size(TempQs, 1);
 Before = nan(numel(Participants), nQs, 2); % questions x z-score
@@ -180,9 +180,12 @@ Z = true;
         After(:, Indx_Q, 2) = mean(Data(:, WMZ_Indx), 2, 'omitnan');
     end
 
+    %%
 Stats = hedgesG(Before, After, StatsP);
-figure('Units','normalized', 'OuterPosition', [0 0 .5 1])
+figure('Units','normalized', 'OuterPosition', [0 0 .35 1])
 plotUFO(Stats.hedgesg, Stats.hedgesgCI, TempQs(:, 1), {'\DeltaDay', '\DeltaWMZ'}, Colors, 'vertical', PlotProps)
-ylim([-3 3])
+ylim([-3.5 3.5])
+yticks(-3:1:3)
+ylabel("Hedge's G")
 saveFig(strjoin({TitleTag, 'WMZ', 'HedgesG'}, '_'), Results, PlotProps)
 
