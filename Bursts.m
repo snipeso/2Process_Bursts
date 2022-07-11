@@ -46,7 +46,7 @@ X = [4 7 10 14.5 17.5 20 23 26.5];
 WMZ = 6:7;
 TestPoint = 8;
 
-for Z = false %zScore
+for Z = zScore
     for Indx_B = 1:2
         for Indx_V = 1:numel(Variables)
 
@@ -87,14 +87,14 @@ for Z = false %zScore
 
             else
                 saveFig(strjoin({TitleTag, 'AllSessions',  V,  Bands{Indx_B}}, '_'), Results, PlotProps)
-
-
-                % look at gender differences as well
-                figure('Units','normalized', 'Position', [0 0 .5 .7])
-                Stats = groupDiff(Matrix, Labels.Sessions, [], [], Colors, StatsP, PlotProps);
-                title(Title, 'FontSize', PlotProps.Text.TitleSize)
-                saveFig(strjoin({TitleTag, 'Gender', 'BySession', V, Bands{Indx_B}}, '_'), Results, PlotProps)
             end
+
+
+            % look at gender differences as well
+            figure('Units','normalized', 'Position', [0 0 .5 .7])
+            Stats = groupDiff(Matrix, Labels.Sessions, [], [], Colors, StatsP, PlotProps);
+            title(Title, 'FontSize', PlotProps.Text.TitleSize)
+            saveFig(strjoin({TitleTag, 'Gender', 'BySession', V, Bands{Indx_B}}, '_'), Results, PlotProps)
         end
     end
 end
@@ -153,7 +153,7 @@ for Indx_B = 1:2
 end
 
 
-%%
+
 
 VariableLabels = {'Amplitude', 'Quantity'};
 figure('Units','normalized', 'OuterPosition', [0 0 .5 .4])
@@ -178,3 +178,116 @@ title('Alpha')
 
 saveFig(strjoin({TitleTag, 'WMZ', 'HedgesG'}, '_'), Results, PlotProps)
 
+
+
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% TOPOS
+
+Bands = {'Theta', 'Alpha'};
+
+
+load('Chanlocs123.mat')
+Topos = nan(numel(Participants), numel(Sessions), numel(Chanlocs), 2, 2);
+
+
+
+for Indx_S = 1:numel(Sessions)
+    for Indx_B = 1:2 % loop through frequencies
+        for Indx_P = 1:numel(Participants)
+            T = BurstTable(BurstTable.FreqType == Indx_B & strcmp(BurstTable.Participant, Participants{Indx_P}) & ...
+                strcmp(BurstTable.Session, Sessions{Indx_S}), :);
+
+            if isempty(T)
+                continue
+            end
+
+            Ch = [T.Coh_Burst_Channels{:}];
+            Amps = [T.Coh_amplitude{:}];
+
+            for Indx_Ch = 1:numel(Chanlocs)
+
+                Ch_Mean = mean(Amps(Ch==Indx_Ch), 'omitnan');
+                Ch_Tot = nnz(Amps(Ch==Indx_Ch));
+
+                if Ch_Tot == 0
+                    Ch_Mean = 0;
+                end
+                Topos(Indx_P, Indx_S, Indx_Ch, Indx_B, 1) = Ch_Mean;
+                Topos(Indx_P, Indx_S, Indx_Ch, Indx_B, 2)  = Ch_Tot;
+            end
+        end
+    end
+end
+
+
+zTopos(:, :, :, :, 1) = zScoreData(squeeze(Topos(:, :, :, :, 1)), 'last');
+zTopos(:, :, :, :, 2) = zScoreData(squeeze(Topos(:, :, :, :, 2)), 'last');
+
+
+
+%% plot change
+
+Rows = {'Amp', 'Tot'};
+CLims = [-8 8];
+BL = 4;
+SD = 11;
+
+
+for Z = [false, true]
+
+    if Z
+        T = zTopos;
+        zTag = 'zscore';
+    else
+        T = Topos;
+        zTag = 'raw';
+    end
+
+    figure('Units', 'normalized', 'Position', [0 0 .4 .7])
+    for Indx_B = 1:2
+        for Indx_R = 1:2
+
+            Data1 = squeeze(T(:, BL, :, Indx_B, Indx_R));
+            Data2 = squeeze(T(:, SD, :, Indx_B, Indx_R));
+            subfigure([], [2, 2], [Indx_B, Indx_R], [], false, '', PlotProps);
+            Stats = topoDiff(Data1, Data2, Chanlocs, CLims, StatsP, PlotProps);
+            title([Bands{Indx_B}, ' ', Rows{Indx_R}])
+        end
+    end
+
+    saveFig(strjoin({TitleTag, 'Topography', 'Changes', zTag}, '_'), Results, PlotProps)
+end
+
+%% plot WMZ change
+
+Rows = {'Amp', 'Tot'};
+CLims = [-8 8];
+notWMZ_Indx = 7:8;
+WMZ_Indx = 9:10;
+
+
+for Z = [false, true]
+
+    if Z
+        T = zTopos;
+        zTag = 'zscore';
+    else
+        T = Topos;
+        zTag = 'raw';
+    end
+
+    figure('Units', 'normalized', 'Position', [0 0 .4 .7])
+    for Indx_B = 1:2
+        for Indx_R = 1:2
+
+            Data1 = squeeze(mean(T(:, notWMZ_Indx, :, Indx_B, Indx_R), 2, 'omitnan'));
+            Data2 = squeeze(mean(T(:, WMZ_Indx, :, Indx_B, Indx_R), 2, 'omitnan'));
+            subfigure([], [2, 2], [Indx_B, Indx_R], [], false, '', PlotProps);
+            Stats = topoDiff(Data1, Data2, Chanlocs, CLims, StatsP, PlotProps);
+            title([Bands{Indx_B}, ' ', Rows{Indx_R}])
+        end
+    end
+
+    saveFig(strjoin({TitleTag, 'WMZ', 'Topography', 'Changes', zTag}, '_'), Results, PlotProps)
+end
