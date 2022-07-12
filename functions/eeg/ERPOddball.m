@@ -16,6 +16,7 @@ for Indx_P = 1:numel(Participants)
         Filename_Cuts = replace(Filename_Source, 'Clean.mat', 'Cuts.mat');
         if ~exist(fullfile(Path, Filename_Source), 'file')
             warning(['Skipping ', Filename_Source])
+            continue
         end
 
         load(fullfile(Path, Filename_Source), 'EEG');
