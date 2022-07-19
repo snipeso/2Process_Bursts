@@ -28,6 +28,10 @@ MegatTable_Filename = [Task, 'AllBursts.mat'];
 
 load(fullfile(Paths.Data, 'EEG', 'Bursts_Table', MegatTable_Filename), 'BurstTable', 'Missing')
 
+Path = fullfile(Paths.Data, 'EEG', 'Bursts_Table');
+Tasks = {'Fixation', 'Oddball', 'Standing'};
+[AllBursts, AllMissing] = loadRRTBursts(Path, Tasks);
+
 
 %% plot change in time
 
@@ -50,19 +54,19 @@ for Z = zScore
     for Indx_B = 1:2
         for Indx_V = 1:numel(Variables)
 
-            V =Variables{Indx_V};
-            if strcmp(V, 'Tot')
+            Variable =Variables{Indx_V};
+            if strcmp(Variable, 'Tot')
                 Matrix = tabulateTable(BurstTable, 'FreqType', 'tabulate', Participants, Sessions);
                 Matrix = squeeze(Matrix(:, :, Indx_B));
                 Matrix(isnan(Matrix)) = 0;
 
-            elseif strcmp(V, 'nPeaks')
+            elseif strcmp(Variable, 'nPeaks')
                 T = BurstTable(BurstTable.FreqType == Indx_B, :);
                 Matrix = tabulateTable(T, 'nPeaks', 'sum', Participants, Sessions);
                 Matrix(isnan(Matrix)) = 0;
             else
                 T = BurstTable(BurstTable.FreqType == Indx_B, :);
-                Matrix = tabulateTable(T, V, 'mean', Participants, Sessions);
+                Matrix = tabulateTable(T, Variable, 'mean', Participants, Sessions);
             end
 
             Matrix(logical(Missing(:))) = nan;
@@ -73,20 +77,20 @@ for Z = zScore
 
             figure('Units','normalized', 'Position', [0 0 .5 .7])
             Stats = data2D('line', Matrix, Labels.Sessions, [], [], PlotProps.Color.Participants, StatsP, PlotProps);
-            Title = [replace(V, '_', ' '), ' ', Bands{Indx_B}];
+            Title = [replace(Variable, '_', ' '), ' ', Bands{Indx_B}];
             title(Title,  'FontSize', PlotProps.Text.TitleSize)
 
             if Z
-                saveFig(strjoin({TitleTag, 'AllSessions', V,  Bands{Indx_B},  'zscore'}, '_'), Results, PlotProps)
+                saveFig(strjoin({TitleTag, 'AllSessions', Variable,  Bands{Indx_B},  'zscore'}, '_'), Results, PlotProps)
 
                 % fit data
                 Y  = mean(Matrix(:, 4:11), 'omitnan'); % get only 24h period
                 Struct = fitStruct(X, Y, WMZ, TestPoint);
-                Struct.Variable = [V, '_', Bands{Indx_B}, '_', Task];
+                Struct.Variable = [Variable, '_', Bands{Indx_B}, '_', Task];
                 Fits = catStruct(Fits, Struct);
 
             else
-                saveFig(strjoin({TitleTag, 'AllSessions',  V,  Bands{Indx_B}}, '_'), Results, PlotProps)
+                saveFig(strjoin({TitleTag, 'AllSessions',  Variable,  Bands{Indx_B}}, '_'), Results, PlotProps)
             end
 
 
@@ -94,7 +98,7 @@ for Z = zScore
             figure('Units','normalized', 'Position', [0 0 .5 .7])
             Stats = groupDiff(Matrix, Labels.Sessions, [], [], Colors, StatsP, PlotProps);
             title(Title, 'FontSize', PlotProps.Text.TitleSize)
-            saveFig(strjoin({TitleTag, 'Gender', 'BySession', V, Bands{Indx_B}}, '_'), Results, PlotProps)
+            saveFig(strjoin({TitleTag, 'Gender', 'BySession', Variable, Bands{Indx_B}}, '_'), Results, PlotProps)
         end
     end
 end
@@ -119,19 +123,19 @@ Z = true;
 for Indx_B = 1:2
     for Indx_V = 1:numel(Variables)
 
-        V = Variables{Indx_V};
-        if strcmp(V, 'Tot')
+        Variable = Variables{Indx_V};
+        if strcmp(Variable, 'Tot')
             Matrix = tabulateTable(BurstTable, 'FreqType', 'tabulate', Participants, Sessions);
             Matrix = squeeze(Matrix(:, :, Indx_B));
             Matrix(isnan(Matrix)) = 0;
 
-        elseif strcmp(V, 'nPeaks')
+        elseif strcmp(Variable, 'nPeaks')
             T = BurstTable(BurstTable.FreqType == Indx_B, :);
             Matrix = tabulateTable(T, 'nPeaks', 'sum', Participants, Sessions);
             Matrix(isnan(Matrix)) = 0;
         else
             T = BurstTable(BurstTable.FreqType == Indx_B, :);
-            Matrix = tabulateTable(T, V, 'mean', Participants, Sessions);
+            Matrix = tabulateTable(T, Variable, 'mean', Participants, Sessions);
         end
 
         Matrix(logical(Missing(:))) = nan;
