@@ -22,7 +22,7 @@ Results = fullfile(Paths.Results, 'EEG', 'Bursts');
 if ~exist(Results, 'dir')
     mkdir(Results)
 end
-TitleTag = [Task, '_Bursts'];
+TitleTag = 'Bursts';
 
 MegatTable_Filename = [Task, 'AllBursts.mat'];
 
@@ -35,10 +35,12 @@ Tasks = {'Fixation', 'Oddball', 'Standing'};
 
 %% plot change in time
 
-
 zScore = [false, true];
-Variables = {'Tot', 'Mean_Coh_amplitude', 'nPeaks'};
+% Variables = {'Tot', 'Mean_Coh_amplitude', 'nPeaks'};
+Variables = {'Tot', 'Mean_Coh_amplitude'};
+YLabels = {'# Bursts', 'Amplitude', '# Peaks'};
 Bands = {'Theta', 'Alpha'};
+YLims = [-3.5 6];
 
 % gender colors
 Colors = repmat(getColors(1, '', 'blue'), numel(Participants), 1);
@@ -50,59 +52,48 @@ X = [4 7 10 14.5 17.5 20 23 26.5];
 WMZ = 6:7;
 TestPoint = 8;
 
-for Z = zScore
-    for Indx_B = 1:2
-        for Indx_V = 1:numel(Variables)
+for Indx_T = 1:numel(Tasks)
+    for Z = true%zScore
+        for Indx_B = 1:2
+            for Indx_V = 1:numel(Variables)
 
-            Variable =Variables{Indx_V};
-            if strcmp(Variable, 'Tot')
-                Matrix = tabulateTable(BurstTable, 'FreqType', 'tabulate', Participants, Sessions);
-                Matrix = squeeze(Matrix(:, :, Indx_B));
-                Matrix(isnan(Matrix)) = 0;
+                Variable =Variables{Indx_V};
+                Matrix = table2matrixRRT(AllBursts(AllBursts.FreqType == Indx_B, :), AllMissing, Variable, Participants, Sessions, Tasks, Z);
 
-            elseif strcmp(Variable, 'nPeaks')
-                T = BurstTable(BurstTable.FreqType == Indx_B, :);
-                Matrix = tabulateTable(T, 'nPeaks', 'sum', Participants, Sessions);
-                Matrix(isnan(Matrix)) = 0;
-            else
-                T = BurstTable(BurstTable.FreqType == Indx_B, :);
-                Matrix = tabulateTable(T, Variable, 'mean', Participants, Sessions);
+%                 figure('Units','normalized', 'Position', [0 0 .5 .7])
+                figure('units', 'centimeters', 'position', [0 0 30 30])
+                plotBrokenSpaghetti(squeeze(Matrix(:, :, Indx_T)), [], [], StatsP, PlotProps.Color.Participants, PlotProps)
+
+                Title = strjoin({replace(Variable, '_', ' '), Bands{Indx_B}, Tasks{Indx_T}}, ' ');
+%                 title(Title,  'FontSize', PlotProps.Text.TitleSize)
+                ylabel(YLabels{Indx_T})
+
+                if Z
+                    ylabel('z-scores')
+%                     ylim(YLims)
+                    Score =  'zscore';
+
+                    % fit data
+                    Y  = squeeze(mean(Matrix(:, 4:11, Indx_T), 1, 'omitnan')); % get only 24h period
+                    Struct = fitStruct(X, Y, WMZ, TestPoint);
+                    Struct.Variable = [Variable, '_', Bands{Indx_B}, '_', Task];
+                    Fits = catStruct(Fits, Struct);
+                    
+                else
+                    Score = 'raw';
+                end
+
+                saveFig(strjoin({TitleTag, 'AllSessions', replace(Title, ' ', '_'), Score}, '_'), Results, PlotProps)
+
+%                 % look at gender differences as well
+%                 figure('Units','normalized', 'Position', [0 0 .5 .7])
+%                 Stats = groupDiff(Matrix(:, :, Indx_T), Labels.Sessions, [], [], Colors, StatsP, PlotProps);
+%                 title(Title, 'FontSize', PlotProps.Text.TitleSize)
+%                 saveFig(strjoin({TitleTag, 'Gender', 'BySession', replace(Title, ' ', '_'), Score}, '_'), Results, PlotProps)
             end
-
-            Matrix(logical(Missing(:))) = nan;
-
-            if Z
-                Matrix = (Matrix-mean(Matrix, 2, 'omitnan'))./std(Matrix, 0, 2, 'omitnan');
-            end
-
-            figure('Units','normalized', 'Position', [0 0 .5 .7])
-            Stats = data2D('line', Matrix, Labels.Sessions, [], [], PlotProps.Color.Participants, StatsP, PlotProps);
-            Title = [replace(Variable, '_', ' '), ' ', Bands{Indx_B}];
-            title(Title,  'FontSize', PlotProps.Text.TitleSize)
-
-            if Z
-                saveFig(strjoin({TitleTag, 'AllSessions', Variable,  Bands{Indx_B},  'zscore'}, '_'), Results, PlotProps)
-
-                % fit data
-                Y  = mean(Matrix(:, 4:11), 'omitnan'); % get only 24h period
-                Struct = fitStruct(X, Y, WMZ, TestPoint);
-                Struct.Variable = [Variable, '_', Bands{Indx_B}, '_', Task];
-                Fits = catStruct(Fits, Struct);
-
-            else
-                saveFig(strjoin({TitleTag, 'AllSessions',  Variable,  Bands{Indx_B}}, '_'), Results, PlotProps)
-            end
-
-
-            % look at gender differences as well
-            figure('Units','normalized', 'Position', [0 0 .5 .7])
-            Stats = groupDiff(Matrix, Labels.Sessions, [], [], Colors, StatsP, PlotProps);
-            title(Title, 'FontSize', PlotProps.Text.TitleSize)
-            saveFig(strjoin({TitleTag, 'Gender', 'BySession', Variable, Bands{Indx_B}}, '_'), Results, PlotProps)
         end
     end
 end
-
 
 Fit_Table = struct2table(Fits);
 writetable(Fit_Table, fullfile(Results, strjoin({TitleTag, 'Fits.csv'}, '_')))

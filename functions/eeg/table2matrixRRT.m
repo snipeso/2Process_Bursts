@@ -8,7 +8,6 @@ for Indx_T = 1:numel(Tasks)
 
     if strcmp(Variable, 'Tot')
         M = tabulateTable(BurstTable, 'FreqType', 'tabulate', Participants, Sessions);
-        M = squeeze(M(:, :, Indx_B));
         M(isnan(M)) = 0;
 
     elseif strcmp(Variable, 'nPeaks')
