@@ -1,5 +1,6 @@
-function [AllBursts, AllMissing] = loadRRTBursts(Path, Tasks, Participants, Sessions)
+function [AllBursts, AllMissing] = loadRRTBursts(Path, Tasks, Participants, Sessions, fs)
 % loads all bursts information into a single table
+
 
 AllBursts = table();
 AllMissing = [];
@@ -10,7 +11,7 @@ for Indx_T = 1:numel(Tasks)
         load(TablePath, 'BurstTable', 'Missing')
     else
         DataPath = fullfile(extractBefore(Path, 'Bursts_Table'), 'Bursts', Tasks{Indx_T});
-        [BurstTable, Missing] = loadAllBursts(Path, Participants, Sessions, Tasks{Indx_T});
+        [BurstTable, Missing] = loadAllBursts(DataPath, Participants, Sessions, Tasks{Indx_T});
 
         %%% calculate things
 
