@@ -27,7 +27,7 @@ TitleTag = 'RRT_Questionnaires';
 
 Questions = fieldnames(Answers);
 
-
+qLabels.DifficultyWake{2} = 'Extremely hard';
 %% plot every question
 
 Fits = struct();
@@ -35,7 +35,7 @@ X = [4 7 10 14.5 17.5 20 23 26.5];
 After = 6:7;
 TestPoint = 8;
 
-for Z  = [false true]
+for Z  = false%[false true]
     for Indx_Q = 1:numel(Questions)
 
         Data = Answers.(Questions{Indx_Q});
@@ -43,7 +43,7 @@ for Z  = [false true]
         % differences by question type
         switch Types.(Questions{Indx_Q}){1}
             case 'Radio'
-                YLims = [];
+                YLims = [0 numel(qLabels.(Questions{Indx_Q}))];
             case 'MultipleChoice'
                 continue
             otherwise
@@ -68,14 +68,28 @@ for Z  = [false true]
         end
 
 
-        figure('Units','normalized', 'Position', [0 0 .5 .7])
+%         figure('Units','normalized', 'Position', [0 0 .5 .7])
 
-        Stats = data2D('line', Data, Labels.Sessions, qLabels.(Questions{Indx_Q}), ...
-            YLims, PlotProps.Color.Participants, StatsP, PlotProps);
-        title(Questions{Indx_Q}, 'FontSize', PlotProps.Text.TitleSize)
+%         Stats = data2D('line', Data, Labels.Sessions, qLabels.(Questions{Indx_Q}), ...
+%             YLims, PlotProps.Color.Participants, StatsP, PlotProps);
+%         title(Questions{Indx_Q}, 'FontSize', PlotProps.Text.TitleSize)
+
+% flip data if there is a decreasing trend with sleep deprivation
+if mean(Data(:, 11), 'omitnan')< mean(Data(:, 4), 'omitnan')
+    Data = -Data;
+    YLims = [-1 0];
+    qL = flip(qLabels.(Questions{Indx_Q}));
+else
+    qL = qLabels.(Questions{Indx_Q});
+end
+
+ figure('units', 'centimeters', 'position', [0 0 30 30])
+%  figure('units', 'centimeters', 'position', [0 0 40 30])
+ plotBrokenSpaghetti(Data, qL, YLims, StatsP, PlotProps.Color.Participants, PlotProps)
+
         saveFig(strjoin({TitleTag, 'All', 'BySession', Questions{Indx_Q}, ZType}, '_'), Results, PlotProps)
     end
-    close all
+%     close all
 end
 
 Fit_Table = struct2table(Fits);
