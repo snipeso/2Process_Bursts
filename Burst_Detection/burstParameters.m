@@ -12,29 +12,18 @@ Info.Tasks = {'Fixation', 'Standing', 'Oddball'};
 
 Info.Min_Peaks = 4;
 
-% parameters for prominent oscillations
-Clean_BT = struct();
-Clean_BT.isProminent = 1;
-Clean_BT.periodConsistency = .7;
-Clean_BT.periodMeanConsistency = .7;
-Clean_BT.truePeak = 1;
-Clean_BT.efficiencyAdj = .6;
-Clean_BT.flankConsistency = .5;
-Clean_BT.ampConsistency = .25;
+Info.Max_Minutes = 6; % first number of clean minutes to look for bursts in
 
-Info.Clean_BT = Clean_BT;
+BurstThresholds = struct();
+BurstThresholds.monotonicity = .6;
+BurstThresholds.periodConsistency = .6;
+BurstThresholds.periodMeanConsistency = .6;
+BurstThresholds.efficiency = .6;
+BurstThresholds.truePeak = 1;
+BurstThresholds.flankConsistency = .5;
+BurstThresholds.ampConsistency = .6;
+Info.BurstThresholds = BurstThresholds;
 
-% parameters for other oscillations
-Dirty_BT = struct();
-Dirty_BT.monotonicity = .8;
-Dirty_BT.periodConsistency = .6;
-Dirty_BT.periodMeanConsistency = .6;
-Dirty_BT.efficiency = .8;
-Dirty_BT.truePeak = 1;
-Dirty_BT.flankConsistency = .5;
-Dirty_BT.ampConsistency = .5;
-
-Info.Dirty_BT = Dirty_BT;
 
 %%% Parameters to aggregate across channels
 Info.MinCoherence = .75;
@@ -92,11 +81,11 @@ Info.Paths = Paths;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% EEG info
 
-% bands used to get burtsts
-% Bands.ThetaLow = [2 6];
-% Bands.Theta = [4 8];
-% Bands.ThetaAlpha = [6 10];
-% Bands.Alpha = [8 12];
+% bands used to get bursts
+Bands.ThetaLow = [2 6];
+Bands.Theta = [4 8];
+Bands.ThetaAlpha = [6 10];
+Bands.Alpha = [8 12];
 Bands.AlphaHigh = [10 14];
 
 % % bands used to 
