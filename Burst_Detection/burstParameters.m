@@ -105,11 +105,4 @@ Bands.Alpha = [8 12];
 
 Info.Bands = Bands;
 
-Triggers.SyncEyes = 'S192';
-Triggers.Start = 'S  1';
-Triggers.End = 'S  2';
-Triggers.Stim = 'S  3';
-Triggers.Resp = 'S  4';
-
-Info.Triggers = Triggers;
 

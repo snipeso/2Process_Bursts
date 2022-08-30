@@ -26,13 +26,11 @@ Dirty_BT = Info.Dirty_BT;
 for Indx_T = 1:numel(Tasks)
     Task = Tasks{Indx_T};
 
-
     % folder locations
-    % Source = fullfile(Paths.Preprocessed, 'Clean', 'Waves', Task);
-    Source = fullfile(Paths.Preprocessed, 'Clean', 'Power', Task);
-    Source_Filtered = fullfile(Paths.Preprocessed, 'Clean', 'Waves_Filtered', Task);
-    Source_Cuts = fullfile(Paths.Preprocessed, 'Cutting', 'Cuts', Task);
-    Destination = fullfile(Paths.Data, 'EEG', 'Bursts_All', Task);
+    Source = fullfile(Paths.Preprocessed, 'Clean', 'Power', Task); % normal data
+    Source_Filtered = fullfile(Paths.Preprocessed, 'Clean', 'Waves_Filtered', Task); % extremely filtered data
+    Source_Cuts = fullfile(Paths.Preprocessed, 'Cutting', 'Cuts', Task); % timepoints marked as artefacts
+    Destination = fullfile(Paths.Data, 'EEG', 'Bursts_AllChannels', Task);
 
     if ~exist(Destination, 'dir')
         mkdir(Destination)
@@ -41,12 +39,11 @@ for Indx_T = 1:numel(Tasks)
     Content = getContent(Source);
     for Indx_F = 1:numel(Content)
 
-        % load components data
+        % load data
         Filename_Source = Content{Indx_F};
         Filename_Filtered = replace(Filename_Source, 'Clean.mat', 'Filtered.mat');
         Filename_Destination = replace(Filename_Source, 'Clean.mat', 'Bursts.mat');
         Filename_Cuts = replace(Filename_Source, 'Clean.mat', 'Cuts.mat');
-        Levels = split(Filename_Destination, '_');
 
         if exist(fullfile(Destination, Filename_Destination), 'file') && ~Refresh
             disp(['Skipping ', Filename_Destination])
@@ -58,22 +55,9 @@ for Indx_T = 1:numel(Tasks)
         M = load(fullfile(Source, Filename_Source), 'EEG');
         EEG = M.EEG;
 
-        fs = EEG.srate;
-
         % get timepoints without noise
         NoiseEEG = nanNoise(EEG, fullfile(Source_Cuts, Filename_Cuts));
         Keep_Points = ~isnan(NoiseEEG.data(1, :));
-
-        %     % further remove beginning and end, so only task time
-        %     if any(strcmp({NoiseEEG.event.type}, Triggers.Start))
-        %         Start = round(NoiseEEG.event(strcmp({NoiseEEG.event.type}, Triggers.Start)).latency);
-        %         Keep_Points(1:Start) = 0;
-        %     end
-        %
-        %     if any(strcmp({NoiseEEG.event.type}, Triggers.End))
-        %         End = round(NoiseEEG.event(strcmp({NoiseEEG.event.type}, Triggers.End)).latency);
-        %         Keep_Points(End:end) = 0;
-        %     end
 
         % need to concatenate structures
         FiltEEG = EEG;
