@@ -16,7 +16,7 @@ BandLabels = fieldnames(Bands);
 
 for Indx_T = 1:numel(Tasks)
     Task = Tasks{Indx_T};
-    
+
     Source = fullfile(Paths.Preprocessed, 'Clean', 'Power', Task);
     Destination = fullfile(Paths.Preprocessed, 'Clean', 'Waves_Filtered', Task);
 
@@ -43,7 +43,7 @@ for Indx_T = 1:numel(Tasks)
             end
 
             EEG = pop_loadset('filename', Filename_Source, 'filepath', Source);
-        
+
         else
             Filename_Destination = replace(Filename_Source, 'Clean.mat', 'Filtered.mat');
 
