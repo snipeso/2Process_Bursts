@@ -10,6 +10,8 @@ Info.Tasks = {'Fixation', 'Standing', 'Oddball'};
 
 %%% parameters to find bursts in single channels
 
+Info.Min_Peaks = 4;
+
 % parameters for prominent oscillations
 Clean_BT = struct();
 Clean_BT.isProminent = 1;

@@ -18,6 +18,7 @@ Refresh = false;
 % Parameters for bursts TODO: check relative importance of either
 Clean_BT = Info.Clean_BT;
 Dirty_BT = Info.Dirty_BT;
+Min_Peaks = Info.Min_Peaks;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -72,23 +73,19 @@ for Indx_T = 1:numel(Tasks)
         end
 
         % get bursts in all data
-        [AllBursts, AllPeaks] = getAllBursts(EEG, FiltEEG, ...
-            Clean_BT, Dirty_BT, IsoPeak_Thresholds, Bands, Keep_Points);
+        AllBursts = getAllBursts(EEG, FiltEEG, Clean_BT, Min_Peaks, Bands, Keep_Points);
 
         EEG.data = []; % only save the extra ICA information
 
         % save structures
-        parsave(Destination, Filename_Destination, AllBursts, AllPeaks, EEG)
+        parsave(Destination, Filename_Destination, AllBursts, EEG)
     end
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% functions
 
-function parsave(Destination, Filename_Destination, AllBursts, AllPeaks, EEG)
-
+function parsave(Destination, Filename_Destination, AllBursts, EEG)
 save(fullfile(Destination, Filename_Destination), "AllBursts", "EEG")
-Filename = replace(Filename_Destination, 'Bursts.mat', 'IsoPeaks.mat');
-save(fullfile(Destination, Filename),"AllPeaks", "EEG")
 end
 
