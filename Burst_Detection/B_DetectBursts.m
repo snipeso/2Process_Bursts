@@ -5,11 +5,10 @@ clear
 clc
 close all
 
-Info = getInfo();
+Info = burstParameters();
 
 Paths = Info.Paths;
 Bands = Info.Bands;
-Triggers = Info.Triggers;
 BandLabels = fieldnames(Bands);
 
 Tasks = Info.Tasks;
