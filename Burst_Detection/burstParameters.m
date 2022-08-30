@@ -6,8 +6,35 @@ Info = struct();
 Info.Tasks = {'Fixation', 'Standing', 'Oddball'};
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Parameters
+%%% Burst Parameters
 
+%%% parameters to find bursts in single channels
+
+% parameters for prominent oscillations
+Clean_BT = struct();
+Clean_BT.isProminent = 1;
+Clean_BT.periodConsistency = .7;
+Clean_BT.periodMeanConsistency = .7;
+Clean_BT.truePeak = 1;
+Clean_BT.efficiencyAdj = .6;
+Clean_BT.flankConsistency = .5;
+Clean_BT.ampConsistency = .25;
+
+Info.Clean_BT = Clean_BT;
+
+% parameters for other oscillations
+Dirty_BT = struct();
+Dirty_BT.monotonicity = .8;
+Dirty_BT.periodConsistency = .6;
+Dirty_BT.periodMeanConsistency = .6;
+Dirty_BT.efficiency = .8;
+Dirty_BT.truePeak = 1;
+Dirty_BT.flankConsistency = .5;
+Dirty_BT.ampConsistency = .5;
+
+Info.Dirty_BT = Dirty_BT;
+
+%%% Parameters to aggregate across channels
 Info.MinCoherence = .75;
 Info.MinCorr = .8;
 
