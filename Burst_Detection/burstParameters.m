@@ -58,12 +58,7 @@ if ~exist('topoplot', 'file')
 end
 
 % same for matcycle scripts, saved to a different repo (https://github.com/hubersleeplab/matcycle)
-if ~exist('addMatcyclePaths.m', 'file')
-    addMatcyclePaths() % TODO, find in folder automaticallyelse
-else
-    addMatcyclePaths()
-end
-
+addMatcyclePaths()
 
 % get path where these scripts were saved
 CD = mfilename('fullpath');
