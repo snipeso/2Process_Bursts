@@ -1,0 +1,1 @@
+% Supplementary plot of power over time

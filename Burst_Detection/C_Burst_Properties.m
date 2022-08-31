@@ -57,7 +57,7 @@ for Indx_T = 1:numel(Tasks)
         Bursts = burstPeakProperties(Bursts, EEG);
         Bursts = meanBurstPeakProperties(Bursts); % just does the mean of the main peak's properties
 
-        % get all coherent channels
+        % get all coherent channels TODO one day...
         %     Bursts = getAllInvolvedChannels(Bursts, EEG, MinCoherence, MinCorr);
 
         % classify the burst
