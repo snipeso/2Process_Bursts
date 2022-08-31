@@ -5,20 +5,19 @@ clear
 clc
 close all
 
-Info = getInfo();
+Info = burstParameters();
 
 Paths = Info.Paths;
 Bands = Info.Bands;
-Triggers = Info.Triggers;
 BandLabels = fieldnames(Bands);
 
 Tasks = Info.Tasks;
 Refresh = false;
 
-% Parameters for bursts TODO: check relative importance of either
-Clean_BT = Info.Clean_BT;
-Dirty_BT = Info.Dirty_BT;
+% Parameters for bursts
+BT = Info.BurstThresholds;
 Min_Peaks = Info.Min_Peaks;
+Max_Minutes = Info.Max_Minutes;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -28,7 +27,7 @@ for Indx_T = 1:numel(Tasks)
     Task = Tasks{Indx_T};
 
     % folder locations
-    Source = fullfile(Paths.Preprocessed, 'Clean', 'Power', Task); % normal data
+    Source = fullfile(Paths.Preprocessed, 'Clean', 'Waves', Task); % normal data
     Source_Filtered = fullfile(Paths.Preprocessed, 'Clean', 'Waves_Filtered', Task); % extremely filtered data
     Source_Cuts = fullfile(Paths.Preprocessed, 'Cutting', 'Cuts', Task); % timepoints marked as artefacts
     Destination = fullfile(Paths.Data, 'EEG', 'Bursts_AllChannels', Task);
@@ -55,10 +54,14 @@ for Indx_T = 1:numel(Tasks)
 
         M = load(fullfile(Source, Filename_Source), 'EEG');
         EEG = M.EEG;
+        fs = EEG.srate;
 
         % get timepoints without noise
         NoiseEEG = nanNoise(EEG, fullfile(Source_Cuts, Filename_Cuts));
         Keep_Points = ~isnan(NoiseEEG.data(1, :));
+
+        % use only the first N minutes of data
+        Keep_Points(find(Keep_Points)>fs*60*Max_Minutes) = 0;
 
         % need to concatenate structures
         FiltEEG = EEG;
@@ -73,7 +76,11 @@ for Indx_T = 1:numel(Tasks)
         end
 
         % get bursts in all data
-        AllBursts = getAllBursts(EEG, FiltEEG, Clean_BT, Min_Peaks, Bands, Keep_Points);
+        AllBursts = getAllBursts(EEG, FiltEEG, BT, Min_Peaks, Bands, Keep_Points);
+
+                % keep track of how much data is being used
+        EEG.keep_points = Keep_Points;
+        EEG.clean_t = nnz(Keep_Points);
 
         EEG.data = []; % only save the extra ICA information
 

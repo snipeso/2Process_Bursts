@@ -5,7 +5,7 @@ clear
 clc
 close all
 
-Info = getInfo();
+Info = burstParameters();
 
 Paths = Info.Paths;
 Bands = Info.Bands;
