@@ -30,7 +30,6 @@ end
 
 Dims = size(Data);
 
-
 % assign rainbow colors if none are provided
 if isempty(Colors)
     Colors = reduxColormap(PlotProps.Color.Maps.Rainbow, Dims(1));
