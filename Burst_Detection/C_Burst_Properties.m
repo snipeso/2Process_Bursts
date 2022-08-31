@@ -46,9 +46,11 @@ for Indx_T = 1:numel(Tasks)
 
         fs = EEG.srate;
         [nCh, nPnts] = size(EEG.data);
+        Data = EEG.data;
 
         % load bursts
-        load(fullfile(Source_Bursts, Filename_Bursts), 'AllBursts')
+        load(fullfile(Source_Bursts, Filename_Bursts), 'AllBursts', 'EEG')
+        EEG.data = Data;
 
         % assemble bursts
         if ~strcmp(Filename_EEG(1:3), 'P00') % skip null file, since it will not have simultaneous bursts

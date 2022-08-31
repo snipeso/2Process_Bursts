@@ -13,8 +13,8 @@ Bands = Info.Bands;
 Tasks = Info.Tasks;
 Refresh = false;
 
-Channels = 123;
-Seconds = 100*60;
+Channels = 1000;
+Seconds = 6*60;
 fs = 250;
 bpfilter = [0.5 40];
 
