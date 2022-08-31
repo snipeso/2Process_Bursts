@@ -114,6 +114,10 @@ xlim([XPoints(1)-.5 XPoints(end)+.5])
 xticks(XPoints)
 xticklabels(XLabels)
 
+% adjust y axis
+if mean(MEANS(:, 11))<mean(MEANS(:, 4)) % if SD is lower than BL
+    set(gca, 'YDir','reverse')
+end
 
 
 set(gca, 'FontName', PlotProps.Text.FontName, 'FontSize', PlotProps.Text.AxisSize)
