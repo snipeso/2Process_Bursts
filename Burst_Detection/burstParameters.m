@@ -52,7 +52,7 @@ elseif  exist( 'E:\Data\Raw', 'dir')
     Core = 'E:\Data\';
 else
     error('no data disk!')
-% Core = 'E:\'
+    % Core = 'E:\'
 end
 
 Paths.Preprocessed = fullfile(Core, 'Preprocessed');
@@ -70,7 +70,9 @@ end
 
 % same for matcycle scripts, saved to a different repo (https://github.com/hubersleeplab/matcycle)
 if ~exist('addMatcyclePaths.m', 'file')
-    addMatcyclePaths() % TODO, find in folder automatically
+    addMatcyclePaths() % TODO, find in folder automaticallyelse
+else
+    addMatcyclePaths()
 end
 
 
@@ -98,7 +100,7 @@ Bands.Theta = [4 8];
 Bands.ThetaAlpha = [6 10];
 Bands.Alpha = [8 12];
 
-% % bands used to 
+% % bands used to
 % PowerBands.Delta = [1 4];
 % PowerBands.Theta = [4 8];
 % PowerBands.Alpha = [8 12];
