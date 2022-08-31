@@ -28,7 +28,7 @@ for Indx_T = 1:numel(Tasks)
 
     Content = getContent(Source_Bursts);
     Content(~contains(Content, 'Burst')) = [];
-    
+
     % loop through all files
     for Indx_F = 1:numel(Content)
 
@@ -51,7 +51,9 @@ for Indx_T = 1:numel(Tasks)
         load(fullfile(Source_Bursts, Filename_Bursts), 'AllBursts')
 
         % assemble bursts
-        Bursts = aggregateBursts(AllBursts, EEG, MinCoherence);
+        if ~strcmp(Filename_EEG(1:3), 'P00') % skip null file, since it will not have simultaneous bursts
+            Bursts = aggregateBursts(AllBursts, EEG, MinCoherence);
+        end
 
         % get properties of the main channel
         Bursts = burstPeakProperties(Bursts, EEG);
