@@ -10,6 +10,10 @@ for Indx_T = 1:numel(Tasks)
     if exist(TablePath, 'file')
         load(TablePath, 'BurstTable', 'Missing')
     else
+        if ~exist(Path, 'dir')
+            mkdir(Path)
+        end
+
         DataPath = fullfile(extractBefore(Path, 'Bursts_Table'), 'Bursts', Tasks{Indx_T});
         [BurstTable, Missing] = loadAllBursts(DataPath, Participants, Sessions, Tasks{Indx_T});
 
