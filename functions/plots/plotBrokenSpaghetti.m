@@ -1,4 +1,4 @@
-function plotBrokenSpaghetti(Data, YLabels, YLims, StatsP, Colors, PlotProps)
+function plotBrokenSpaghetti(Data, YLabels, YLims, StatsP, Colors, Flip, PlotProps)
 % Plots a confetti spaghetti plot but with gaps and dotted lines to reflect
 % overnight changes vs day changes
 
@@ -114,7 +114,7 @@ xticks(XPoints)
 xticklabels(XLabels)
 
 % adjust y axis
-if mean(MEANS(:, 11))<mean(MEANS(:, 4)) % if SD is lower than BL
+if Flip && mean(MEANS(:, 11))<mean(MEANS(:, 4)) % if SD is lower than BL
     set(gca, 'YDir','reverse')
 end
 

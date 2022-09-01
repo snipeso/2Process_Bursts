@@ -39,6 +39,7 @@ Variables = {'Tot', 'Mean_Coh_amplitude'};
 YLabels = {'# Bursts', 'Amplitude', '# Peaks'};
 Bands = {'Theta', 'Alpha'};
 YLims = [-3.5 6];
+Flip = false;
 
 % gender colors
 Colors = repmat(getColors(1, '', 'blue'), numel(Participants), 1);
@@ -60,10 +61,10 @@ for Indx_T = 1:numel(Tasks)
 
                 %                 figure('Units','normalized', 'Position', [0 0 .5 .7])
                 figure('units', 'centimeters', 'position', [0 0 30 30])
-                plotBrokenSpaghetti(squeeze(Matrix(:, :, Indx_T)), [], [], StatsP, PlotProps.Color.Participants, PlotProps)
+                plotBrokenSpaghetti(squeeze(Matrix(:, :, Indx_T)), [], [], StatsP, PlotProps.Color.Participants, Flip, PlotProps)
 
                 Title = strjoin({replace(Variable, '_', ' '), Bands{Indx_B}, Tasks{Indx_T}}, ' ');
-                %                 title(Title,  'FontSize', PlotProps.Text.TitleSize)
+                                title(Title,  'FontSize', PlotProps.Text.TitleSize)
                 ylabel(YLabels{Indx_T})
 
                 if Z
