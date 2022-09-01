@@ -29,7 +29,7 @@ for Indx_T = 1:numel(Tasks)
 
         % identify main location
         load('Chanlocs123.mat', 'Chanlocs')
-        BurstTable = burstSpots(BurstTable, Channels.bigROI, Chanlocs, 'bigROI');
+%         BurstTable = burstSpots(BurstTable, Channels.bigROI, Chanlocs, 'bigROI');
 
         % save
         save(TablePath, 'BurstTable', 'Missing')

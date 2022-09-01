@@ -26,7 +26,7 @@ Info.BurstThresholds = BurstThresholds;
 
 
 %%% Parameters to aggregate across channels
-Info.MinCoherence = .75;
+Info.MinCoherence = .7;
 Info.MinCorr = .8;
 
 

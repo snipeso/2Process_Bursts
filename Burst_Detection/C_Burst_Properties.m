@@ -19,7 +19,7 @@ for Indx_T = 1:numel(Tasks)
     Task = Tasks{Indx_T};
 
     Source_Bursts = fullfile(Paths.Data, 'EEG', 'Bursts_AllChannels', Task);
-    Source_EEG = fullfile(Paths.Preprocessed, 'Clean', 'Power', Task);
+    Source_EEG = fullfile(Paths.Preprocessed, 'Clean', 'Waves', Task);
 
     Destination_Bursts = fullfile(Paths.Data, 'EEG', 'Bursts', Task);
     if ~exist(Destination_Bursts, 'dir')
@@ -71,7 +71,7 @@ for Indx_T = 1:numel(Tasks)
         EEG.data = [];
         save(fullfile(Destination_Bursts, Filename_Bursts), 'Bursts', 'EEG')
         disp(['Finished ', Filename_Bursts])
-        clear Eyes EEG
+        clear EEG
     end
 end
 

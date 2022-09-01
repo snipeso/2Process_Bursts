@@ -28,7 +28,7 @@ MegatTable_Filename = [Task, 'AllBursts.mat'];
 
 Path = fullfile(Paths.Data, 'EEG', 'Bursts_Table');
 Tasks = {'Fixation', 'Oddball', 'Standing'};
-[AllBursts, AllMissing] = loadRRTBursts(Path, Tasks);
+[AllBursts, AllMissing] = loadRRTBursts(Path, Tasks, Participants, Sessions, fs);
 
 
 %% plot change in time
