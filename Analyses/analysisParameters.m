@@ -15,7 +15,7 @@ P.Gender = {'M', 'M', 'M', 'F', 'M', 'F', 'F', 'M'...
 
 P.Labels = Labels;
 
-P.Tasks = {'Fixation', 'Standing', 'Oddball'};
+P.Tasks = {'Fixation','Oddball',  'Standing'};
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,6 +82,9 @@ end
 Manuscript = getProperties({'LSM', 'Manuscript'});
 Powerpoint =  getProperties({'LSM', 'Powerpoint'});
 Poster =  getProperties({'LSM', 'Poster'});
+
+Manuscript.Figure.Padding = 25;
+
 
 P.Manuscript = Manuscript; % for papers
 P.Powerpoint = Powerpoint; % for presentations
