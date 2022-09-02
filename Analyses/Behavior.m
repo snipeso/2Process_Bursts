@@ -4,11 +4,12 @@ clear
 clc
 close all
 
-P = getParameters();
+P = analysisParameters();
 Paths = P.Paths;
 Participants = P.Participants;
 Sessions = P.Sessions;
 PlotProps = P.Manuscript;
+Refresh = false;
 
 Labels = P.Labels;
 StatsP = P.StatsP;
@@ -48,16 +49,18 @@ end
 %% Figure X, Behavior data
 
 Grid = [4, 1];
+Flip = true;
+PlotProps = P.Manuscript;
+PlotProps.Axes.yPadding = 30;
 
-figure('Units','centimeters','Position',[0 0 PlotProps.W*0.5, PlotProps.H])
-
+figure('Units','centimeters','Position',[0 0 PlotProps.Figure.Width*0.5, PlotProps.Figure.Height])
 
 %%% RTs
 [Data, ~] = tabulateTable(Answers, 'RT', 'mean', Participants, Sessions, []); % TODO: copy function from Paper1 repo
 
 A = subfigure([], Grid, [1, 1], [], true, ...
     PlotProps.Indexes.Letters{1}, PlotProps);
-plotBrokenSpaghetti(Data, [], [], [], PlotProps.Color.Participants, PlotProps)
+plotBrokenSpaghetti(Data, [], [], [], PlotProps.Color.Participants, Flip, PlotProps)
 title('Reaction Times', 'FontSize', PlotProps.Text.TitleSize)
 ylabel('Seconds')
 
@@ -67,7 +70,7 @@ ylabel('Seconds')
 
 A = subfigure([], Grid, [2, 1], [], true, ...
     PlotProps.Indexes.Letters{2}, PlotProps);
-plotBrokenSpaghetti(Data, [], [], [], PlotProps.Color.Participants, PlotProps)
+plotBrokenSpaghetti(Data, [], [], [], PlotProps.Color.Participants, Flip, PlotProps)
 title('RT Standard Deviations', 'FontSize', PlotProps.Text.TitleSize)
 ylabel('Seconds')
 
@@ -83,7 +86,7 @@ Data = squeeze(Matrix(:, :, 4));
 
 A = subfigure([], Grid, [3, 1], [], true, ...
     PlotProps.Indexes.Letters{3}, PlotProps);
-plotBrokenSpaghetti(Data, [], [], [], PlotProps.Color.Participants, PlotProps)
+plotBrokenSpaghetti(Data, [], [], [], PlotProps.Color.Participants, Flip, PlotProps)
 title('Lapses', 'FontSize', PlotProps.Text.TitleSize)
 ylabel('# of lapses')
 
@@ -96,11 +99,11 @@ Data = squeeze(Matrix(:, :, 5));
 
 A = subfigure([], Grid, [4, 1], [], true, ...
     PlotProps.Indexes.Letters{4}, PlotProps);
-plotBrokenSpaghetti(Data, [], [], [], PlotProps.Color.Participants, PlotProps)
+plotBrokenSpaghetti(Data, [], [], [], PlotProps.Color.Participants, Flip, PlotProps)
 title('Performance', 'FontSize', PlotProps.Text.TitleSize)
 ylabel('% incorrect trials') % TOCHECK
 
-saveFig(Paths.Paper, [TitleTag, '_main_raw'], PlotProps)
+saveFig([TitleTag, '_main_raw'], Paths.Paper, PlotProps)
 
 
 

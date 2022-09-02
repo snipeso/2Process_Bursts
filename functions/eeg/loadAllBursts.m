@@ -15,13 +15,13 @@ for Indx_P = 1:numel(Participants)
             %%% Load data
             Task = Tasks{Indx_T};
             Filename = strjoin({Participants{Indx_P}, Task, Sessions{Indx_S}, 'Bursts.mat'}, '_');
-            if ~exist(fullfile(Path, Filename), 'file')
+            if ~exist(fullfile(Path, Task, Filename), 'file')
                 warning(['Skipping ', Filename])
                 Missing(Indx_P, Indx_S, Indx_T) = 1;
                 continue
             end
 
-            load(fullfile(Path, Filename), 'Bursts', 'EEG')
+            load(fullfile(Path, Task, Filename), 'Bursts', 'EEG')
 
             % Save recording durations
             Durations(Indx_P, Indx_S, Indx_T) = EEG.clean_t/EEG.srate;

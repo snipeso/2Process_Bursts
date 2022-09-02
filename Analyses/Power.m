@@ -66,7 +66,7 @@ YLim = [-1.3, 2.8;
 YLabel = 'power (z-scored)';
 
 Indx = 1;
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.6])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.5])
 
 for Indx_B = 1:2
     for Indx_T = 1:numel(Tasks)
