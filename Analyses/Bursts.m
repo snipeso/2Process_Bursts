@@ -126,7 +126,7 @@ for Indx_T = 1:numel(Tasks)
                 % amplitudes and number of peaks
                 Ch = [T.Coh_Burst_Channels{:}];
                 Amps = [T.Coh_amplitude{:}];
-                Tots = [T.Coh_nPeaks{:}];
+                Tots = [T.Coh_Burst_nPeaks{:}];
 
                 % for each channel, find out how many were involved in
                 % theta and alpha
@@ -148,29 +148,35 @@ for Indx_T = 1:numel(Tasks)
 end
 
 % z score each variable separately
-zTopos(:, :, :, :, 1) = zScoreData(squeeze(Topos(:, :, :, :, 1)), 'last');
-zTopos(:, :, :, :, 2) = zScoreData(squeeze(Topos(:, :, :, :, 2)), 'last');
+zTopos(:, :, :, :, :, 1) = zScoreData(squeeze(Topos(:, :, :, :, :, 1)), 'last');
+zTopos(:, :, :, :, :, 2) = zScoreData(squeeze(Topos(:, :, :, :, :, 2)), 'last');
 
 
 
 %% Figure X Burst topopgraphies
 
+PlotProps = P.Manuscript;
+PlotProps.Figure.Padding = 10;
+PlotProps.Axes.yPadding = 15;
 Grid = [1, 2];
 miniGrid = [2 2];
 zScore = true;
 Bands = {'Theta', 'Alpha'};
 Variables = {'Mean_coh_amplitude', 'nPeaks'};
-CLabels = {'\miV', 'peaks/min'};
+VariableLabels = {'Amplitude', 'Peaks'};
+CLabels = {'\muV', 'peaks/min'};
 CLims = [-8 8];
 BL = 4;
 SD = 11;
 
+L= struct;
+L.t = 't-values';
 load('Chanlocs123.mat', 'Chanlocs')
 
 for Indx_T = 1:numel(Tasks)
 
 
-    figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.W PlotProps.Figure.H*0.6])
+    figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.3])
 
     for Indx_B = 1:numel(Bands)
 
@@ -188,6 +194,13 @@ for Indx_T = 1:numel(Tasks)
                 title(Bands{Indx_B}, 'FontSize', PlotProps.Text.TitleSize)
             end
 
+            X = get(gca, 'XLim');
+    Y = get(gca, 'YLim');
+    text(X(1)-diff(X)*.15, Y(1)+diff(Y)*.5, VariableLabels{Indx_V}, ...
+        'FontSize', PlotProps.Text.TitleSize, 'FontName', PlotProps.Text.FontName, ...
+        'FontWeight', 'Bold', 'HorizontalAlignment', 'Center', 'Rotation', 90);
+
+
 
             % plot change from main1 to main 8
             Data1 = squeeze(zTopos(:, BL, Indx_T, :, Indx_B, Indx_V));
@@ -201,6 +214,19 @@ for Indx_T = 1:numel(Tasks)
             end
         end
     end
+
+    % fix colormaps
+Fig = gcf;
+Pos = [];
+Linear = [4 8 13 17];
+for Indx_Ch = 1:numel(Fig.Children)
+    Pos = [Pos, Fig.Children(Indx_Ch).Position(2)];
+    if ~ismember(Indx_Ch, Linear)
+        Fig.Children(Indx_Ch).Colormap = reduxColormap(PlotProps.Color.Maps.Divergent, PlotProps.Color.Steps.Divergent);
+    else
+        Fig.Children(Indx_Ch).Colormap = reduxColormap(PlotProps.Color.Maps.Linear, PlotProps.Color.Steps.Linear);
+    end
+end
 
     saveFig(strjoin({TitleTag, 'Topographies', Tasks{Indx_T}}, '_'), Paths.Paper, PlotProps)
 end
