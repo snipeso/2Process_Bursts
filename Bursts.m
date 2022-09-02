@@ -28,8 +28,7 @@ MegatTable_Filename = [Task, 'AllBursts.mat'];
 
 Path = fullfile(Paths.Data, 'EEG', 'Bursts_Table');
 Tasks = {'Fixation', 'Oddball', 'Standing'};
-[AllBursts, AllMissing] = loadRRTBursts(Path, Tasks, Participants, Sessions, fs);
-
+[BurstTable, AllMissing] = loadRRTBursts(Path, Tasks, Participants, Sessions, fs);
 
 %% plot change in time
 
@@ -57,7 +56,7 @@ for Indx_T = 1:numel(Tasks)
             for Indx_V = 1:numel(Variables)
 
                 Variable =Variables{Indx_V};
-                Matrix = table2matrixRRT(AllBursts(AllBursts.FreqType == Indx_B, :), AllMissing, Variable, Participants, Sessions, Tasks, Z);
+                Matrix = table2matrixRRT(BurstTable(BurstTable.FreqType == Indx_B, :), AllMissing, Variable, Participants, Sessions, Tasks, Z);
 
                 %                 figure('Units','normalized', 'Position', [0 0 .5 .7])
                 figure('units', 'centimeters', 'position', [0 0 30 30])
@@ -182,7 +181,7 @@ saveFig(strjoin({TitleTag, 'WMZ', 'HedgesG'}, '_'), Results, PlotProps)
 
 Bands = {'Theta', 'Alpha'};
 
-BurstTable = AllBursts(strcmp(AllBursts.Task, 'Fixation'), :);
+BurstTable = BurstTable(strcmp(BurstTable.Task, 'Fixation'), :);
 
 load('Chanlocs123.mat')
 Topos = nan(numel(Participants), numel(Sessions), numel(Chanlocs), 2, 2);
