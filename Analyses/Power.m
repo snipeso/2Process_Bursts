@@ -86,7 +86,7 @@ for Indx_B = 1:2
         end
 
         if Indx_T == 1
-                    ylabel([BandLabels{Indx_B}, ' ', YLabel])
+            ylabel([BandLabels{Indx_B}, ' ', YLabel])
         end
 
     end
