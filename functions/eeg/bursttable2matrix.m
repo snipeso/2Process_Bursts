@@ -24,16 +24,38 @@ for Indx_T = 1:numel(Tasks)
     Missing = AllMissing(:, :, Indx_T);
     M(logical(Missing(:))) = nan;
 
-    Matrix = cat(3, Matrix, M);
+    Matrix = cat(4, Matrix, M);
 end
 
-% if the variable is some form of total, and durations are provided,
-% normalize the total by the durations
-if ~isempty(Durations) && any(ismember({'Tot', 'nPeaks'}, Variable))
-    Matrix = Matrix./Durations;
+
+if strcmp(Variable, 'Tot')
+    Matrix = permute(Matrix, [1 2 4 3]);
+
+    if ~isempty(Durations)
+        for Indx_B = 1:size(Matrix, 4)
+            Matrix(:, :, :, Indx_B) = Matrix(:, :, :, Indx_B)./Durations;
+        end
+    end
+
+    % normalize the data
+    if zScore
+        Matrix = zScoreData(Matrix, 'last');
+    end
+
+else
+
+    Matrix = squeeze(Matrix);
+    % if the variable is some form of total, and durations are provided,
+    % normalize the total by the durations
+    if ~isempty(Durations) && any(ismember({'nPeaks'}, Variable))
+        Matrix = Matrix./Durations;
+    end
+
+
+    % normalize the data
+    if zScore
+        Matrix = zScoreData(Matrix, 'first');
+    end
+
 end
 
-% normalize the data
-if zScore
-    Matrix = zScoreData(Matrix, 'last');
-end

@@ -5,11 +5,12 @@ clear
 clc
 close all
 
-Info = analysisParameters();
-Tasks = Info.Tasks;
-PlotProps = Info.Manuscript;
+P = analysisParameters();
+Tasks = P.Tasks;
+PlotProps = P.Manuscript;
+Paths = P.Paths;
 
-Participants = {'P01', 'P15'};
+Participants = {'P15', 'P16'};
 Sessions = {'Main1', 'Main8'};
 SessionLabels = {'Start', 'End'};
 
@@ -18,7 +19,7 @@ FreqEdges = 2:.25:14;
 
 
 %%% load data
-Totals = nan(numel(Participants), numel(Sessions)+1, numel(Tasks), numel(FreqEdges)-1);
+Totals = nan(numel(Participants), numel(Sessions), numel(Tasks), numel(FreqEdges)-1);
 Amplitudes = struct();
 for Indx_P = 1:numel(Participants)
     for Indx_S = 1:numel(Sessions)
@@ -30,7 +31,8 @@ for Indx_P = 1:numel(Participants)
             load(fullfile(Source, Filename), 'EEG', 'Bursts')
 
             % get distribution of bursts by frequency
-            Freqs = 1./[Bursts.Mean_period];
+%             Freqs = 1./[Bursts.period];
+Freqs = 1./[Bursts.Mean_period];
             QuantFreqs = discretize(Freqs, FreqEdges);
             QuantFreqs(isnan(QuantFreqs)) = [];
             TotFreqs = tabulate(QuantFreqs);
@@ -43,52 +45,58 @@ for Indx_P = 1:numel(Participants)
 
 
             % amplitudes
-            Amplitudes.(Participants{Indx_P}).(Tasks{Indx_T}).(Sessions{Indx_S}) = [Bursts.Mean_Coh_amplitude];
+            Amplitudes.(Participants{Indx_P}).(Tasks{Indx_T}).(Sessions{Indx_S}) = [Bursts.Coh_amplitude];
         end
     end
 end
 
-
-% make null a third session
-for Indx_T = 1:numel(Tasks)
-    % load data
-    Source = fullfile(Paths.Data, 'EEG', 'Bursts', Tasks{Indx_T});
-    Filename = strjoin({'P00', Tasks{Indx_T}, 'NULL', 'Bursts.mat'}, '_');
-    load(fullfile(Source, Filename), 'EEG', 'Bursts')
-
-    % get distribution of bursts by frequency
-    Freqs = 1./[Bursts.Mean_period];
-    QuantFreqs = discretize(Freqs, FreqEdges);
-    QuantFreqs(isnan(QuantFreqs)) = [];
-    TotFreqs = tabulate(QuantFreqs);
-
-    % get minutes of recording
-    Min = (EEG.clean_t/EEG.srate)/60;
-
-    % bursts per minute
-    for Indx_P = 1:numel(Participants)
-        Totals(Indx_P, numel(Sessions)+1, Indx_T, 1:size(TotFreqs, 1)) = TotFreqs(:, 2)/Min;
-    end
-end
+% 
+% % make null a third session
+% for Indx_T = 1:numel(Tasks)
+%     % load data
+%     Source = fullfile(Paths.Data, 'EEG', 'Bursts', Tasks{Indx_T});
+%     Filename = strjoin({'P00', Tasks{Indx_T}, 'NULL', 'Bursts.mat'}, '_');
+%     load(fullfile(Source, Filename), 'EEG', 'Bursts')
+% 
+%     % get distribution of bursts by frequency
+%     Freqs = 1./[Bursts.Mean_period];
+%     QuantFreqs = discretize(Freqs, FreqEdges);
+%     QuantFreqs(isnan(QuantFreqs)) = [];
+%     TotFreqs = tabulate(QuantFreqs);
+% 
+%     % get minutes of recording
+%     Min = (EEG.clean_t/EEG.srate)/60;
+% 
+%     % bursts per minute
+%     for Indx_P = 1:numel(Participants)
+%         Totals(Indx_P, numel(Sessions)+1, Indx_T, 1:size(TotFreqs, 1)) = TotFreqs(:, 2)/Min;
+%     end
+% end
 
 
 %%
+PlotProps = P.Manuscript;
+PlotProps.Patch.Alpha = 0.5;
 
 Grid = [numel(Participants), numel(Tasks)+1];
 xLims = [2 14];
-Legend = [SessionLabels, 'Null'];
+yLims = [0 17; 0 39];
+% Legend = [SessionLabels, 'Null'];
+Legend = SessionLabels;
 
 Colors = getColors([numel(Tasks), numel(Sessions)]);
-Colors = cat(2, Colors, repmat(PlotProps.Color.Generic, numel(Participants), 1));
+Colors = flip(Colors, 1);
+Colors(1, :, :) = repmat([.5 .5 .5], 3, 1);
+% Colors = cat(2, Colors, repmat(PlotProps.Color.Generic, numel(Participants), 1));
 
 Indx = 1;
-figure('units', 'centimeters', 'Position', [0 0 PlotProps.W, PlotProps.H*.5])
+figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width, PlotProps.Figure.Height*.5])
 
 %%% plot histogram of # bursts per minute per frequency for each task
 for Indx_T = 1:numel(Tasks)
     for Indx_P = 1:numel(Participants)
 
-        Data = squeeze(Totals(Indx_P, :, Indx_T, :));
+        Data = squeeze(Totals(Indx_P, :, Indx_T, :))';
 
         if Indx_P ==numel(Participants)
             xLabel = 'Frequency';
@@ -98,11 +106,18 @@ for Indx_T = 1:numel(Tasks)
 
         Axes = subfigure([], Grid, [Indx_P, Indx_T], [], true, ...
             PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
-        plotZiggurat(Data, xLabel, [], [Participants{Indx_P}, ' bursts/min'], ...
-            squeeze(Colors(Indx_T, :, :)), Legend, PlotProps)
+        plotZiggurat(Data, xLabel, FreqEdges(1:end-1), [Participants{Indx_P}, ' bursts/min'], ...
+            squeeze(Colors(:, :, Indx_T)), Legend, PlotProps)
         xlim(xLims)
+        ylim(yLims(Indx_P, :))
+        if Indx_T ~= 1
+            ylabel('')
+        end
         title(Tasks{Indx_T})
 
+        if Indx_P ==2
+            legend off
+        end
     end
 end
 
@@ -116,6 +131,8 @@ for Indx_P = 1:numel(Participants)
 
     plotFlames(Data, Colors, 0.5, PlotProps)
     ylabel([Participants{Indx_P}, ' amplitudes'])
+    legend off
+    ylim([0 75])
 
 end
 

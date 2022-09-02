@@ -218,9 +218,8 @@ for Indx_T = 1:numel(Tasks)
     % fix colormaps
 Fig = gcf;
 Pos = [];
-Linear = [4 8 13 17];
+Linear = [3 4 7 8 12 13  16 17];
 for Indx_Ch = 1:numel(Fig.Children)
-    Pos = [Pos, Fig.Children(Indx_Ch).Position(2)];
     if ~ismember(Indx_Ch, Linear)
         Fig.Children(Indx_Ch).Colormap = reduxColormap(PlotProps.Color.Maps.Divergent, PlotProps.Color.Steps.Divergent);
     else
@@ -246,4 +245,5 @@ end
 
 %% number of bursts (mean, min/max), average peaks per burst, average coherent channels. Range for overall fewest recording, and overall mostest
 
-
+ Matrix = bursttable2matrix(BurstTable, Missing, Durations, 'Tot', Participants, Sessions, Tasks, false);
+Matrix = Matrix/60;
