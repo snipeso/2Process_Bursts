@@ -15,6 +15,8 @@ P.Gender = {'M', 'M', 'M', 'F', 'M', 'F', 'F', 'M'...
 
 P.Labels = Labels;
 
+P.Tasks = {'Fixation', 'Standing', 'Oddball'};
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Locations
@@ -47,6 +49,20 @@ end
 P.Paths = Paths;
 
 addpath(genpath(extractBefore(mfilename('fullpath'), 'getParameters'))) % add current repo's functions
+
+% get path where these scripts were saved
+CD = mfilename('fullpath');
+Paths.Analysis = fullfile(extractBefore(CD, '2process_Bursts'), '2process_Bursts');
+
+% get all folders in functions
+Subfolders = deblank(string(ls(fullfile(Paths.Analysis, 'functions')))); % all content
+Subfolders(contains(Subfolders, '.')) = []; % remove all files
+
+for Indx_F = 1:numel(Subfolders)
+    addpath(fullfile(Paths.Analysis, 'functions', Subfolders{Indx_F}))
+end
+
+
 
 
 %%% chART stuff for plotting

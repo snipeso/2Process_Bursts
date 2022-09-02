@@ -7,7 +7,7 @@ function [AllData, Freqs, Chanlocs] = loadAllPower(Source, Participants, Session
 % of task folders to include.
 % Results in variable "AllData": P x S x T x Ch x F; and Chanlocs and Freqs
 
-AllData = nan(numel(P.Participants), numel(Sessions), numel(Tasks));
+AllData = nan(numel(Participants), numel(Sessions), numel(Tasks));
 
 for Indx_P = 1:numel(Participants)
     for Indx_S = 1:numel(Sessions)

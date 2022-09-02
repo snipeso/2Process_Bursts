@@ -109,7 +109,7 @@ end
 
 
 % set x axis
-xlim([XPoints(1)-.5 XPoints(end)+.5])
+xlim([XPoints(1)-2 XPoints(end)+2])
 xticks(XPoints)
 xticklabels(XLabels)
 
