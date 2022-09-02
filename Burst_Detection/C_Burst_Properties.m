@@ -55,6 +55,8 @@ for Indx_T = 1:numel(Tasks)
         % assemble bursts
         if ~strcmp(Filename_EEG(1:3), 'P00') % skip null file, since it will not have simultaneous bursts
             Bursts = aggregateBursts(AllBursts, EEG, MinCoherence);
+        else
+            Bursts = AllBursts;
         end
 
         % get properties of the main channel
