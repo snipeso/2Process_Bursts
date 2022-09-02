@@ -57,8 +57,12 @@ for Indx_T = 1:numel(Tasks)
         fs = EEG.srate;
 
         % get timepoints without noise
-        NoiseEEG = nanNoise(EEG, fullfile(Source_Cuts, Filename_Cuts));
-        Keep_Points = ~isnan(NoiseEEG.data(1, :));
+        if exist(fullfile(Source_Cuts, Filename_Cuts), 'file')
+            NoiseEEG = nanNoise(EEG, fullfile(Source_Cuts, Filename_Cuts));
+            Keep_Points = ~isnan(NoiseEEG.data(1, :));
+        else
+            Keep_Points = ones(1, EEG.pnts);
+        end
 
         % use only the first N minutes of data
         Keep_Points(find(Keep_Points)>fs*60*Max_Minutes) = 0;
@@ -78,7 +82,7 @@ for Indx_T = 1:numel(Tasks)
         % get bursts in all data
         AllBursts = getAllBursts(EEG, FiltEEG, BT, Min_Peaks, Bands, Keep_Points);
 
-                % keep track of how much data is being used
+        % keep track of how much data is being used
         EEG.keep_points = Keep_Points;
         EEG.clean_t = nnz(Keep_Points);
 
