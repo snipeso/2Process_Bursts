@@ -1,4 +1,6 @@
 function [AllBursts, Missing, Durations] = loadAllBursts(Path, Participants, Sessions, Tasks)
+% function to load burst data from each participant into a huge table
+
 
 if ~iscell(Tasks)
     Tasks = {Tasks};
@@ -80,7 +82,7 @@ Type(1./AllBursts.Mean_period>8 & 1./AllBursts.Mean_period<= 12) = 2; % alpha
 AllBursts.FreqType = Type;
 
 % duration
-AllBursts.Duration = (AllBursts.All_End - AllBursts.All_Start)/fs;
+AllBursts.Duration = (AllBursts.All_End - AllBursts.All_Start)/EEG.srate;
 
 
 %%% In case I don't use all the sessions

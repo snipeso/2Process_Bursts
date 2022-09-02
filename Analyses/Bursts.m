@@ -5,7 +5,7 @@ clear
 clc
 close all
 
-P = getParameters();
+P = analysisParameters();
 Paths = P.Paths;
 Participants = P.Participants;
 Sessions = P.Sessions;
@@ -17,17 +17,19 @@ Tasks = P.Tasks;
 Refresh = false;
 fs = 250;
 
+TitleTag = 'Bursts';
 
 %%% Load data
 
 MegaTable_Filename = 'RRT_AllBursts.mat';
-Path = fullfile(Paths.Data, 'EEG', 'Bursts_Table');
+TablePath = fullfile(Paths.Data, 'EEG', 'Bursts_Table');
+DataPath = fullfile(Paths.Data, 'EEG', 'Bursts');
 
-if exist(fullfile(Path, MegaTable_Filename), 'file') && ~Refresh
-    load(fullfile(Path, MegaTable_Filename), 'BurstTable', 'Missing', 'Durations')
+if exist(fullfile(TablePath, MegaTable_Filename), 'file') && ~Refresh
+    load(fullfile(TablePath, MegaTable_Filename), 'BurstTable', 'Missing', 'Durations')
 else
-    [BurstTable, Missing, Durations] = loadAllBursts(Path, Participants, Sessions, Tasks);
-    save(fullfile(Path, MegaTable_Filename), 'BurstTable', 'Missing', 'Durations', '-v7.3')
+    [BurstTable, Missing, Durations] = loadAllBursts(DataPath, Participants, Sessions, Tasks);
+    save(fullfile(TablePath, MegaTable_Filename), 'BurstTable', 'Missing', 'Durations', '-v7.3')
 end
 
 % Use durations in minutes rather than seconds
@@ -42,10 +44,12 @@ Durations = Durations/60;
 
 zScore = [false, true];
 Variables = {'Mean_coh_amplitude', 'nPeaks'};
-YLabels = {'Amplitude (\miV)', '# oscillations/min'};
+YLabels = {'Amplitude (\muV)', '# oscillations/min'};
 Bands = {'Theta', 'Alpha'};
-YLims = [-3.5 6];
-YLimsZ = [-3.5 6];
+% YLims = [-3.5 6];
+% YLimsZ = [-3.5 6];
+YLims = [];
+YLimsZ = [];
 Grid = [2, numel(Tasks)];
 Flip = false; % flip data if it decreases with SD
 StatParameters = []; % could be StatsP
@@ -54,7 +58,8 @@ for Indx_B = 1:2
     for Z = zScore
 
         Indx = 1;
-        figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.W PlotProps.Figure.H*0.6])
+       figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.6])
+
         for Indx_T = 1:numel(Tasks)
             for Indx_V = 1:numel(Variables)
 
@@ -76,16 +81,18 @@ for Indx_B = 1:2
 
                 % plot
                 A = subfigure([], Grid, [Indx_V, Indx_T], [], true, ...
-                    PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
+                    '', PlotProps); Indx = Indx+1;
                 plotBrokenSpaghetti(squeeze(Matrix(:, :, Indx_T)), [], YLim, ...
                     StatParameters, PlotProps.Color.Participants, Flip, PlotProps)
 
                 if Indx_V==1
                     title(Tasks{Indx_T}, 'FontSize', PlotProps.Text.TitleSize)
+                     set(gca,'xtick',[])
                 end
 
+                if Indx_T ==1
                 ylabel(YLabel)
-
+                end
             end
         end
 

@@ -29,7 +29,7 @@ end
 
 % if the variable is some form of total, and durations are provided,
 % normalize the total by the durations
-if ~isempty(Durations) && ismember({'Tot', 'nPeaks'}, Variable)
+if ~isempty(Durations) && any(ismember({'Tot', 'nPeaks'}, Variable))
     Matrix = Matrix./Durations;
 end
 
