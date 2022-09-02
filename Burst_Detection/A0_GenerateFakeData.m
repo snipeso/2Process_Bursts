@@ -1,7 +1,5 @@
 % creates EEG for an artificial participant who had 123 channels and 100
 % minutes of data, one for each task.
-
-
 clear
 clc
 close all
@@ -13,10 +11,11 @@ Bands = Info.Bands;
 Tasks = Info.Tasks;
 Refresh = false;
 
-Channels = 1000;
+Channels = 1500;
 Seconds = 6*60;
 fs = 250;
 bpfilter = [0.5 40];
+hpStopfrq = 0.25;
 
 BandLabels = fieldnames(Bands);
 
@@ -38,7 +37,7 @@ for Indx_T = 1:numel(Tasks)
     end
 
     % generate fake data
-    EEG = fakeEEG(Channels, Seconds, fs, bpfilter);
+    EEG = fakeEEG(Channels, Seconds, fs, bpfilter, hpStopfrq);
 
     % save
     save(fullfile(Destination, Filename), 'EEG');
