@@ -21,7 +21,7 @@ Task = 'Fixation';
 Path = fullfile(Paths.Preprocessed, 'Pupils', 'Clean', Task);
  [AllDiameters] = getPupilDiameter(Path, Participants, Sessions, Task);
 
-
+zAllDiameters = zScoreData(AllDiameters, 'first');
 % PUI
 
 
@@ -30,6 +30,7 @@ Path = fullfile(Paths.Preprocessed, 'Pupils', 'Clean', Task);
 
 %%
 YLim = [2 10];
+YLim = [];
 % StatParameters = StatsP;
 StatParameters = StatsP;
 Flip = false;
