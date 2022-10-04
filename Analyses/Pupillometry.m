@@ -29,7 +29,7 @@ zAllDiameters = zScoreData(AllDiameters, 'first');
 % 
 
 %%
-YLim = [2 10];
+% YLim = [2 8];
 YLim = [];
 % StatParameters = StatsP;
 StatParameters = StatsP;
@@ -38,6 +38,6 @@ Flip = false;
 
   figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.6])
 
-     plotBrokenSpaghetti(zAllDiameters, [], YLim, ...
+     plotBrokenSpaghetti(AllDiameters, [], YLim, ...
                     StatParameters, PlotProps.Color.Participants, Flip, PlotProps)
      title('Diameter')

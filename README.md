@@ -4,7 +4,7 @@ These scripts are used to analyze data for Paper 3. They rely on data preprocess
 
 
 ## Starting data
-For both the power calculation and the burst detection, this script uses data filtered between 0.5-40 Hz, and downsampled to 250 Hz.
+For both the power calculation and the burst detection, this script uses data filtered between 0.5-40 Hz, and downsampled to 250 Hz. In my file structure, this is saved as "Power".
 
 
 
