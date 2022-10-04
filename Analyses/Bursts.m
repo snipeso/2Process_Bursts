@@ -13,6 +13,7 @@ PlotProps = P.Manuscript;
 Labels = P.Labels;
 StatsP = P.StatsP;
 Tasks = P.Tasks;
+TaskColors = P.TaskColors;
 
 Refresh = false;
 fs = 250;
@@ -41,64 +42,65 @@ Durations = Durations/60;
 
 %% Figure X-Y Amplitude vs Quantity across sleep deprivation
 
+PlotProps = P.Manuscript;
+PlotProps.Axes.xPadding = 30;
+PlotProps.Axes.yPadding = 30;
+PlotProps.Figure.Padding = 15;
 
 zScore = [false, true];
 Variables = {'Mean_coh_amplitude', 'nPeaks'};
-YLabels = {'Amplitude (\muV)', '# oscillations/min'};
+YLabels = {'Amplitude', '# oscillations/min'};
 Bands = {'Theta', 'Alpha'};
 % YLims = [-3.5 6];
-% YLimsZ = [-3.5 6];
+YLimsZ = [-3.5 3.5; -2 4.4];
 YLims = [];
-YLimsZ = [];
-Grid = [2, numel(Tasks)];
+% YLimsZ = [];
+Grid = [2, 2]; % variables x bands
 Flip = false; % flip data if it decreases with SD
 StatParameters = []; % could be StatsP
+Z = true;
 
-for Indx_B = 1:2
-    for Z = zScore
+Indx = 1;
 
-        Indx = 1;
-       figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.6])
-
-        for Indx_T = 1:numel(Tasks)
-            for Indx_V = 1:numel(Variables)
-
-                % adjust labels according to scale
-                if Z
-                    YLabel = [YLabels{Indx_V}, ' (z-scored)'];
-                    YLim = YLimsZ;
-                    Score =  'zscore';
-                else
-                    YLabel = YLabels{Indx_V};
-                    YLim = YLims;
-                    Score = 'raw';
-                end
-
-                % assemble data
-                Variable = Variables{Indx_V};
-                Matrix = bursttable2matrix(BurstTable(BurstTable.FreqType == Indx_B, :), ...
-                    Missing, Durations, Variable, Participants, Sessions, Tasks, Z);
-
-                % plot
-                A = subfigure([], Grid, [Indx_V, Indx_T], [], true, ...
-                    '', PlotProps); Indx = Indx+1;
-                plotBrokenSpaghetti(squeeze(Matrix(:, :, Indx_T)), [], YLim, ...
-                    StatParameters, PlotProps.Color.Participants, Flip, PlotProps)
-
-                if Indx_V==1
-                    title(Tasks{Indx_T}, 'FontSize', PlotProps.Text.TitleSize)
-                     set(gca,'xtick',[])
-                end
-
-                if Indx_T ==1
-                ylabel(YLabel)
-                end
-            end
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.7])
+for Indx_V = 1:numel(Variables)
+    for Indx_B = 1:2
+        % adjust labels according to scale
+        if Z
+            YLabel = [YLabels{Indx_V}, ' (z-scored)'];
+            YLim = YLimsZ(Indx_V, :);
+            Score =  'zscore';
+        else
+            YLabel = YLabels{Indx_V};
+            YLim = YLims(Indx_V, :);
+            Score = 'raw';
         end
 
-        saveFig(strjoin({TitleTag, 'AllSessions', Bands{Indx_B}, Score}, '_'), Paths.Paper, PlotProps)
+        % assemble data
+        Variable = Variables{Indx_V};
+        Matrix = bursttable2matrix(BurstTable(BurstTable.FreqType == Indx_B, :), ...
+            Missing, Durations, Variable, Participants, Sessions, Tasks, Z);
+
+        % plot
+        A = subfigure([], Grid, [Indx_V, Indx_B], [], true, ...
+            PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
+        plotBrokenRain(Matrix, [], YLim, TaskColors, Tasks, PlotProps)
+        ylabel(YLabel)
+        if Indx_V~=2 || Indx_B~=2
+            legend off
+        end
+
+        if Indx_V==1
+            title(Bands{Indx_B}, 'FontSize', PlotProps.Text.TitleSize)
+        end
+
     end
+
+
 end
+saveFig(strjoin({TitleTag, 'All', Score}, '_'), Paths.Paper, PlotProps)
+
+
 
 
 
@@ -195,10 +197,10 @@ for Indx_T = 1:numel(Tasks)
             end
 
             X = get(gca, 'XLim');
-    Y = get(gca, 'YLim');
-    text(X(1)-diff(X)*.15, Y(1)+diff(Y)*.5, VariableLabels{Indx_V}, ...
-        'FontSize', PlotProps.Text.TitleSize, 'FontName', PlotProps.Text.FontName, ...
-        'FontWeight', 'Bold', 'HorizontalAlignment', 'Center', 'Rotation', 90);
+            Y = get(gca, 'YLim');
+            text(X(1)-diff(X)*.15, Y(1)+diff(Y)*.5, VariableLabels{Indx_V}, ...
+                'FontSize', PlotProps.Text.TitleSize, 'FontName', PlotProps.Text.FontName, ...
+                'FontWeight', 'Bold', 'HorizontalAlignment', 'Center', 'Rotation', 90);
 
 
 
@@ -216,16 +218,16 @@ for Indx_T = 1:numel(Tasks)
     end
 
     % fix colormaps
-Fig = gcf;
-Pos = [];
-Linear = [3 4 7 8 12 13  16 17];
-for Indx_Ch = 1:numel(Fig.Children)
-    if ~ismember(Indx_Ch, Linear)
-        Fig.Children(Indx_Ch).Colormap = reduxColormap(PlotProps.Color.Maps.Divergent, PlotProps.Color.Steps.Divergent);
-    else
-        Fig.Children(Indx_Ch).Colormap = reduxColormap(PlotProps.Color.Maps.Linear, PlotProps.Color.Steps.Linear);
+    Fig = gcf;
+    Pos = [];
+    Linear = [3 4 7 8 12 13  16 17];
+    for Indx_Ch = 1:numel(Fig.Children)
+        if ~ismember(Indx_Ch, Linear)
+            Fig.Children(Indx_Ch).Colormap = reduxColormap(PlotProps.Color.Maps.Divergent, PlotProps.Color.Steps.Divergent);
+        else
+            Fig.Children(Indx_Ch).Colormap = reduxColormap(PlotProps.Color.Maps.Linear, PlotProps.Color.Steps.Linear);
+        end
     end
-end
 
     saveFig(strjoin({TitleTag, 'Topographies', Tasks{Indx_T}}, '_'), Paths.Paper, PlotProps)
 end
@@ -245,5 +247,5 @@ end
 
 %% number of bursts (mean, min/max), average peaks per burst, average coherent channels. Range for overall fewest recording, and overall mostest
 
- Matrix = bursttable2matrix(BurstTable, Missing, Durations, 'Tot', Participants, Sessions, Tasks, false);
+Matrix = bursttable2matrix(BurstTable, Missing, Durations, 'Tot', Participants, Sessions, Tasks, false);
 Matrix = Matrix/60;

@@ -86,6 +86,7 @@ Poster =  getProperties({'LSM', 'Poster'});
 Manuscript.Figure.Padding = 25;
 Manuscript.Axes.yPadding = 20;
 
+P.TaskColors = flip(getColors(3));
 
 P.Manuscript = Manuscript; % for papers
 P.Powerpoint = Powerpoint; % for presentations

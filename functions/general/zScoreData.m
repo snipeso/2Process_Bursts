@@ -11,24 +11,34 @@ Dims = ndims(Data); % probs wrong
 
 switch Dimentions
     case 'first'
-           switch Dims 
-               case 2
-        for Indx_P = 1:size(Data, 1)
-                Row = Data(Indx_P,:);
-                Mean = mean(Row(:), 'omitnan');
-                Std = std(Row(:), 'omitnan');
-                Data(Indx_P, :) = (Row-Mean)./Std;
-        end
+        switch Dims
+            case 2
+                for Indx_P = 1:size(Data, 1)
+                    Row = Data(Indx_P,:);
+                    Mean = mean(Row(:), 'omitnan');
+                    Std = std(Row(:), 'omitnan');
+                    Data(Indx_P, :) = (Row-Mean)./Std;
+                end
 
-               case 5
-                           for Indx_P = 1:size(Data, 1)
-                Row = Data(Indx_P, :, :, :, :);
-                Mean = mean(Row(:), 'omitnan');
-                Std = std(Row(:), 'omitnan');
-                Data(Indx_P, :, :, :, :) = (Row-Mean)./Std;
-        end
+            case 3
+                 for Indx_P = 1:size(Data, 1)
+                    Row = Data(Indx_P, :, :);
+                    Mean = mean(Row(:), 'omitnan');
+                    Std = std(Row(:), 'omitnan');
+                    Data(Indx_P, :, :) = (Row-Mean)./Std;
+                end
 
-           end
+            case 5
+                for Indx_P = 1:size(Data, 1)
+                    Row = Data(Indx_P, :, :, :, :);
+                    Mean = mean(Row(:), 'omitnan');
+                    Std = std(Row(:), 'omitnan');
+                    Data(Indx_P, :, :, :, :) = (Row-Mean)./Std;
+                end
+            otherwise
+                error('dimention not known')
+
+        end
 
     case 'last'
         for Indx_P = 1:size(Data, 1)
