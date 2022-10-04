@@ -129,6 +129,9 @@ Channels.preROI.Front = Frontspot;
 Channels.preROI.Center = Centerspot;
 Channels.preROI.Back = Backspot;
 
+
+Channels.All.All = [Frontspot, Backspot, Centerspot];
+
 P.Channels = Channels;
 
 Bands.Theta = [4 8];

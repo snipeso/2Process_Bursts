@@ -7,7 +7,8 @@ close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Parameters
 
-ROI = 'preROI';
+% ROI = 'preROI';
+ROI = 'All';
 
 P = analysisParameters();
 
@@ -18,7 +19,6 @@ Channels = P.Channels;
 Participants = P.Participants;
 StatsP = P.StatsP;
 Tasks = P.Tasks;
-PlotProps = P.Manuscript;
 
 
 ChLabels = fieldnames(Channels.(ROI));
@@ -55,40 +55,40 @@ bData = bandData(chData, Freqs, Bands, 'last');
 %% Power by session
 
 PlotProps = P.Manuscript;
+PlotProps.Axes.xPadding = 30;
+PlotProps.Axes.yPadding = 30;
+PlotProps.Figure.Padding = 15;
+TaskColors = P.TaskColors;
 
-Grid = [numel(BandLabels), numel(Tasks)];
+Grid = [1, numel(BandLabels)];
 StatParameters = [];
 Flip = false;
-Ch_Indx = [1, 3];
+% Ch_Indx = [1, 3];
+Ch_Indx = [1 1];
 YLim = [-1.3, 2.8;
     -1 5.1];
 
-YLabel = 'power (z-scored)';
+YLabel = 'Power (z-scored)';
 
 Indx = 1;
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.5])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.35])
 
 for Indx_B = 1:2
-    for Indx_T = 1:numel(Tasks)
 
-        % gather data
-        Data = squeeze(bData(:, :, Indx_T, Ch_Indx(Indx_B), Indx_B));
+    % gather data
+    Data = squeeze(bData(:, :, :, Ch_Indx(Indx_B), Indx_B));
 
-        % plot
-        A = subfigure([], Grid, [Indx_B, Indx_T], [], true, ...
-            PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
+    % plot
+    A = subfigure([], Grid, [1, Indx_B], [], true, ...
+        PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
+    plotBrokenRain(Data, [], [], TaskColors, Tasks, PlotProps)
+    ylabel(YLabel)
 
-        plotBrokenSpaghetti(Data, [], YLim(Indx_B, :), StatParameters, PlotProps.Color.Participants, Flip, PlotProps)
-        yticks(round(YLim(Indx_B, 1)):1:YLim(Indx_B, 2))
-        if Indx_B==1
-            title(Tasks{Indx_T}, 'FontSize', PlotProps.Text.TitleSize)
-            set(gca,'xtick',[])
-        end
-
-        if Indx_T == 1
-            ylabel([BandLabels{Indx_B}, ' ', YLabel])
-        end
-
+    %         yticks(round(YLim(Indx_B, 1)):1:YLim(Indx_B, 2))
+    % title([BandLabels{Indx_B}, ' ', ChLabels{Ch_Indx(Indx_B)}])
+    title([BandLabels{Indx_B}])
+    if Indx_B~=2
+        legend off
     end
 end
 
