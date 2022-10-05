@@ -24,7 +24,13 @@ end
 
 Dims = size(Data);
 
+if Dims(3)>2
 Shifts = linspace(-TaskWidth, TaskWidth, Dims(3)); % distance from center point for each task
+elseif Dims(3)==2
+    Shifts = [-.3 .3];
+else
+    Shifts = 0;
+end
 
 
 
