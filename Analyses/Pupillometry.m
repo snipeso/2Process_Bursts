@@ -18,10 +18,10 @@ Colors = P.TaskColors(1:2, :);
 
 % pupil diameter
 Path = fullfile(Paths.Preprocessed, 'Pupils', 'Clean');
- [AllDiameters] = getPupilDiameter(Path, Participants, Sessions, Tasks);
+ [AllDiameters, AllPUI] = getPupilDiameter(Path, Participants, Sessions, Tasks);
 
 zAllDiameters = zScoreData(AllDiameters, 'first');
-% PUI
+zAllPUI = zScoreData(AllPUI, 'first');
 
 
 
@@ -33,11 +33,21 @@ YLim = [];
 % StatParameters = StatsP;
 StatParameters = StatsP;
 Flip = false;
+Grid = [1, 2];
+Indx=1;
 
+  figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.3])
 
-  figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.5 PlotProps.Figure.Height*0.3])
+  A = subfigure([], Grid, [1, 1], [], true, ...
+    PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenRain(zAllDiameters, [], [], Colors, Tasks, PlotProps)
 ylabel('Diameter (mm) (z-scored)')
      title('Diameter')
+
+       A = subfigure([], Grid, [1, 2], [], true, ...
+    PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
+plotBrokenRain(zAllPUI, [], [], Colors, Tasks, PlotProps)
+ylabel('PUI (z-scored)')
+     title('PUI')
 
 saveFig('Diameter', Paths.Paper, PlotProps)
