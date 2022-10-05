@@ -13,13 +13,12 @@ Sessions = P.Sessions;
 PlotProps = P.Manuscript;
 Labels = P.Labels;
 StatsP = P.StatsP;
-Tasks = P.Tasks;
-
+Tasks = {'Fixation', 'Oddball'};
+Colors = P.TaskColors(1:2, :);
 
 % pupil diameter
-Task = 'Fixation';
-Path = fullfile(Paths.Preprocessed, 'Pupils', 'Clean', Task);
- [AllDiameters] = getPupilDiameter(Path, Participants, Sessions, Task);
+Path = fullfile(Paths.Preprocessed, 'Pupils', 'Clean');
+ [AllDiameters] = getPupilDiameter(Path, Participants, Sessions, Tasks);
 
 zAllDiameters = zScoreData(AllDiameters, 'first');
 % PUI
@@ -36,8 +35,9 @@ StatParameters = StatsP;
 Flip = false;
 
 
-  figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.6])
-
-     plotBrokenSpaghetti(AllDiameters, [], YLim, ...
-                    StatParameters, PlotProps.Color.Participants, Flip, PlotProps)
+  figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.5 PlotProps.Figure.Height*0.3])
+plotBrokenRain(zAllDiameters, [], [], Colors, Tasks, PlotProps)
+ylabel('Diameter (mm) (z-scored)')
      title('Diameter')
+
+saveFig('Diameter', Paths.Paper, PlotProps)
