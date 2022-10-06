@@ -13,7 +13,23 @@ P.Participants = {'P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08', ...
 P.Gender = {'M', 'M', 'M', 'F', 'M', 'F', 'F', 'M'...
     'F', 'F', 'M', 'M', 'M', 'F', 'F', 'F', 'M', 'F'};
 
+
+Labels.logBands = [1 2 4 8 16 32]; % x markers for plot on log scale
+Labels.Bands = [1 4 8 15 25 35 40]; % normal scale
+Labels.FreqLimits = [1 40];
+Labels.zPower = 'PSD z-scored';
+Labels.Power = 'PSD Amplitude (\muV^2/Hz)';
+Labels.Frequency = 'Frequency (Hz)';
+Labels.Epochs = {'Encoding', 'Retention1', 'Retention2', 'Probe'}; % for M2S task
+Labels.Amplitude = 'Amplitude (\muV)';
+Labels.Time = 'Time (s)';
+Labels.ES = "Hedge's G";
+Labels.t = 't-values';
+Labels.r = 'r-values';
+Labels.Correct = '% Correct';
+Labels.RT = 'RT (s)';
 P.Labels = Labels;
+
 
 P.Tasks = {'Fixation','Oddball',  'Standing'};
 
@@ -113,8 +129,8 @@ StatsP.minProminence = .1; % minimum prominence for when finding clusters of g v
 P.StatsP = StatsP;
 
 
-
-
+P.XLabels = {'BL 23:00', 'BL 10:00', '23:00', '4:00', '7:00', '10:00', ...
+    '15:00', '17:30', '20:00', '23:00', '2:40', 'Post'};
 
 
 
@@ -130,7 +146,7 @@ Channels.preROI.Center = Centerspot;
 Channels.preROI.Back = Backspot;
 
 
-Channels.All.All = [Frontspot, Backspot, Centerspot];
+Channels.All.All = [1:48, 50:55, 57:106, 108:112, 114:125, 128];
 
 P.Channels = Channels;
 
