@@ -1,13 +1,14 @@
-function [BlinkTable, RecordingDurations] = getBlinks(BlinkLocation, Participants, Sessions, Tasks)
+function [BlinkTable, RecordingDurations, Confidence] = getBlinks(BlinkLocation, Participants, Sessions, Tasks)
 % gets a table of all the blinks/microsleeps in each recording
 
 Method = '2d c++';
 ConfidenceColumn = 'confidence';
 ConfidenceThreshold = 0.5; % threshold for considering eyes open or closed
-fs = 128;
+fs = 50;
 
 BlinkTable = table();
 RecordingDurations = nan(numel(Participants), numel(Sessions), numel(Tasks));
+Confidence = RecordingDurations;
 
 for Indx_P = 1:numel(Participants)
     for Indx_S = 1:numel(Sessions)
@@ -41,19 +42,19 @@ for Indx_P = 1:numel(Participants)
                 Eye2 = Pupil.confidence(Pupil.eye_id==1);
 
                 if mean(Eye1(Eye1>0.5))>=mean(Eye2(Eye2>0.5))
-                    Eye = 0;
+                    Eye_ID = 0;
                 else
-                    Eye = 1;
+                    Eye_ID = 1;
                 end
 
             elseif numel(unique(Pupil.eye_id))==1
-                Eye = unique(Pupil.eye_id);
+                Eye_ID = unique(Pupil.eye_id);
             else
                 continue
             end
 
             % get correctly sampled data
-            [Eye, ~] = cleanEye(Pupil, Eye, ConfidenceColumn, fs);
+            [Eye, ~] = cleanEye(Pupil, Eye_ID, ConfidenceColumn, fs);
 
             % get vector of eyes open
             [EyeOpen, ~] = classifyEye(Eye, fs, ConfidenceThreshold); % not using internal microsleep identifier so that I'm flexible
@@ -69,11 +70,15 @@ for Indx_P = 1:numel(Participants)
             T.End = Ends';
             T.Duration = (Ends'-Starts')./fs;
 
-% skip if there is super long "sleep", which rather indicates poor data
-% quality
-            if any(T.Duration)>120
+            % skip if there is super long "sleep", which rather indicates poor data
+            % quality
+            if any(T.Duration > 120)
                 continue
             end
+
+            % save confidence of data
+            Confidence(Indx_P, Indx_S, Indx_T) = mean(Eye(Eye<.9 & Eye>.1), 'omitnan');
+
 
             BlinkTable = [BlinkTable; T];
         end

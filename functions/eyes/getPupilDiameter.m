@@ -1,16 +1,18 @@
-function [AllDiameters, AllPUI] = getPupilDiameter(Path, Participants, Sessions, Tasks)
+function [AllDiameters, sdAllDiameters, AllPUI] = getPupilDiameter(Path, Participants, Sessions, Tasks)
 % calculates mean pupil diameter and similar measures
 
 MinData = 1/3; % proportion of data that must still be present to be used in analysis
 
 AllDiameters = nan(numel(Participants), numel(Sessions), numel(Tasks));
 AllPUI = AllDiameters;
+sdAllDiameters = AllDiameters;
 
 
 for Indx_P = 1:numel(Participants)
 
     PrcntData = nan(2, numel(Sessions), numel(Tasks));
     Diameter = PrcntData;
+    sdDiameter = Diameter;
     PUI = PrcntData;
     for Indx_S = 1:numel(Sessions)
 
@@ -37,9 +39,10 @@ for Indx_P = 1:numel(Participants)
 
                 % calculate diameter
                 Diameter(Indx_E, Indx_S, Indx_T) = mean(EyeData(:, 2), 'omitnan');
+                sdDiameter(Indx_E, Indx_S, Indx_T) = std(EyeData(:, 2), 'omitnan');
 
-                %PUI
-                aa = movmean(EyeData(:, 2), 32, 'omitnan', 'Endpoints', 'discard');
+                % PUI
+                aa = movmean(EyeData(:, 2), 32, 'omitnan', 'Endpoints', 'discard'); % TO CHECK
                 bb = aa(1:32:end);
                 PUI(Indx_E, Indx_S, Indx_T) = sum(abs(diff(bb)), 'omitnan');
 
@@ -53,12 +56,16 @@ for Indx_P = 1:numel(Participants)
     [~, CleanestEye] = max(nCleanRecordings);
 
     % remove from that eye any recordings that don't have enough data
-    Diameter = Diameter(CleanestEye, :, :);
-    PrcntData = PrcntData(CleanestEye, :, :);
+    Diameter = squeeze(Diameter(CleanestEye, :, :));
+    PrcntData = squeeze(PrcntData(CleanestEye, :, :));
     Diameter(isnan(PrcntData)) = nan;
     AllDiameters(Indx_P, :, :) = Diameter;
 
-    PUI = PUI(CleanestEye, :, :);
+    sdDiameter = squeeze(sdDiameter(CleanestEye, :, :));
+    sdDiameter(isnan(PrcntData)) = nan;
+    sdAllDiameters(Indx_P, :, :) = sdDiameter;
+
+    PUI = squeeze(PUI(CleanestEye, :, :));
     PUI(isnan(PrcntData)) = nan;
     AllPUI(Indx_P, :, :) = PUI;
 

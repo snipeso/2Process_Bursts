@@ -78,6 +78,7 @@ end
 PlotProps = P.Manuscript;
 PlotProps.Patch.Alpha = 0.5;
 
+
 Grid = [numel(Participants), numel(Tasks)+1];
 xLims = [2 14];
 yLims = [0 17; 0 39];
@@ -85,7 +86,7 @@ yLims = [0 17; 0 39];
 Legend = SessionLabels;
 
 Colors = getColors([numel(Tasks), numel(Sessions)]);
-Colors = flip(Colors, 1);
+Colors = flip(flip(Colors, 1), 3);
 Colors(1, :, :) = repmat([.5 .5 .5], 3, 1);
 % Colors = cat(2, Colors, repmat(PlotProps.Color.Generic, numel(Participants), 1));
 
