@@ -20,6 +20,7 @@ FreqEdges = 2:.25:14;
 
 %%% load data
 Totals = nan(numel(Participants), numel(Sessions), numel(Tasks), numel(FreqEdges)-1);
+Amps = Totals;
 Amplitudes = struct();
 for Indx_P = 1:numel(Participants)
     for Indx_S = 1:numel(Sessions)
@@ -34,7 +35,17 @@ for Indx_P = 1:numel(Participants)
 %             Freqs = 1./[Bursts.period];
 Freqs = 1./[Bursts.Mean_period];
             QuantFreqs = discretize(Freqs, FreqEdges);
-            QuantFreqs(isnan(QuantFreqs)) = [];
+           
+
+            for Indx_F = 1:numel(FreqEdges)-1
+                B = QuantFreqs==Indx_F;
+                if nnz(B)<10 % skip if not many bursts
+                    continue
+                end
+                Amps(Indx_P, Indx_S, Indx_T, Indx_F) = mean([Bursts(B).Mean_amplitude], 'omitnan');
+            end
+
+             QuantFreqs(isnan(QuantFreqs)) = [];
             TotFreqs = tabulate(QuantFreqs);
 
             % get minutes of recording
@@ -43,9 +54,8 @@ Freqs = 1./[Bursts.Mean_period];
             % bursts per minute
             Totals(Indx_P, Indx_S, Indx_T, 1:size(TotFreqs, 1)) = TotFreqs(:, 2)/Min;
 
-
             % amplitudes
-            Amplitudes.(Participants{Indx_P}).(Tasks{Indx_T}).(Sessions{Indx_S}) = [Bursts.Coh_amplitude];
+            Amplitudes.(Participants{Indx_P}).(Tasks{Indx_T}).(Sessions{Indx_S}) = [Bursts(QuantFreqs).Mean_amplitude];
         end
     end
 end
@@ -79,9 +89,12 @@ PlotProps = P.Manuscript;
 PlotProps.Patch.Alpha = 0.5;
 
 
-Grid = [numel(Participants), numel(Tasks)+1];
-xLims = [2 14];
-yLims = [0 17; 0 39];
+Grid = [numel(Participants), numel(Tasks)];
+
+miniGrid = [2, 1];
+xLims = [3 14];
+yLimsTot = [0 17; 0 39];
+yLimsAmp = [0 30];
 % Legend = [SessionLabels, 'Null'];
 Legend = SessionLabels;
 
@@ -91,51 +104,48 @@ Colors(1, :, :) = repmat([.5 .5 .5], 3, 1);
 % Colors = cat(2, Colors, repmat(PlotProps.Color.Generic, numel(Participants), 1));
 
 Indx = 1;
-figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width, PlotProps.Figure.Height*.5])
+figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width, PlotProps.Figure.Height*.7])
 
 %%% plot histogram of # bursts per minute per frequency for each task
 for Indx_T = 1:numel(Tasks)
     for Indx_P = 1:numel(Participants)
 
+                Space = subaxis(Grid, [Indx_P, Indx_T], [], PlotProps.Indexes.Letters{Indx}, PlotProps);  Indx = Indx+1;
+        
+        %%% distribution of number of bursts
         Data = squeeze(Totals(Indx_P, :, Indx_T, :))';
 
-        if Indx_P ==numel(Participants)
-            xLabel = 'Frequency';
-        else
-            xLabel = '';
-        end
-
-        Axes = subfigure([], Grid, [Indx_P, Indx_T], [], true, ...
-            PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
-        plotZiggurat(Data, xLabel, FreqEdges(1:end-1), [Participants{Indx_P}, ' bursts/min'], ...
+        Axes = subfigure(Space, miniGrid, [1, 1], [], false, ...
+           '', PlotProps);
+        plotZiggurat(Data, '', FreqEdges(1:end-1), [Participants{Indx_P}, ' bursts/min'], ...
             squeeze(Colors(:, :, Indx_T)), Legend, PlotProps)
         xlim(xLims)
-        ylim(yLims(Indx_P, :))
+        ylim(yLimsTot(Indx_P, :))
         if Indx_T ~= 1
             ylabel('')
         end
         title(Tasks{Indx_T})
 
-        if Indx_P ==2
+        if Indx_P ==2 || Indx_T>1
             legend off
+        end
+
+
+        %%% distribution of mean amplitude
+        Data = squeeze(Amps(Indx_P, :, Indx_T, :))';
+                Axes = subfigure(Space, miniGrid, [2, 1], [], false, ...
+           '', PlotProps);
+
+                 plotZiggurat(Data, 'Frequency', FreqEdges(1:end-1), [Participants{Indx_P}, ' amplitude (\muV)'], ...
+            squeeze(Colors(:, :, Indx_T)), '', PlotProps)
+        xlim(xLims)
+        ylim(yLimsAmp)
+        if Indx_T ~= 1
+            ylabel('')
         end
     end
 end
 
-
-%%% plot violin plots of amplitudes of all bursts for each task
-for Indx_P = 1:numel(Participants)
-    Data = Amplitudes.(Participants{Indx_P});
-
-    Axes = subfigure([], Grid, [Indx_P, numel(Tasks)+1], [], true, ...
-        PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
-
-    plotFlames(Data, Colors, 0.5, PlotProps)
-    ylabel([Participants{Indx_P}, ' amplitudes'])
-    legend off
-    ylim([0 75])
-
-end
 
 
 saveFig('Example_Burst', Paths.Paper, PlotProps)
