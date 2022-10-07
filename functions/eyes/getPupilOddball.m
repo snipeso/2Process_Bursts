@@ -1,4 +1,4 @@
-function [Timecourse, t, AverageBaselines] = getPupilOddball(Path, Participants, Sessions)
+function [Timecourse, t, AverageBaselines, MissingData] = getPupilOddball(Path, Participants, Sessions)
 % Timecourse is a P x S x T x t matrix, with T=2 (target and standard), and
 % t = is [-0.5 2]
 
@@ -9,6 +9,7 @@ fs = 50; % sampling rate of pupillometry
 BaselineWindow = [1, fs*0.5]; % relative to the whole window
 MinPoints = 2/3; % amount of data that must still be present to include trial
 MinTrials = 15;
+MinTrialPoints = 10;
 MinSessions = 6;
 
 Triggers = {'TRIAL_EVENT_VAR Standard Tone', 'TRIAL_EVENT_VAR Target Tone'};
@@ -16,6 +17,7 @@ Triggers = {'TRIAL_EVENT_VAR Standard Tone', 'TRIAL_EVENT_VAR Target Tone'};
 t = linspace(Window(1), Window(2), fs*diff(Window));
 TrialLength = numel(t);
 Timecourse = nan(numel(Participants), numel(Sessions), 2, TrialLength);
+MissingData = Timecourse;
 AverageBaselines = nan(numel(Participants), numel(Sessions), 2);
 
 for Indx_P = 1:numel(Participants)
@@ -23,6 +25,7 @@ for Indx_P = 1:numel(Participants)
     % gather first for both eyes, then choose eye with most data
     TotTrials = zeros(2, numel(Sessions), 2); % eyes x sessions x tone type
     MeanTrials = nan(2, numel(Sessions), 2, TrialLength); % eyes x tone type
+    mdTrials = MeanTrials;
     AllBaselines = TotTrials;
 
     for Indx_S = 1:numel(Sessions)
@@ -92,6 +95,15 @@ for Indx_P = 1:numel(Participants)
                 AllTrials = AllTrials - Baselines;
                 AllBaselines(Indx_E, Indx_S, Indx_T) = mean(Baselines, 'omitnan');
 
+                % baseline corrected missing data 
+                MD = sum(isnan(AllTrials))-mean(sum(isnan(AllTrials(:, BaselineWindow(1):BaselineWindow(2))))); % also baseline-corrected
+                mdTrials(Indx_E, Indx_S, Indx_T, :) = MD;
+
+                MD = sum(isnan(AllTrials)); % actual missing data
+                if any(size(AllTrials, 1)-MD < MinTrialPoints)
+                    warning(['systematically missing data in ' Filename])
+                    continue
+                end
                 % average all trials for a specific eye and trigger type
                 % together
                 MeanTrials(Indx_E, Indx_S, Indx_T, :) = mean(AllTrials, 1, 'omitnan');
@@ -118,6 +130,9 @@ for Indx_P = 1:numel(Participants)
     MeanTrials(rmSessions, :, :) = nan; % if either targets or standards are missing
 
     Timecourse(Indx_P, :, :, 1:TrialLength) = MeanTrials;
+
+    mdTrials = squeeze(mdTrials(CleanestEye, :, :, :));
+    MissingData(Indx_P, :, :, 1:TrialLength) = mdTrials;
 
     % same for baselines
     AllBaselines = squeeze(AllBaselines(CleanestEye, :, :));

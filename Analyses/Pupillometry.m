@@ -69,15 +69,16 @@ saveFig([TitleTag, 'Diameter'], Paths.Paper, PlotProps)
 
 
 Path = fullfile(Paths.Preprocessed, 'Pupils', 'Clean', 'Oddball');
-[Timecourse, t, AverageBaselines] = getPupilOddball(Path, Participants, Sessions);
+[Timecourse, t, AverageBaselines, MissingData] = getPupilOddball(Path, Participants, Sessions);
 
 
-% zTimecourse = zScoreData(Timecourse, 'last');
+zTimecourse = zScoreData(Timecourse, 'first');
 %%
 
 
 Grid = [3 4];
-YLims = [-.4 1];
+% YLims = [-.4 1];
+YLims = [-2 5];
 Coordinates = {[1 1], [1 2], [1 3], [1, 4];
     [2 1], [2 2], [2 3], [2, 4];
     [3 1], [3 2], [3 3], [3, 4]}';
@@ -88,12 +89,13 @@ Colors = PlotProps.Color.Participants;
 Legend = {'Standard', 'Target'};
 
 figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.6])
-
+AllN = nan(1, numel(Sessions));
 for Indx_S = 1:numel(Sessions)
 
-    Data = squeeze(Timecourse(:, Indx_S, :, :));
+    Data = squeeze(zTimecourse(:, Indx_S, :, :));
     N = nnz(~isnan(Data(:, 1, 1))); % number of participants included
 
+    AllN(Indx_S) = N;
     A = subfigure([], Grid, Coordinates{Indx_S}, [], true, ...
         '', PlotProps);
     plotAngelHair(t, Data, Colors, Legend, PlotProps)
@@ -111,6 +113,52 @@ end
 
 saveFig([TitleTag, 'EvokedResponse'], Paths.Paper, PlotProps)
 
+%%
+figure
+bar(1:numel(AllN), AllN, 'EdgeColor','none', 'FaceColor',getColors(1))
+xticklabels(P.Labels.Sessions)
+set(gca, 'FontSize', PlotProps.Text.AxisSize, 'FontName', PlotProps.Text.FontName)
+
+
+%% evoked blink
+
+% zMissingData = zScoreData(MissingData, 'first');
+
+Grid = [3 4];
+YLims = [-5 30];
+Coordinates = {[1 1], [1 2], [1 3], [1, 4];
+    [2 1], [2 2], [2 3], [2, 4];
+    [3 1], [3 2], [3 3], [3, 4]}';
+
+% Colors = [0.6 0.6 0.6; getColors(1, '', 'red')];
+Colors = PlotProps.Color.Participants;
+
+Legend = {'Standard', 'Target'};
+
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.6])
+
+for Indx_S = 1:numel(Sessions)
+
+    Data = squeeze(MissingData(:, Indx_S, :, :));
+    N = nnz(~isnan(Data(:, 1, 1))); % number of participants included
+
+    A = subfigure([], Grid, Coordinates{Indx_S}, [], true, ...
+        '', PlotProps);
+    plotAngelHair(t, Data, Colors, Legend, PlotProps)
+    title([XLabels{Indx_S}, ' (n=', num2str(N), ')'])
+    ylim(YLims)
+    if Indx_S>1
+        legend off
+    end
+
+    if Indx_S>8
+        xlabel('t(s)')
+    end
+
+end
+
+saveFig([TitleTag, 'EvokedBlink'], Paths.Paper, PlotProps)
+
 
 %% baselines
 zAverageBaselines = zScoreData(AverageBaselines, 'first');
@@ -123,15 +171,15 @@ saveFig([TitleTag, 'TrialBaselines'], Paths.Paper, PlotProps)
 
 
 
-%% 
-Range = [0.5 1.8];
+%%
+Range = [1 1.8];
 [AuC] = extractOddballValues(Timecourse, t, Range);
 
 zAuC = zScoreData(AuC, 'first');
 
-
+%%
 figure
-plotBrokenSpaghetti(zAuC, [], [], P.StatsP, PlotProps.Color.Participants, false, PlotProps)
+plotBrokenSpaghetti(AuC, [], [], [], PlotProps.Color.Participants, false, PlotProps)
 ylabel('mm')
 title('AuC Target - Standard')
 saveFig([TitleTag, 'AuC'], Paths.Paper, PlotProps)

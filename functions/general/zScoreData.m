@@ -27,6 +27,13 @@ switch Dimentions
                     Std = std(Row(:), 'omitnan');
                     Data(Indx_P, :, :) = (Row-Mean)./Std;
                 end
+            case 4
+                 for Indx_P = 1:size(Data, 1)
+                    Row = Data(Indx_P, :, :, :);
+                    Mean = mean(Row(:), 'omitnan');
+                    Std = std(Row(:), 'omitnan');
+                    Data(Indx_P, :,:, :) = (Row-Mean)./Std;
+                end
 
             case 5
                 for Indx_P = 1:size(Data, 1)
