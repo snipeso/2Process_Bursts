@@ -189,7 +189,8 @@ Colors = [
 figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.5, PlotProps.Figure.Height*.7])
 Axes = subfigure([], [1 1], [1, 1], [], false, '', PlotProps);
 plotExampleBurstData(EEG, 20, Bursts, 'FinalBand', Colors, PlotProps)
-xlim([177 187])
+% xlim([177 187])
+ xlim([139 149])
 ylim([-10 2500])
 xlabel('time (s)')
 saveFig('Example_Data', Paths.Paper, PlotProps)
