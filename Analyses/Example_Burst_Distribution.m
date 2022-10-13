@@ -32,10 +32,10 @@ for Indx_P = 1:numel(Participants)
             load(fullfile(Source, Filename), 'EEG', 'Bursts')
 
             % get distribution of bursts by frequency
-%             Freqs = 1./[Bursts.period];
-Freqs = 1./[Bursts.Mean_period];
+            %             Freqs = 1./[Bursts.period];
+            Freqs = 1./[Bursts.Mean_period];
             QuantFreqs = discretize(Freqs, FreqEdges);
-           
+
 
             for Indx_F = 1:numel(FreqEdges)-1
                 B = QuantFreqs==Indx_F;
@@ -45,7 +45,7 @@ Freqs = 1./[Bursts.Mean_period];
                 Amps(Indx_P, Indx_S, Indx_T, Indx_F) = mean([Bursts(B).Mean_amplitude], 'omitnan');
             end
 
-             QuantFreqs(isnan(QuantFreqs)) = [];
+            QuantFreqs(isnan(QuantFreqs)) = [];
             TotFreqs = tabulate(QuantFreqs);
 
             % get minutes of recording
@@ -60,23 +60,23 @@ Freqs = 1./[Bursts.Mean_period];
     end
 end
 
-% 
+%
 % % make null a third session
 % for Indx_T = 1:numel(Tasks)
 %     % load data
 %     Source = fullfile(Paths.Data, 'EEG', 'Bursts', Tasks{Indx_T});
 %     Filename = strjoin({'P00', Tasks{Indx_T}, 'NULL', 'Bursts.mat'}, '_');
 %     load(fullfile(Source, Filename), 'EEG', 'Bursts')
-% 
+%
 %     % get distribution of bursts by frequency
 %     Freqs = 1./[Bursts.Mean_period];
 %     QuantFreqs = discretize(Freqs, FreqEdges);
 %     QuantFreqs(isnan(QuantFreqs)) = [];
 %     TotFreqs = tabulate(QuantFreqs);
-% 
+%
 %     % get minutes of recording
 %     Min = (EEG.clean_t/EEG.srate)/60;
-% 
+%
 %     % bursts per minute
 %     for Indx_P = 1:numel(Participants)
 %         Totals(Indx_P, numel(Sessions)+1, Indx_T, 1:size(TotFreqs, 1)) = TotFreqs(:, 2)/Min;
@@ -110,13 +110,13 @@ figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width, PlotProp
 for Indx_T = 1:numel(Tasks)
     for Indx_P = 1:numel(Participants)
 
-                Space = subaxis(Grid, [Indx_P, Indx_T], [], PlotProps.Indexes.Letters{Indx}, PlotProps);  Indx = Indx+1;
-        
+        Space = subaxis(Grid, [Indx_P, Indx_T], [], PlotProps.Indexes.Letters{Indx}, PlotProps);  Indx = Indx+1;
+
         %%% distribution of number of bursts
         Data = squeeze(Totals(Indx_P, :, Indx_T, :))';
 
         Axes = subfigure(Space, miniGrid, [1, 1], [], false, ...
-           '', PlotProps);
+            '', PlotProps);
         plotZiggurat(Data, '', FreqEdges(1:end-1), [Participants{Indx_P}, ' bursts/min'], ...
             squeeze(Colors(:, :, Indx_T)), Legend, PlotProps)
         xlim(xLims)
@@ -133,10 +133,10 @@ for Indx_T = 1:numel(Tasks)
 
         %%% distribution of mean amplitude
         Data = squeeze(Amps(Indx_P, :, Indx_T, :))';
-                Axes = subfigure(Space, miniGrid, [2, 1], [], false, ...
-           '', PlotProps);
+        Axes = subfigure(Space, miniGrid, [2, 1], [], false, ...
+            '', PlotProps);
 
-                 plotZiggurat(Data, 'Frequency', FreqEdges(1:end-1), [Participants{Indx_P}, ' amplitude (\muV)'], ...
+        plotZiggurat(Data, 'Frequency', FreqEdges(1:end-1), [Participants{Indx_P}, ' amplitude (\muV)'], ...
             squeeze(Colors(:, :, Indx_T)), '', PlotProps)
         xlim(xLims)
         ylim(yLimsAmp)
@@ -153,7 +153,43 @@ saveFig('Example_Burst', Paths.Paper, PlotProps)
 
 
 
+%% plot example screenshot
 
+Task = 'Fixation';
+Participant = 'P15';
 
+load(fullfile('E:\Data\Final\EEG\Bursts', Task, [Participant, '_', Task, '_Main8_Bursts.mat']), 'Bursts')
+load(fullfile('E:\Data\Preprocessed\Clean\Waves', Task, [Participant, '_', Task, '_Main8_Clean.mat']), 'EEG')
 
+% assign conventional labels
+for Indx_B = 1:numel(Bursts)
+    P = 1/Bursts(Indx_B).Mean_period;
+    if P > 4 && P <=6
+        Bursts(Indx_B).FinalBand = '4-6 Hz';
+    elseif  P > 6 && P <= 9
+        Bursts(Indx_B).FinalBand = '6-9 Hz';
+    elseif P > 9 && P<=11
+        Bursts(Indx_B).FinalBand = '9-11 Hz';
+    elseif P<= 4
+        Bursts(Indx_B).FinalBand = '< 4 Hz';
+    elseif P >11
 
+        Bursts(Indx_B).FinalBand = '> 11 Hz';
+    end
+
+end
+
+%%
+
+Colors = [
+    getColors(1, '', 'blue'); 
+    getColors(1, '', 'green'); 
+    getColors(1, '', 'yellow')
+    getColors(1, '', 'orange');];
+figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.5, PlotProps.Figure.Height*.7])
+Axes = subfigure([], [1 1], [1, 1], [], false, '', PlotProps);
+plotExampleBurstData(EEG, 20, Bursts, 'FinalBand', Colors, PlotProps)
+xlim([177 187])
+ylim([-10 2500])
+xlabel('time (s)')
+saveFig('Example_Data', Paths.Paper, PlotProps)

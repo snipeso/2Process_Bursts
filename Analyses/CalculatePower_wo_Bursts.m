@@ -13,7 +13,7 @@ MinDuration = 60; % seconds
 WelchWindow = 8; % duration of window to do FFT
 Overlap = .75; % overlap of hanning windows for FFT
 
-Refresh = false;
+Refresh = true;
 
 BandLabels = fieldnames(Bands);
 
@@ -27,7 +27,7 @@ for Indx_T = 1:numel(Tasks)
 
     Files = getContent(fullfile(Source_EEG, Task));
 
-    for Indx_F = 1:numel(Files)
+    for Indx_F = 90%1:numel(Files)
         Filename_EEG = Files{Indx_F};
         Filename_Bursts = replace(Filename_EEG, 'Clean', 'Bursts');
         Filename_Cuts = replace(Filename_EEG, 'Clean', 'Cuts');

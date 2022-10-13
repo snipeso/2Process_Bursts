@@ -9,6 +9,11 @@ function [AllData, Freqs, Chanlocs] = loadAllPower(Source, Participants, Session
 
 AllData = nan(numel(Participants), numel(Sessions), numel(Tasks));
 
+% get little name tag
+A = getContent(fullfile(Source, Tasks{1}));
+B = split(A(1), '_');
+Tag = B(end);
+
 for Indx_P = 1:numel(Participants)
     for Indx_S = 1:numel(Sessions)
         
@@ -16,7 +21,7 @@ for Indx_P = 1:numel(Participants)
             Task = Tasks{Indx_T};
 
             %%% load data
-            Filename = strjoin({Participants{Indx_P}, Task, Sessions{Indx_S}, 'Welch.mat'}, '_');
+            Filename = strjoin({Participants{Indx_P}, Task, Sessions{Indx_S}, char(Tag)}, '_');
             Path = fullfile(Source, Task, Filename);
             
             % deal with missing data
