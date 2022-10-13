@@ -13,6 +13,8 @@ P.Participants = {'P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08', ...
 P.Gender = {'M', 'M', 'M', 'F', 'M', 'F', 'F', 'M'...
     'F', 'F', 'M', 'M', 'M', 'F', 'F', 'F', 'M', 'F'};
 
+P.Nights = {'Baseline', 'NightPre', 'NightPost'};
+
 
 Labels.logBands = [1 2 4 8 16 32]; % x markers for plot on log scale
 Labels.Bands = [1 4 8 15 25 35 40]; % normal scale
@@ -146,7 +148,11 @@ Channels.preROI.Center = Centerspot;
 Channels.preROI.Back = Backspot;
 
 
-Channels.All.All = [1:48, 50:55, 57:106, 108:112, 114:125, 128];
+All = 1:128;
+
+All(ismember(All, [49, 56, 107, 113, 126, 127, 48, 63, 68, 73, 81, 88, 94, 99, 119])) = [];
+
+Channels.All.All = All;
 
 P.Channels = Channels;
 
