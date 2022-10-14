@@ -10,7 +10,7 @@ Paths = P.Paths;
 
 Participants = P.Participants;
 Nights = P.Nights;
-Bands.SWA = [1 4];
+Bands.SWA = [2 4];
 
 Hour = 60*60/20;
 MaxHour = 12;
@@ -37,7 +37,7 @@ for Indx_P = 1:numel(Participants)
 
         % start from first hour
         % get only NREM, identify epochs by hour
-        NREM = find(ismember(visnum, [-1 -2 -3]));
+        NREM = find(ismember(visnum, [-2 -3]));
         NREM_Order = 1:numel(NREM);
         Bins = discretize(NREM_Order, 0:Hour:Hour*MaxHour);
 
@@ -64,6 +64,7 @@ SWA_last(:, :, NoHours, :, :) = [];
 
 
 zData = zScoreData(SWA_first, 'last');
+zData_last = zScoreData(SWA_last, 'last');
 chData = meanChData(zData, Chanlocs, Channels.All, 4);
 bData = squeeze(bandData(chData, Freqs, Bands, 'last'));
 
@@ -75,6 +76,27 @@ raw_bData = squeeze(bandData(raw_chData, Freqs, Bands, 'last'));
 %     D =
 %     FreqRes = Freqs(2)-Freqs(1);
 %   SWA = sum(D, 2, 'omitnan').*FreqRes;
+
+
+%% Save to pool
+% P x N x H (1st and last)
+
+% raw values
+EdgeHours = cat(3, SWA_first(:, :, 1, :, :), SWA_last(:, :, 1, :, :));
+EdgeHours = meanChData(EdgeHours, Chanlocs, Channels.All, 4);
+EdgeHours = bandData(EdgeHours, Freqs, Bands, 'last');
+
+Data = EdgeHours;
+save(fullfile(Paths.Pool, 'SWA_raw.mat'), 'Data')
+
+% z-scored values
+EdgeHours = cat(3, zData(:, :, 1, :, :), zData_last(:, :, 1, :, :));
+EdgeHours = meanChData(EdgeHours, Chanlocs, Channels.All, 4);
+EdgeHours = bandData(EdgeHours, Freqs, Bands, 'last');
+
+Data = EdgeHours;
+save(fullfile(Paths.Pool, 'SWA_z-scored.mat'), 'Data')
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Plots
@@ -133,7 +155,7 @@ saveFig([TitleTag, '_spectrums_SD'], Paths.Paper, PlotProps)
 %% plot change in z-scored SWA across hours for all nights
 
 Grid = [1 numel(Nights)];
-yLims = [-1.5 2.5];
+yLims = [0 70];
 figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.35])
 
 for Indx_N = 1:numel(Nights)
@@ -143,8 +165,16 @@ for Indx_N = 1:numel(Nights)
     A = subfigure([], Grid, [1, Indx_N], [], true, ...
         PlotProps.Indexes.Letters{Indx_N}, PlotProps);
     plotConfettiSpaghetti(Data, [], [], PlotProps.Color.Participants, yLims, PlotProps)
-    % ylim(yLims)
+    title(Nights{Indx_N})
+    ylim(yLims)
 end
+
+saveFig([TitleTag, '_SWA_overnight'], Paths.Paper, PlotProps)
+
+%%
+figure
+data3D(bData(:, [1 3], :), 1, Nights([1 3]), string(1:8),  getColors(8, 'rainbow'), P.StatsP, PlotProps)
+
 
 %% with raw data, plot change from 1st h to last h
 
@@ -167,17 +197,39 @@ for Indx_N = 1:numel(Nights)
 end
 
 
-
 %%
 
-    Start = squeeze(EdgeHours(:, 1, 1, :, :));
-    EndPre = squeeze(EdgeHours(:, 2, 2, :, :));
-    StartPost = squeeze(EdgeHours(:, 3, 1, :, :));
-    figure
+Start = squeeze(EdgeHours(:, 1, 1, :, :));
+EndPre = squeeze(EdgeHours(:, 2, 2, :, :));
+StartPost = squeeze(EdgeHours(:, 3, 1, :, :));
+figure
 
 %     Data = [StartPost, EndPre]./Start;
 
 % Data = [StartPost, Start]./Start;
 Data = [End, Start]./Start;
- plotConfettiSpaghetti(Data, [], [], PlotProps.Color.Participants, yLims, PlotProps)
+plotConfettiSpaghetti(Data, [], [], PlotProps.Color.Participants, yLims, PlotProps)
 
+
+%% stats
+clc
+
+Stats = pairedttest(squeeze(bData(:, 1, 1:6)), squeeze(bData(:, 3, 1:6)), P.StatsP);
+dispStat(Stats, [1 1], 'zscored SWA')
+Stats = pairedttest(log(squeeze(raw_bData(:, 1, 1:6))), log(squeeze(raw_bData(:, 3, 1:6))), P.StatsP);
+dispStat(Stats, [1 1], 'raw SWA')
+
+
+%% seasons
+
+SWA = squeeze(raw_bData(:, 2, 1));
+Months = [ 2 2 2.2 2.2 2.4 3 3.2 5.4 5.8 6.2 6 6.2 10.4 10.8 11.1 11.2 11.2 12]';
+
+
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.5 PlotProps.Figure.Height*0.2])
+scatter(Months, SWA, 100, PlotProps.Color.Participants, 'filled')
+title('SWA by season')
+xlim([1 12])
+set(gca, 'FontName', PlotProps.Text.FontName, 'FontSize', PlotProps.Text.AxisSize)
+
+saveFig([TitleTag, '_SWA_seasons'], Paths.Paper, PlotProps)

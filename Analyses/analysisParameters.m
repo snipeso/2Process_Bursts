@@ -56,6 +56,7 @@ Paths.Core = Core;
 Paths.Datasets = 'G:\LSM\Data\Raw';
 Paths.Data  = fullfile(Core, 'Final'); % where data gets saved once its been turned into something else
 Paths.Results = fullfile(Core, 'Results', '2process_Bursts');
+Paths.Pool = fullfile(Paths.Data, 'All_2processBursts');
 Paths.Paper = 'C:\Users\colas\Dropbox\Research\Publications and Presentations\Sleep\Paper3\Figures';
 
 % if eeglab has not run, run it so all the subdirectories get added
