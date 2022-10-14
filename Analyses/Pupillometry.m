@@ -4,8 +4,6 @@ clc
 close all
 
 
-
-
 P = analysisParameters();
 Paths = P.Paths;
 Participants = P.Participants;
@@ -15,8 +13,7 @@ Labels = P.Labels;
 StatsP = P.StatsP;
 Tasks = {'Fixation', 'Oddball'};
 Colors = P.TaskColors(1:2, :);
-XLabels = {'BL 23:00', 'BL 10:00', '23:00', '4:00', '7:00', '10:00', ...
-    '15:00', '17:30', '20:00', '23:00', '2:40', 'Post'};
+XLabels = Labels.Sessions;
 TitleTag = 'Pupillometry';
 
 %%
