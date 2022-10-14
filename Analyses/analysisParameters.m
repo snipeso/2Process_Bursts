@@ -57,6 +57,7 @@ Paths.Datasets = 'G:\LSM\Data\Raw';
 Paths.Data  = fullfile(Core, 'Final'); % where data gets saved once its been turned into something else
 Paths.Results = fullfile(Core, 'Results', '2process_Bursts');
 Paths.Pool = fullfile(Paths.Data, 'All_2processBursts');
+Paths.Scoring = fullfile(Core, 'Scoring');
 Paths.Paper = 'C:\Users\colas\Dropbox\Research\Publications and Presentations\Sleep\Paper3\Figures';
 
 % if eeglab has not run, run it so all the subdirectories get added
@@ -129,6 +130,7 @@ StatsP.Paired.ES = 'hedgesg';
 StatsP.Paired.Benchmarks = -2:.5:2;
 StatsP.FreqBin = 1; % # of frequencies to bool in spectrums stats
 StatsP.minProminence = .1; % minimum prominence for when finding clusters of g values
+StatsP.Correlation = 'Spearman';
 P.StatsP = StatsP;
 
 

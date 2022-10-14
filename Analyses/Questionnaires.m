@@ -108,4 +108,30 @@ saveFig([TitleTag, '_main_z-scored'], Paths.Paper, PlotProps)
 
 
 
+%% table of all SD effect sizes (to decide who to include in table)
+
+
+T = table(cell(numel(Questions), 1), nan(numel(Questions), 1), nan(numel(Questions), 1), nan(numel(Questions), 1),'VariableNames',{'question', 'p', 't', 'g'});
+
+for Indx_Q = 1:numel(Questions)
+Data = Answers.(Questions{Indx_Q});
+BL = Data(:, 4);
+SD = Data(:, 11);
+
+try
+Stats = pairedttest(BL, SD, StatsP);    
+catch
+    continue
+end
+
+T.question(Indx_Q) = Questions(Indx_Q);
+T.p(Indx_Q) = Stats.p;
+T.t(Indx_Q) = Stats.t;
+T.g(Indx_Q) = Stats.hedgesg;
+
+end
+
+
+Sig = T(T.p<.05, :);
+
 
