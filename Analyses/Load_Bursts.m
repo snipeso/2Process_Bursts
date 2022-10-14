@@ -43,7 +43,7 @@ zScore = {true, false};
 
 
 for Indx_Z = 1:numel(zScore)
-    Z = zScore(Indx_Z);
+    Z = zScore{Indx_Z};
     if Z
         Score =  'zscore';
     else
@@ -53,6 +53,7 @@ for Indx_Z = 1:numel(zScore)
     for Indx_V = 1:numel(Variables)
 
         Data = nan(numel(Participants), numel(Sessions), numel(Tasks), numel(Bands));
+        
         for Indx_B = 1:numel(Bands)
             Variable = Variables{Indx_V};
             Matrix = bursttable2matrix(BurstTable(BurstTable.FreqType == Indx_B, :), ...
@@ -63,7 +64,7 @@ for Indx_Z = 1:numel(zScore)
 
         % save
 
-        save(fullfile(Paths.Pool, [TitleTag, '_', Score, VariableNames{Indx_V}]), 'Data')
+        save(fullfile(Paths.Pool, [TitleTag, '_', Score, VariableNames{Indx_V}, '.mat']), 'Data')
     end
 end
 
