@@ -233,3 +233,16 @@ xlim([1 12])
 set(gca, 'FontName', PlotProps.Text.FontName, 'FontSize', PlotProps.Text.AxisSize)
 
 saveFig([TitleTag, '_SWA_seasons'], Paths.Paper, PlotProps)
+
+
+%% age
+
+Age =  [23 23 21 23 25 23 20 20 nan 22 26 23 nan 23 22 18 24 22 ]';
+
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.5 PlotProps.Figure.Height*0.2])
+scatter(Age, SWA, 100, PlotProps.Color.Participants, 'filled')
+title('SWA by age')
+% xlim([1 12])
+set(gca, 'FontName', PlotProps.Text.FontName, 'FontSize', PlotProps.Text.AxisSize)
+
+saveFig([TitleTag, '_SWA_age'], Paths.Paper, PlotProps)
