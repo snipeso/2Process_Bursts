@@ -48,6 +48,14 @@ save(fullfile(Paths.Pool, [TitleTag, '_meanDiameter.mat']), 'Data')
 Data = sdAllDiameters; % P x S x T
 save(fullfile(Paths.Pool, [TitleTag, '_stdDiameter.mat']), 'Data')
 
+% z-scored mean diameter
+Data = zAllDiameters; % P x S x T
+save(fullfile(Paths.Pool, [TitleTag, '_z-scoredmeanDiameter.mat']), 'Data')
+
+% z-scored standard deviation of diameter
+Data = zsdAllDiameters; % P x S x T
+save(fullfile(Paths.Pool, [TitleTag, '_z-scoredstdDiameter.mat']), 'Data')
+
 % AuC
 Data = AuC; % P x S
 save(fullfile(Paths.Pool, [TitleTag, '_AuC.mat']), 'Data')
