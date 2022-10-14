@@ -9,7 +9,6 @@ P = analysisParameters();
 Paths = P.Paths;
 Participants = P.Participants;
 Sessions = P.Sessions;
-PlotProps = P.Manuscript;
 Labels = P.Labels;
 StatsP = P.StatsP;
 Tasks = P.Tasks;
