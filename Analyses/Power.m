@@ -1,8 +1,8 @@
 % Power over time
 
-% clear
-% clc
-% close all
+clear
+clc
+close all
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Parameters
