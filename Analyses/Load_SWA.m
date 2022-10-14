@@ -156,11 +156,12 @@ saveFig([TitleTag, '_spectrums_SD'], Paths.Paper, PlotProps)
 
 Grid = [1 numel(Nights)];
 yLims = [0 70];
+% yLims = [-1.2 2.5];
 figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.35])
 
 for Indx_N = 1:numel(Nights)
 
-    %        Data = squeeze(bData(:, Indx_N, :));
+%            Data = squeeze(bData(:, Indx_N, :));
     Data = squeeze(raw_bData(:, Indx_N, :));
     A = subfigure([], Grid, [1, Indx_N], [], true, ...
         PlotProps.Indexes.Letters{Indx_N}, PlotProps);
@@ -169,7 +170,7 @@ for Indx_N = 1:numel(Nights)
     ylim(yLims)
 end
 
-saveFig([TitleTag, '_SWA_overnight'], Paths.Paper, PlotProps)
+saveFig([TitleTag, '_SWA_overnight_z'], Paths.Paper, PlotProps)
 
 %%
 figure
