@@ -5,7 +5,7 @@ clear
 clc
 close all
 
-P = analysisParameters();
+P= analysisParameters();
 Tasks = P.Tasks;
 PlotProps = P.Manuscript;
 Paths = P.Paths;
@@ -163,16 +163,16 @@ load(fullfile('E:\Data\Preprocessed\Clean\Waves', Task, [Participant, '_', Task,
 
 % assign conventional labels
 for Indx_B = 1:numel(Bursts)
-    P = 1/Bursts(Indx_B).Mean_period;
-    if P > 4 && P <=6
+    Period = 1/Bursts(Indx_B).Mean_period;
+    if Period > 4 && Period <=6
         Bursts(Indx_B).FinalBand = '4-6 Hz';
-    elseif  P > 6 && P <= 9
+    elseif  Period > 6 && Period <= 9
         Bursts(Indx_B).FinalBand = '6-9 Hz';
-    elseif P > 9 && P<=11
+    elseif Period > 9 && Period<=11
         Bursts(Indx_B).FinalBand = '9-11 Hz';
-    elseif P<= 4
+    elseif Period<= 4
         Bursts(Indx_B).FinalBand = '< 4 Hz';
-    elseif P >11
+    elseif Period >11
 
         Bursts(Indx_B).FinalBand = '> 11 Hz';
     end
@@ -194,3 +194,30 @@ plotExampleBurstData(EEG, 20, Bursts, 'FinalBand', Colors, PlotProps)
 ylim([-10 2500])
 xlabel('time (s)')
 saveFig('Example_Data', Paths.Paper, PlotProps)
+
+
+%% plot distribution for presentations
+
+Indx_P = 2;
+Indx_S = 2;
+Indx_T = 2;
+
+xLims = [4 12];
+PlotProps = P.Powerpoint;
+PlotProps.Patch.Alpha = 1;
+
+figure('Units','normalized', 'Position',[0 0 .3 .5])
+ Data = squeeze(Totals(Indx_P, Indx_S, Indx_T, :))';
+
+
+        plotZiggurat(Data', 'Frequency', FreqEdges(1:end-1), 'Bursts/min', ...
+            getColors(1, '', 'blue'), '', PlotProps)
+  xlim(xLims)
+saveFig(strjoin({'Demo', 'Tots'}, '_'), Paths.Powerpoint, PlotProps)
+
+  figure('Units','normalized', 'Position',[0 0 .3 .5])
+  Data = squeeze(Amps(Indx_P, Indx_S, Indx_T, :));
+        plotZiggurat(Data, 'Frequency', FreqEdges(1:end-1), 'Amplitude (\muV)', ...
+            getColors(1, '', 'yellow'), '', PlotProps)
+        xlim(xLims)
+saveFig(strjoin({'Demo', 'Amps'}, '_'), Paths.Powerpoint, PlotProps)
