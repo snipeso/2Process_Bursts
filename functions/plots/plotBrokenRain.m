@@ -5,7 +5,7 @@ function plotBrokenRain(Data, YLabels, YLims, Colors, Legend, PlotProps)
 XPoints = [-8 -4 0 4 7 10 14.5 17.5 20 23 26.5 30];
 TaskWidth = 0.6;
 
-XLabels = {'BL 23:00', 'BL 10:00', '23:00', '4:00', '7:00', '10:00', ...
+XLabels = {'BL 23:00', 'BL 10:00', 'Pre (23:00)', '4:00', '7:00', '10:00', ...
     '15:00', '17:30', '20:00', '23:00', '2:40', 'Post'};
 Dots = ':';
 

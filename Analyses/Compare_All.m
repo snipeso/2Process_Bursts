@@ -105,7 +105,7 @@ for Indx_C = 1:numel(CategoryNames)
                     Name =  cat(1, Name, strjoin({CategoryNames{Indx_C}, V{Indx_V}, BandLabels{Indx_B}, Tasks{Indx_T}}, ' '));
                     Indx = Indx+1;
 
-                    WMZ_Points = cat(3, WMZ_Points, squeeze(Data(:, WMZ_Indexes, Indx_T, Indx_B)));
+                    WMZ_Points = cat(3, WMZ_Points, Sign*squeeze(Data(:, WMZ_Indexes, Indx_T, Indx_B)));
                 end
             end
 
@@ -125,7 +125,7 @@ for Indx_C = 1:numel(CategoryNames)
                 SD_Colors = cat(1, SD_Colors, ColorCategories(Indx_C, :));
                 Indx = Indx+1;
 
-                WMZ_Points = cat(3, WMZ_Points, squeeze(Data(:, WMZ_Indexes, Indx_T)));
+                WMZ_Points = cat(3, WMZ_Points, Sign*squeeze(Data(:, WMZ_Indexes, Indx_T)));
             end
 
             Color = repmat(Color, numel(Tasks), 1);
@@ -136,7 +136,7 @@ for Indx_C = 1:numel(CategoryNames)
             Name = strjoin({CategoryNames{Indx_C}, V{Indx_V}}, ' ');
             Indx = Indx+1;
 
-            WMZ_Points = Data(:, WMZ_Indexes);
+            WMZ_Points = Sign*Data(:, WMZ_Indexes);
 
         end
 
@@ -192,8 +192,8 @@ Stats = corrAll(Data(:, Order), Data(:, Order), '', '', '', ...
 
 % calculate changes
 Stats = pairedttest(WMZ, noWMZ, StatsP);
-% [~, Order] = sort(abs(Stats.hedgesg), 'descend');
-Order = 1:numel(WMZ_Names);
+[~, Order] = sort(abs(Stats.hedgesg), 'descend');
+% Order = 1:numel(WMZ_Names);
 
 Data =  squeeze(noWMZ - WMZ);
 
@@ -217,6 +217,6 @@ title('SD effect', 'FontSize',PlotProps.Text.TitleSize)
 
 Axes = subfigure([], Grid, [1 2], [1 3], true, PlotProps.Indexes.Letters{2}, PlotProps);
 Stats = corrAll(Data(:, Order), Data(:, Order), '', '', '', ...
-    WMZ_Names(Order), StatsP, PlotProps, '');
+    WMZ_Names(Order), StatsP, PlotProps, 'FDR');
 
 

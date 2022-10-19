@@ -59,6 +59,8 @@ Paths.Results = fullfile(Core, 'Results', '2process_Bursts');
 Paths.Pool = fullfile(Paths.Data, 'All_2processBursts');
 Paths.Scoring = fullfile(Core, 'Scoring');
 Paths.Paper = 'C:\Users\colas\Dropbox\Research\Publications and Presentations\Sleep\Paper3\Figures';
+Paths.Powerpoint = 'C:\Users\colas\Dropbox\Research\Projects\HuberSleepLab\LSM\Repeat Figures\MatlabFigures';
+
 
 % if eeglab has not run, run it so all the subdirectories get added
 if ~exist('topoplot', 'file')
