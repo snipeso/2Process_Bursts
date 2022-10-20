@@ -14,9 +14,9 @@ StatsP = P.StatsP;
 Tasks = P.Tasks;
 TaskColors = P.TaskColors;
 Bands = P.Bands;
-BandLabels = fieldnames(Bands);
+BandLabels = lower(fieldnames(Bands));
 
-
+TitleTag = 'EffectSizes';
 Categories = struct();
 
 Categories.Sleep = {'SOL', 'NREM3'};
@@ -28,8 +28,20 @@ Categories.Pupillometry = {'meanDiameter', 'stdDiameter'};
 Categories.Microsleeps = {'prcntMicrosleep', 'nBlinks'};
 Categories.Behavior = {'meanRT', 'stdRT', 'performance'};
 Categories.Questionnaires = {'sleepPropensity', 'focus', 'motivation', 'alertness', ...
-    'KSS', 'psychTiredness', 'thirsty', 'spiritTiredness', 'difficultyWake', 'enjoyment', ...
-    'tolerance', 'emotionalTiredness', 'difficultyFixating', 'generalFeeling'};
+    'KSS', 'difficultyWake', ...
+    'tolerance', 'difficultyFixating', 'generalFeeling'};
+
+VariableNames.Sleep = Categories.Sleep;
+VariableNames.SWA = { 'SWA'};
+VariableNames.Power = {'Power'};
+VariableNames.Bursts = {'# bursts', 'Amplitude'};
+VariableNames.Pupillometry = {'Mean diameter', 'Std diameter'};
+VariableNames.Microsleeps = {'% Microsleep', '# blinks'};
+VariableNames.Behavior = {'Mean RT', 'Std RT', 'Performance'};
+VariableNames.Questionnaires = {'Sleep propensity', 'Focus', 'Motivation', 'Alertness', ...
+    'KSS', 'Difficulty wake',  ...
+    'Tolerance', 'Difficulty fixating', 'Mood'};
+
 
 Signs.Sleep = [-1 1];
 Signs.SWA = 1;
@@ -38,7 +50,7 @@ Signs.Bursts = [1 1];
 Signs.Pupillometry = [-1 1];
 Signs.Microsleeps = [1 1];
 Signs.Behavior = [1 1 -1];
-Signs.Questionnaires = [1 -1 -1 -1, 1 -1 -1 -1 1 -1, 1 -1 1 -1];
+Signs.Questionnaires = [1 -1 -1 -1, 1  1, 1 1 -1];
 
 
 
@@ -53,6 +65,9 @@ ColorCategories = [ .5 .5 .5; % dark blue for sleep architecture
 
 
 CategoryNames = fieldnames(Categories);
+CategoryNames_Disp  = {'sa', 'pw', 'pw', 'bu', 'pu', 'et', 'be', 'qu'};
+
+
 
 %% gather data
 
@@ -88,7 +103,7 @@ for Indx_C = 1:numel(CategoryNames)
             SD(:, :, Indx, 2) = Sign*zData(:, [2 3]);
 
             % assemble "metadata"
-            Name =  ['Sleep ', V{Indx_V}];
+            Name =  [VariableNames.(CategoryNames{Indx_C}){Indx_V}, ' (', CategoryNames_Disp{Indx_C} , ')'];
             Indx = Indx+1;
             WMZ_Points = [];
 
@@ -107,7 +122,7 @@ for Indx_C = 1:numel(CategoryNames)
 
 
             % assemble "metadata"
-            Name =  'SWA';
+            Name =  ['SWA (', CategoryNames_Disp{Indx_C}, ')'];
             Indx = Indx+1;
             WMZ_Points = [];
 
@@ -134,7 +149,7 @@ for Indx_C = 1:numel(CategoryNames)
                     end
 
                     WMZ_Points = cat(3, WMZ_Points, WMZ_temp); % TODO, one day fix, there's probably a better way
-                    Name =  cat(1, Name, strjoin({CategoryNames{Indx_C}, BandLabels{Indx_B}, Tasks{Indx_T}}, ' '));
+                    Name =  cat(1, Name, strjoin({BandLabels{Indx_B}, Tasks{Indx_T}, ['(', CategoryNames_Disp{Indx_C}, ')']}, ' '));
                     Indx = Indx+1;
                 end
             end
@@ -160,7 +175,7 @@ for Indx_C = 1:numel(CategoryNames)
                     WMZ_Points = cat(3, WMZ_Points, WMZ_temp);
 
                     % metadata
-                    Name =  cat(1, Name, strjoin({CategoryNames{Indx_C}, V{Indx_V}, BandLabels{Indx_B}, Tasks{Indx_T}}, ' '));
+                    Name =  cat(1, Name, strjoin({VariableNames.(CategoryNames{Indx_C}){Indx_V}, BandLabels{Indx_B}, Tasks{Indx_T},  ['(', CategoryNames_Disp{Indx_C}, ')']}, ' '));
                     Indx = Indx+1;
 
                 end
@@ -189,7 +204,7 @@ for Indx_C = 1:numel(CategoryNames)
                 WMZ_Points = cat(3, WMZ_Points, WMZ_temp);
 
                 % save metadata
-                Name =  cat(1, Name, strjoin({CategoryNames{Indx_C}, V{Indx_V}, Tasks{Indx_T}}, ' '));
+                Name =  cat(1, Name, strjoin({VariableNames.(CategoryNames{Indx_C}){Indx_V}, Tasks{Indx_T},  ['(', CategoryNames_Disp{Indx_C}, ')']}, ' '));
                 Indx = Indx+1;
 
             end
@@ -211,7 +226,7 @@ for Indx_C = 1:numel(CategoryNames)
             WMZ_Points = cat(4, Sign*Data(:, WMZ_Indexes), Sign*zData(:, WMZ_Indexes));
 
             % metadata
-            Name = strjoin({CategoryNames{Indx_C}, V{Indx_V}}, ' ');
+            Name = strjoin({VariableNames.(CategoryNames{Indx_C}){Indx_V},  ['(', CategoryNames_Disp{Indx_C}, ')']}, ' ');
             Indx = Indx+1;
 
         end
@@ -233,21 +248,34 @@ end
 [zWMZ, znoWMZ] = WMZinterp(squeeze(WMZ_Data(:, :, :, 2)));
 
 WMZ = cat(3, WMZ, zWMZ);
-nowWMZ = cat(3, noWMZ, znoWMZ);
+noWMZ = cat(3, noWMZ, znoWMZ);
 
 %% plot effect sizes
 
 Grid = [1, 4];
 PlotProps = P.Manuscript;
+PlotProps.Scatter.Size = 10;
+PlotProps.Line.Width = 1;
 
-% figure('units','centimeters','position',[0 0 PlotProps.Figure.Width, PlotProps.Figure.Height*1.3])
-figure('units', 'normalized', 'outerposition', [0 0 .5 1])
+figure('units','centimeters','position',[0 0 PlotProps.Figure.Width*1.3, PlotProps.Figure.Height*.9])
+% figure('units', 'normalized', 'outerposition', [0 0 .5 1])
 
-subfigure([], Grid, [1, 2], [], true, PlotProps.Indexes.Letters{1}, PlotProps);
+A = subfigure([], Grid, [1, 2], [], true, '', PlotProps);
+A.Position(1) =  A.Position(1)-.1;
+A.Position(3) = A.Position(3)+.1;
 Stats = plotEffectSizes(SD, 'vertical', true, SD_Colors, SD_Names, ...
     {'Raw', 'Z-scored'}, PlotProps, StatsP, Labels);
-% 
-% Stats = plotEffectSizes(SD, 'vertical', false, SD_Colors, SD_Names, ...
-%     {'Raw', 'Z-scored'}, PlotProps, StatsP, Labels);
-legend( {'Raw', 'Z-scored'}, 'location', 'southeast')
+title('A: Sleep Deprivation', 'FontSize', PlotProps.Text.TitleSize)
 
+legend off
+
+Data = permute(cat(4, WMZ, noWMZ), [1 4, 2, 3]);
+
+A = subfigure([], Grid, [1, 4], [], true, '', PlotProps);
+A.Position(1) =  A.Position(1)-.1;
+A.Position(3) = A.Position(3)+.1;
+Stats = plotEffectSizes(Data, 'vertical', true, WMZ_Colors, WMZ_Names, ...
+    {'Raw', 'Z-scored'}, PlotProps, StatsP, Labels);
+title('B: WMZ', 'FontSize', PlotProps.Text.TitleSize)
+legend( {'Raw', 'Z-scored'}, 'location', 'southeast')
+saveFig(TitleTag, Paths.Paper, PlotProps)

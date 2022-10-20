@@ -37,7 +37,13 @@ end
 
 ylabel(Labels.ES)
 
-Ticks = -10:1:10;
+if max(abs(Stats.hedgesgCI(:)))>5
+    Ticks = -10:1:10;
+else
+    Ticks = -10:.5:10;
+end
+
+
 yticks(Ticks)
 yticklabels(Ticks)
 set(gca, 'YGrid', 'on')
