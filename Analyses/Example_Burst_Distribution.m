@@ -181,6 +181,8 @@ end
 
 %%
 
+PlotProps = P.Manuscript;
+
 Colors = [
     getColors(1, '', 'blue'); 
     getColors(1, '', 'green'); 
