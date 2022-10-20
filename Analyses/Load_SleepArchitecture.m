@@ -77,9 +77,9 @@ disp(Table)
 %% save to pool
 
 % SOL
-Data = squeeze(Matrix(:, [2 3], strcmp(Labels, 'sol')));
+Data = squeeze(Matrix(:, :, strcmp(Labels, 'sol')));
 save(fullfile(Paths.Pool, 'Sleep_SOL.mat'), 'Data')
 
 % SOL
-Data = squeeze(Matrix(:, [2 3], strcmp(Labels, 'n3')));
+Data = squeeze(Matrix(:, :, strcmp(Labels, 'n3')));
 save(fullfile(Paths.Pool, 'Sleep_NREM3.mat'), 'Data')
