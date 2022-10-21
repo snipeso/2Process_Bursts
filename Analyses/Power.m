@@ -54,7 +54,7 @@ bData = bandData(chData, Freqs, Bands, 'last');
 
 %% Power by session
 
-ChLabels = fieldnames(Channels.(ROI));
+% ChLabels = fieldnames(Channels.(ROI));
 PlotProps = P.Manuscript;
 PlotProps.Axes.xPadding = 30;
 PlotProps.Axes.yPadding = 30;
@@ -86,8 +86,8 @@ for Indx_B = 1:numel(BandLabels)
     ylabel(YLabel)
 
     %         yticks(round(YLim(Indx_B, 1)):1:YLim(Indx_B, 2))
-    % title([BandLabels{Indx_B}, ' ', ChLabels{Ch_Indx(Indx_B)}])
-    title([BandLabels{Indx_B}])
+%     title([BandLabels{Indx_B}, ' (', ChLabels{Ch_Indx(Indx_B)}, ')'])
+    title([BandLabels{Indx_B}], 'FontSize', PlotProps.Text.TitleSize)
     if Indx_B~=2
         legend off
     end

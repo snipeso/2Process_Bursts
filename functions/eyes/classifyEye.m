@@ -21,7 +21,7 @@ for Indx_D = 1:numel(Durations)
     end
 end
 
-% find all EO < 50ms
+% find all EC < 50ms
 [Starts, Ends] = data2windows(not(EyeOpen));
 Durations = (Ends - Starts)/fs;
 
