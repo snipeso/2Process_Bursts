@@ -207,19 +207,25 @@ Indx_T = 2;
 xLims = [4 12];
 PlotProps = P.Powerpoint;
 PlotProps.Patch.Alpha = 1;
+PlotProps.Color.Background = 'none';
 
-figure('Units','normalized', 'Position',[0 0 .3 .5])
+
+  figure('Units','normalized', 'Position',[0 0 .2 .3])
+  axis square
  Data = squeeze(Totals(Indx_P, Indx_S, Indx_T, :))';
 
 
         plotZiggurat(Data', 'Frequency', FreqEdges(1:end-1), 'Bursts/min', ...
             getColors(1, '', 'blue'), '', PlotProps)
   xlim(xLims)
+  xticks(4:2:12)
 saveFig(strjoin({'Demo', 'Tots'}, '_'), Paths.Powerpoint, PlotProps)
 
-  figure('Units','normalized', 'Position',[0 0 .3 .5])
+  figure('Units','normalized', 'Position',[0 0 .2 .3])
+  axis square
   Data = squeeze(Amps(Indx_P, Indx_S, Indx_T, :));
         plotZiggurat(Data, 'Frequency', FreqEdges(1:end-1), 'Amplitude (\muV)', ...
             getColors(1, '', 'yellow'), '', PlotProps)
+        xticks(4:2:12)
         xlim(xLims)
 saveFig(strjoin({'Demo', 'Amps'}, '_'), Paths.Powerpoint, PlotProps)
