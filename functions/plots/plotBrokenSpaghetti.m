@@ -21,7 +21,7 @@ end
 % set y axis
 if~isempty(YLims)
     ylim(YLims)
-    
+
     if ~isempty(YLabels)
         yticks(linspace(YLims(1), YLims(2), numel(YLabels)))
         yticklabels(YLabels)
@@ -31,6 +31,7 @@ end
 Dims = size(Data);
 
 % assign rainbow colors if none are provided
+OriginalColors = Colors;
 if isempty(Colors)
     Colors = reduxColormap(PlotProps.Color.Maps.Rainbow, Dims(1));
 end
@@ -65,7 +66,10 @@ end
 TotGroups = size(ColorGroups, 1);
 
 % get means
-if TotGroups == Dims(1) % if there's one color per participant, so no special groups
+if numel(Dims)<3 && Dims(1)==1
+    MEANS = Data;
+    ColorGroups = OriginalColors;
+elseif TotGroups == Dims(1) % if there's one color per participant, so no special groups
 
     MEANS = mean(Data, 1, 'omitnan');
     ColorGroups = [0 0 0];
