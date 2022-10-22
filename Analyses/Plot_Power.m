@@ -62,6 +62,21 @@ end
 saveFig(TitleTag, Paths.Paper, PlotProps)
 
 
+%% Power band stats
+
+for Indx_B = 1:numel(BandLabels)
+
+    % gather data
+    Data = squeeze(Power(:, :, :, Indx_B));
+
+    
+
+end
+
+
+
+
+
 %% plot spectrograms
 
 PlotProps = P.Manuscript;
