@@ -19,6 +19,7 @@ XLabels = Labels.Sessions;
 
 TitleTag = 'Pupillometry';
 
+SmoothFactor=.2; % for response plots
 
 % load diameter
 Path = fullfile(Paths.Preprocessed, 'Pupils', 'Clean');
@@ -31,10 +32,11 @@ zsdAllDiameters = zScoreData(sdAllDiameters, 'first');
 Path = fullfile(Paths.Preprocessed, 'Pupils', 'Clean', 'Oddball');
 [Timecourse, t, AverageBaselines, MissingData] = getPupilOddball(Path, Participants, Sessions);
 
-zTimecourse = zScoreData(Timecourse, 'first');
+sTimecourse = smoothFreqs(Timecourse, t, 'last', SmoothFactor);
+zTimecourse = zScoreData(sTimecourse, 'first');
 
 % area under the curve
-Range = [0.5 1.8];
+Range = [0.5 2];
 [AuC] = extractOddballValues(Timecourse, t, Range); 
 [zAuC] = extractOddballValues(zTimecourse, t, Range); 
 

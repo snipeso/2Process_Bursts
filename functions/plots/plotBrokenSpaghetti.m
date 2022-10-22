@@ -123,4 +123,4 @@ if Flip && mean(MEANS(:, 11))<mean(MEANS(:, 4)) % if SD is lower than BL
 end
 
 
-set(gca, 'FontName', PlotProps.Text.FontName, 'FontSize', PlotProps.Text.AxisSize)
+setAxisProperties(PlotProps)

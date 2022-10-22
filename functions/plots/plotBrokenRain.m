@@ -85,6 +85,6 @@ xticks(XPoints)
 xticklabels(XLabels)
 
 
-set(gca, 'FontName', PlotProps.Text.FontName, 'FontSize', PlotProps.Text.AxisSize)
+setAxisProperties(PlotProps)
 
 legend(Legend)

@@ -21,6 +21,9 @@ meanDiameter = Data;
 load(fullfile(Paths.Pool, 'Pupillometry_z-scoredstdDiameter.mat'), 'Data')
 stdDiameter = Data;
 
+load(fullfile(Paths.Pool, 'Pupillometry_zAuC.mat'), 'Data')
+AuC = Data;
+
 
 %% plot diameter across sessions
 
@@ -87,5 +90,11 @@ for Indx_S = 1:numel(S_Indexes)
     Stats = pairedttest(Data1, Data2, StatsP);
     dispStat(Stats, [1 1], S_Labels{Indx_S})
 end
+
+
+%% special stats for AUC where data was available
+
+
+% 
 
 
