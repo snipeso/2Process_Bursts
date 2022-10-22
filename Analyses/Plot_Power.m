@@ -63,14 +63,18 @@ saveFig(TitleTag, Paths.Paper, PlotProps)
 
 
 %% Power band stats
+clc
 
 for Indx_B = 1:numel(BandLabels)
+    for Indx_T = 1:numel(Tasks)
+
+        disp(strjoin({Tasks{Indx_T}, BandLabels{Indx_B}}, ' '))
 
     % gather data
-    Data = squeeze(Power(:, :, :, Indx_B));
-
-    
-
+    Data = squeeze(Power(:, :, Indx_T, Indx_B));
+ Stats = standardStats(Data, StatsP);
+    end
+    disp('******')
 end
 
 
@@ -122,7 +126,7 @@ for Indx_Ch = 1:numel(ChLabels)
         A.Children(4).LineStyle = ':';
 
         if Indx_T ==1 && Indx_Ch==numel(ChLabels)
-            legend(['4:00', repmat({''}, 1, 5),'WMZ', '2:40'])
+            legend(['SD1', repmat({''}, 1, 5),'WMZ', 'SD8'])
         end
 
     end
