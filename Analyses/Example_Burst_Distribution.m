@@ -12,7 +12,7 @@ Paths = P.Paths;
 
 Participants = {'P15', 'P16'};
 Sessions = {'Main1', 'Main8'};
-SessionLabels = {'Start', 'End'};
+SessionLabels = {'SD1', 'SD8'};
 
 
 FreqEdges = 2:.25:14;
@@ -104,7 +104,8 @@ Colors(1, :, :) = repmat([.5 .5 .5], 3, 1);
 % Colors = cat(2, Colors, repmat(PlotProps.Color.Generic, numel(Participants), 1));
 
 Indx = 1;
-figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width, PlotProps.Figure.Height*.7])
+figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.1, ...
+    PlotProps.Figure.Height*.65])
 
 %%% plot histogram of # bursts per minute per frequency for each task
 for Indx_T = 1:numel(Tasks)
@@ -124,7 +125,7 @@ for Indx_T = 1:numel(Tasks)
         if Indx_T ~= 1
             ylabel('')
         end
-        title(Tasks{Indx_T})
+        title(Tasks{Indx_T}, 'FontSize', PlotProps.Text.TitleSize)
 
         if Indx_P ==2 || Indx_T>1
             legend off

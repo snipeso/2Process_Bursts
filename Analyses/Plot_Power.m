@@ -70,9 +70,9 @@ for Indx_B = 1:numel(BandLabels)
 
         disp(strjoin({Tasks{Indx_T}, BandLabels{Indx_B}}, ' '))
 
-    % gather data
-    Data = squeeze(Power(:, :, Indx_T, Indx_B));
- Stats = standardStats(Data, StatsP);
+        % gather data
+        Data = squeeze(Power(:, :, Indx_T, Indx_B));
+        Stats = standardStats(Data, StatsP);
     end
     disp('******')
 end
@@ -98,8 +98,8 @@ Colors = flip(flip(getColors([numel(Tasks), numel(Sessions)-3]), 3), 1);
 figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Width*.75])
 for Indx_Ch = 1:numel(ChLabels)
     for Indx_T = 1:numel(Tasks)
-        
-       subfigure([], Grid, [Indx_Ch, Indx_T], [], false, ...
+
+        subfigure([], Grid, [Indx_Ch, Indx_T], [], false, ...
             '', PlotProps);
 
         Data = squeeze(Spectrum(:, 4:11, Indx_T, Indx_Ch, :));
@@ -107,7 +107,7 @@ for Indx_Ch = 1:numel(ChLabels)
         legend off
 
         if Indx_Ch == 1
-        title(Tasks{Indx_T})
+            title(Tasks{Indx_T})
         end
 
         ylim(YLim)
