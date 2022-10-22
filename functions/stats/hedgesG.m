@@ -13,20 +13,27 @@ if nargin == 2 % if only one data matrix is provided
         for Indx2 = Indx1+1:Dims(2)
             D1 = squeeze(Data1(:, Indx1));
             D2 = squeeze(Data1(:, Indx2));
-            stats = mes(D2, D1, Data2.Paired.ES, 'isDep', 1, 'nBoot', Data2.ANOVA.nBoot); % bit of a hack, there's probably a nicer way to do this
-            gValues(Indx1, Indx2) = stats.hedgesg;
-            CI(Indx1, Indx2, :) = stats.hedgesgCi;
+
+            if sum(nnz(not(isnan(D2)|isnan(D1)))) > 3
+                stats = mes(D2, D1, Data2.Paired.ES, 'isDep', 1, 'nBoot', Data2.ANOVA.nBoot); % bit of a hack, there's probably a nicer way to do this
+                gValues(Indx1, Indx2) = stats.hedgesg;
+                CI(Indx1, Indx2, :) = stats.hedgesgCi;
+
+            else % if too few datapoints
+                gValues(Indx1, Indx2) = nan;
+                CI(Indx1, Indx2, :) = nan;
+            end
         end
     end
-    
-    
-    
+
+
+
 elseif nargin == 3 % if two matrices are provided
-    
+
     if numel(Dims) == 3
         gValues = nan(Dims(2), Dims(3));
         CI = nan(Dims(2), Dims(3), 2);
-        
+
         for Indx1 = 1:Dims(2)
             for Indx2 = 1:Dims(3)
                 D1 = squeeze(Data1(:, Indx1, Indx2));
@@ -36,12 +43,12 @@ elseif nargin == 3 % if two matrices are provided
                 CI(Indx1, Indx2, :) = stats.hedgesgCi;
             end
         end
-        
+
     elseif numel(Dims) == 2
-        
+
         gValues = nan(Dims(2), 1);
         CI = nan(Dims(2), 2);
-        
+
         for Indx1 = 1:Dims(2)
             D1 = squeeze(Data1(:, Indx1));
             D2 = squeeze(Data2(:, Indx1));
@@ -49,8 +56,8 @@ elseif nargin == 3 % if two matrices are provided
             gValues(Indx1) = stats.hedgesg;
             CI(Indx1, :) = stats.hedgesgCi;
         end
-        
-        
+
+
     end
 else
     error('Too few inputs')
