@@ -88,4 +88,4 @@ AllBursts.Duration = (AllBursts.All_End - AllBursts.All_Start)/EEG.srate;
 %%% In case I don't use all the sessions
 
 Missing = squeeze(Missing);
-Durations = squeeze(Durations);
+Durations = squeeze(Durations); % TOCKECK??? Shouldn't this be the EEG's duration?
