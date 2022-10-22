@@ -53,27 +53,65 @@ title('STD diameter')
 saveFig([TitleTag, 'Diameter'], Paths.Paper, PlotProps)
 
 
-%% stats
+%% mean diameter stats
 clc
 
 for Indx_T = 1:numel(Tasks)-1
-
     disp(strjoin({Tasks{Indx_T}, 'Mean'}, ' '))
 
     % gather data
     Data = squeeze(meanDiameter(:, :, Indx_T));
     Stats = standardStats(Data, StatsP);
+end
+disp('******')
 
+
+
+%% std diameter stats
+clc
+
+for Indx_T = 1:numel(Tasks)-1
     disp(strjoin({Tasks{Indx_T}, 'STD'}, ' '))
-
 
     % gather data
     Data = squeeze(stdDiameter(:, :, Indx_T));
     Stats = standardStats(Data, StatsP);
-
-
 end
 disp('******')
+
+
+%% AUC stats
+PlotProps = P.Manuscript;
+clc
+
+    disp('AUC')
+
+    % gather data
+    Data = AuC;
+    Stats = standardStats(Data, StatsP);
+
+disp('******')
+
+% get all pairwise stats
+figure;
+Stats = plotBrokenSpaghetti(Data, [], [], StatsP, PlotProps.Color.Participants, false, PlotProps);
+
+
+% identify comparisons that have more than 10 participants
+MinN = 10;
+
+N = checkMissingComparisons(AuC);
+
+I = find(N>10);
+[r, c] = ind2sub([12, 12], I);
+
+for Indx_I = 1:numel(I)
+    dispStat(Stats, [r(Indx_I), c(Indx_I)], ...
+        strjoin({Sessions{r(Indx_I)}, 'vs', Sessions{c(Indx_I)}}, ' '))
+end
+
+
+
 
 
 %% special comparison of oddball vs fixation for 23:00 recordings
@@ -90,11 +128,4 @@ for Indx_S = 1:numel(S_Indexes)
     Stats = pairedttest(Data1, Data2, StatsP);
     dispStat(Stats, [1 1], S_Labels{Indx_S})
 end
-
-
-%% special stats for AUC where data was available
-
-
-% 
-
 

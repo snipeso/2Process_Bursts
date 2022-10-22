@@ -17,6 +17,7 @@ XLabels = Labels.Sessions;
 TitleTag = 'Pupillometry';
 
 
+%%
 % pupil diameter
 Path = fullfile(Paths.Preprocessed, 'Pupils', 'Clean');
 [AllDiameters, sdAllDiameters, AllPUI] = getPupilDiameter(Path, Participants, Sessions, Tasks);
@@ -68,7 +69,7 @@ saveFig([TitleTag, 'Diameter'], Paths.Paper, PlotProps)
 Path = fullfile(Paths.Preprocessed, 'Pupils', 'Clean', 'Oddball');
 [Timecourse, t, AverageBaselines, MissingData] = getPupilOddball(Path, Participants, Sessions);
 
-%%
+
 SmoothFactor=.2; % for spectral plots
 sTimecourse = smoothFreqs(Timecourse, t, 'last', SmoothFactor);
 
