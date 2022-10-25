@@ -9,9 +9,9 @@ BandLabels = fieldnames(Bands);
 
 % place to try different parameters for burst detection
 
-Task = 'Oddball'; % Game or PVT
-Session = 'Main7';
-Participant = 'P10';
+Task = 'PVT'; % Game or PVT
+Session = 'Session2Comp';
+Participant = 'P15';
 Filename_Source = strjoin({Participant, Task, Session, 'Clean.mat'}, '_');
 
 
@@ -88,7 +88,7 @@ end
 
 %% single channel
 
-Ch = 5;
+Ch = 11;
 Indx_B = 2;
 
 Ch = labels2indexes(Ch, EEG.chanlocs);

@@ -50,8 +50,8 @@ elseif exist( 'F:\Data\Raw', 'dir')
 elseif  exist( 'E:\Data\Raw', 'dir')
     Core = 'E:\Data\';
 else
-    error('no data disk!')
-% Core = 'E:\'
+%     error('no data disk!')
+Core = 'E:\'
 end
 
 Paths.Preprocessed = fullfile(Core, 'Preprocessed');
