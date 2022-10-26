@@ -42,8 +42,8 @@ for Indx_1 = 1:Grid(1)
         Data = Answers.(Q);
         A = subfigure([], Grid, [Indx_1, Indx_2], [], true, ...
             '', PlotProps);
-        A.Position(1) = A.Position(1)+.07;
-        A.Position(3) = A.Position(3)-.07;
+        A.Position(1) = A.Position(1)+.11;
+        A.Position(3) = A.Position(3)-.11;
         plotBrokenSpaghetti(Data, qL, [0 ceil(max(Data(:)))], [], PlotProps.Color.Participants, Flip, PlotProps)
 
         padAxis('y')
@@ -56,3 +56,10 @@ for Indx_1 = 1:Grid(1)
 end
 
 saveFig([TitleTag, '_main_raw'], Paths.Paper, PlotProps)
+
+
+%% stats
+
+
+zData = zScoreData(Answers.KSS, 'first');
+    Stats = standardStats(zData, StatsP);
