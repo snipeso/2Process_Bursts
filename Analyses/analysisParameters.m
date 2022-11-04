@@ -65,20 +65,19 @@ Paths.Scoring = fullfile(Core, 'Scoring');
 Paths.Paper = 'C:\Users\colas\Dropbox\Research\Publications and Presentations\Sleep\Paper3\Figures';
 Paths.Powerpoint = 'C:\Users\colas\Dropbox\Research\Projects\HuberSleepLab\LSM\Repeat Figures\MatlabFigures';
 
-
 % if eeglab has not run, run it so all the subdirectories get added
 if ~exist('topoplot', 'file')
     eeglab
     close all
 end
 
-P.Paths = Paths;
 
 addpath(genpath(extractBefore(mfilename('fullpath'), 'getParameters'))) % add current repo's functions
 
 % get path where these scripts were saved
 CD = mfilename('fullpath');
 Paths.Analysis = fullfile(extractBefore(CD, '2process_Bursts'), '2process_Bursts');
+Paths.Stats = fullfile(Paths.Analysis, 'Statistics');
 
 % get all folders in functions
 Subfolders = deblank(string(ls(fullfile(Paths.Analysis, 'functions')))); % all content
@@ -89,6 +88,7 @@ for Indx_F = 1:numel(Subfolders)
 end
 
 
+P.Paths = Paths;
 
 
 %%% chART stuff for plotting
