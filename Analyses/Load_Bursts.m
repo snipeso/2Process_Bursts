@@ -11,7 +11,7 @@ StatsP = P.StatsP;
 Tasks = P.Tasks;
 TaskColors = P.TaskColors;
 
-Refresh = false;
+Refresh = true;
 fs = 250;
 
 TitleTag = 'Bursts';
