@@ -12,12 +12,12 @@ Bands = Info.Bands;
 BandLabels = fieldnames(Bands);
 
 Tasks = Info.Tasks;
-Refresh = false;
+Tasks = {'Oddball'};
+Refresh = true;
 
 % Parameters for bursts
 BT = Info.BurstThresholds;
 Min_Peaks = Info.Min_Peaks;
-Max_Minutes = Info.Max_Minutes;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -64,8 +64,16 @@ for Indx_T = 1:numel(Tasks)
             Keep_Points = ones(1, EEG.pnts);
         end
 
-        % use only the first N minutes of data
-        Keep_Points(find(Keep_Points)>fs*60*Max_Minutes) = 0;
+        % If present, only use time within triggers
+        Labels = {EEG.event.type};
+        Timepoints = [EEG.event.latency];
+        StartEvents = find(strcmp(Labels, 'S192'), 1, 'first');
+        LastEvent = Timepoints(end);
+        
+        if ~isempty(StartEvents)
+        Keep_Points(1:Timepoints(StartEvents)) = 0;
+        end
+
 
         % need to concatenate structures
         FiltEEG = EEG;

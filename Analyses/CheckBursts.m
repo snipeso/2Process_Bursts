@@ -22,12 +22,17 @@ PlotProps.Line.Width = 0.5;
 
 Grid = [numel(Sessions), 1];
 
-for Indx_P = 1:numel(Participants)
+for Indx_P = 3:numel(Participants)
     for Indx_T = 1:numel(Tasks)
         Task = Tasks{Indx_T};
         figure('units', 'normalized', 'outerposition', [0 0 1 1])
 
         for Indx_S = 1:numel(Sessions)
+
+            if ~exist(fullfile('E:\Data\Final\EEG\Bursts\', Task, ...
+                strjoin({Participants{Indx_P}, Task, Sessions{Indx_S}, 'Bursts.mat'}, '_')), 'file')
+                continue
+            end
 
             load(fullfile('E:\Data\Final\EEG\Bursts\', Task, ...
                 strjoin({Participants{Indx_P}, Task, Sessions{Indx_S}, 'Bursts.mat'}, '_')), ...

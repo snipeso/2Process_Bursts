@@ -5,7 +5,12 @@ Legend = {};
 
 hold on
 for Indx_B = 1:numel(Bursts)
+    if isempty(Bursts(Indx_B).Mean_period)
+        Freq = 1/Bursts(Indx_B).period;
+        warning('empty burst?!')
+    else
     Freq = 1/Bursts(Indx_B).Mean_period;
+    end
 
     if Freq < 4
         Color = getColors(1, '', 'pink');
