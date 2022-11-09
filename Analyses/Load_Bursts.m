@@ -53,7 +53,7 @@ for Indx_Z = 1:numel(zScore)
     for Indx_V = 1:numel(Variables)
 
         Data = nan(numel(Participants), numel(Sessions), numel(Tasks), numel(Bands));
-        
+
         for Indx_B = 1:numel(Bands)
             Variable = Variables{Indx_V};
             Matrix = bursttable2matrix(BurstTable(BurstTable.FreqType == Indx_B, :), ...
@@ -63,8 +63,62 @@ for Indx_Z = 1:numel(zScore)
         end
 
         % save
-
         save(fullfile(Paths.Pool, [TitleTag, '_', Score, VariableNames{Indx_V}, '.mat']), 'Data')
     end
 end
+
+
+%%
+
+
+load(fullfile(Paths.Analysis, 'Chanlocs123.mat'))
+All_Amps = nan(numel(Participants), numel(Sessions), numel(Tasks), numel(Chanlocs), 2);
+All_Tots = All_Amps;
+
+for Indx_P = 1:numel(Participants)
+    for Indx_S = 1:numel(Sessions)
+        for Indx_T = 1:numel(Tasks)
+
+            for Indx_B = 1:2 % loop through frequencies
+
+                % load data
+                T = BurstTable(BurstTable.FreqType == Indx_B & strcmp(BurstTable.Participant, Participants{Indx_P}) & ...
+                    strcmp(BurstTable.Session, Sessions{Indx_S}) & strcmp(BurstTable.Task, Tasks{Indx_T}), :);
+
+                if isempty(T)
+                    continue
+                end
+
+                % allign all the channels involved with their average
+                % amplitudes and number of peaks
+                Ch = [T.Coh_Burst_Channels{:}];
+                Amps = [T.Coh_amplitude{:}];
+                Tots = [T.Coh_Burst_nPeaks{:}];
+
+                % for each channel, find out how many were involved in
+                % theta and alpha
+                for Indx_Ch = 1:numel(Chanlocs)
+
+                    Ch_Mean = mean(Amps(Ch==Indx_Ch), 'omitnan');
+                    Ch_Tot = sum(Tots(Ch==Indx_Ch), 'omitnan')/Durations(Indx_P, Indx_S, Indx_T);
+
+                    if Ch_Tot == 0
+                        Ch_Mean = 0;
+                    end
+
+                    All_Amps(Indx_P, Indx_S, Indx_T, Indx_Ch, Indx_B) = Ch_Mean;
+                    All_Tots(Indx_P, Indx_S, Indx_T, Indx_Ch, Indx_B)  = Ch_Tot;
+                end
+            end
+        end
+    end
+    disp(['Finished ', Participants{Indx_P}])
+end
+
+% save
+Data = All_Amps;
+save(fullfile(Paths.Pool, [TitleTag, '_Topo_Amplitude.mat']), 'Data', 'Chanlocs')
+
+Data = All_Tots;
+save(fullfile(Paths.Pool, [TitleTag, '_Topo_Tots.mat']), 'Data', 'Chanlocs')
 
