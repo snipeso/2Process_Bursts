@@ -35,4 +35,17 @@ for Indx_B = 1:2
         Table = table(Participants, Amps, Tots, 'VariableNames', {'Participant', 'Amplitude', 'Quantity'});
         writetable(Table, fullfile(Destination, [Tasks{Indx_T}, '_', Bands{Indx_B}, '_Bursts.csv']))
     end
+
+    % just baselines
+        Participants = repmat([1:17, 19]', numel(Tasks)-1, 1);
+        Amps = squeeze(AllAmps(:, 2, 1:2, Indx_B));
+        Amps = Amps(:);
+
+        Tots = squeeze(AllTots(:, 2, 1:2, Indx_B));
+        Tots = Tots(:);
+
+         Table = table(Participants, Amps, Tots, 'VariableNames', {'Participant', 'Amplitude', 'Quantity'});
+        writetable(Table, fullfile(Destination, [Bands{Indx_B}, '_BL_Bursts.csv']))
+
+
 end
