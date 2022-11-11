@@ -79,13 +79,13 @@ CD = mfilename('fullpath');
 Paths.Analysis = fullfile(extractBefore(CD, '2process_Bursts'), '2process_Bursts');
 Paths.Stats = fullfile(Paths.Analysis, 'Statistics');
 
-% get all folders in functions
-Subfolders = deblank(string(ls(fullfile(Paths.Analysis, 'functions')))); % all content
-Subfolders(contains(Subfolders, '.')) = []; % remove all files
+% % get all folders in functions
+% Subfolders = deblank(string(ls(fullfile(Paths.Analysis, 'functions')))); % all content
+% Subfolders(contains(Subfolders, '.')) = []; % remove all files
 
-for Indx_F = 1:numel(Subfolders)
-    addpath(fullfile(Paths.Analysis, 'functions', Subfolders{Indx_F}))
-end
+% for Indx_F = 1:numel(Subfolders)
+%     addpath(fullfile(Paths.Analysis, 'functions', Subfolders{Indx_F}))
+% end
 
 
 P.Paths = Paths;
