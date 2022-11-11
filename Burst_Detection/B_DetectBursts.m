@@ -13,7 +13,7 @@ BandLabels = fieldnames(Bands);
 
 Tasks = Info.Tasks;
 Tasks = {'Oddball'};
-Refresh = true;
+Refresh = false;
 
 % Parameters for bursts
 BT = Info.BurstThresholds;
@@ -48,6 +48,8 @@ for Indx_T = 1:numel(Tasks)
         if exist(fullfile(Destination, Filename_Destination), 'file') && ~Refresh
             disp(['Skipping ', Filename_Destination])
             continue
+        elseif contains(Filename_Source, 'P00')
+            continue
         else
             disp(['Loading ', Filename_Source])
         end
@@ -71,7 +73,11 @@ for Indx_T = 1:numel(Tasks)
         LastEvent = Timepoints(end);
         
         if ~isempty(StartEvents)
-        Keep_Points(1:Timepoints(StartEvents)) = 0;
+        Keep_Points(1:round(Timepoints(StartEvents))) = 0;
+        end
+
+        if ~isempty(LastEvent)
+ Keep_Points(round(LastEvent):end) = 0;
         end
 
 

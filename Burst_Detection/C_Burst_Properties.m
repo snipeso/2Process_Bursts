@@ -12,6 +12,7 @@ Bands = Info.Bands;
 MinCoherence = Info.MinCoherence; % TODO
 MinCorr = Info.MinCorr;
 Tasks = Info.Tasks;
+Tasks = {'Oddball'};
 
 Refresh = false;
 
