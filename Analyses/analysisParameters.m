@@ -72,7 +72,7 @@ if ~exist('topoplot', 'file')
 end
 
 
-addpath(genpath(extractBefore(mfilename('fullpath'), 'getParameters'))) % add current repo's functions
+addpath(genpath(fullfile(extractBefore(mfilename('fullpath'), 'Analyses'), 'functions'))) % add current repo's functions
 
 % get path where these scripts were saved
 CD = mfilename('fullpath');
