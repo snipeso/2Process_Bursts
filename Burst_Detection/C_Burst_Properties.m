@@ -9,10 +9,8 @@ Info = burstParameters();
 
 Paths = Info.Paths;
 Bands = Info.Bands;
-MinCoherence = Info.MinCoherence; % TODO
-MinCorr = Info.MinCorr;
 Tasks = Info.Tasks;
-Tasks = {'Oddball'};
+MinFreqRange = 0.5; % min difference in frequency from reference burst
 
 Refresh = false;
 
@@ -53,9 +51,12 @@ for Indx_T = 1:numel(Tasks)
         load(fullfile(Source_Bursts, Filename_Bursts), 'AllBursts', 'EEG')
         EEG.data = Data;
 
+        % get frequency of each burst
+        AllBursts = meanFreq(AllBursts);
+
         % assemble bursts
         if ~strcmp(Filename_EEG(1:3), 'P00') % skip null file, since it will not have simultaneous bursts
-            Bursts = aggregateBursts(AllBursts, EEG, MinCoherence);
+            Bursts = aggregateBurstsByFrequency(AllBursts, EEG, MinFreqRange);
         else
             Bursts = AllBursts;
         end
@@ -63,9 +64,6 @@ for Indx_T = 1:numel(Tasks)
         % get properties of the main channel
         Bursts = burstPeakProperties(Bursts, EEG);
         Bursts = meanBurstPeakProperties(Bursts); % just does the mean of the main peak's properties
-
-        % get all coherent channels TODO one day...
-        %     Bursts = getAllInvolvedChannels(Bursts, EEG, MinCoherence, MinCorr);
 
         % classify the burst
         Bursts = classifyBursts(Bursts);
