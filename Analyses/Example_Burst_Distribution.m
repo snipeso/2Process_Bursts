@@ -93,7 +93,7 @@ Grid = [numel(Participants), numel(Tasks)];
 
 miniGrid = [2, 1];
 xLims = [3 14];
-yLimsTot = [0 17; 0 39];
+yLimsTot = [0 10; 0 17];
 yLimsAmp = [0 30];
 % Legend = [SessionLabels, 'Null'];
 Legend = SessionLabels;
@@ -180,7 +180,7 @@ for Indx_B = 1:numel(Bursts)
 
 end
 
-%%
+
 
 PlotProps = P.Manuscript;
 
