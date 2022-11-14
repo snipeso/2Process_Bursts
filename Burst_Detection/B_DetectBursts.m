@@ -71,13 +71,13 @@ for Indx_T = 1:numel(Tasks)
         Timepoints = [EEG.event.latency];
         StartEvents = find(strcmp(Labels, 'S192'), 1, 'first');
         LastEvent = Timepoints(end);
-        
+
         if ~isempty(StartEvents)
-        Keep_Points(1:round(Timepoints(StartEvents))) = 0;
+            Keep_Points(1:round(Timepoints(StartEvents))) = 0;
         end
 
         if ~isempty(LastEvent)
- Keep_Points(round(LastEvent):end) = 0;
+            Keep_Points(round(LastEvent):end) = 0;
         end
 
 

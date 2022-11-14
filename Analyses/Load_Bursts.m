@@ -26,6 +26,7 @@ if exist(fullfile(TablePath, MegaTable_Filename), 'file') && ~Refresh
     load(fullfile(TablePath, MegaTable_Filename), 'BurstTable', 'Missing', 'Durations')
 else
     [BurstTable, Missing, Durations] = loadAllBursts(DataPath, Participants, Sessions, Tasks);
+ 
     save(fullfile(TablePath, MegaTable_Filename), 'BurstTable', 'Missing', 'Durations', '-v7.3')
 end
 
