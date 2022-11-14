@@ -11,7 +11,6 @@ StatsP = P.StatsP;
 Tasks = P.Tasks;
 TaskColors = P.TaskColors;
 
-Refresh = true;
 fs = 250;
 
 TitleTag = 'Bursts';
@@ -22,13 +21,8 @@ MegaTable_Filename = 'RRT_AllBursts.mat';
 TablePath = fullfile(Paths.Data, 'EEG', 'Bursts_Table');
 DataPath = fullfile(Paths.Data, 'EEG', 'Bursts');
 
-if exist(fullfile(TablePath, MegaTable_Filename), 'file') && ~Refresh
-    load(fullfile(TablePath, MegaTable_Filename), 'BurstTable', 'Missing', 'Durations')
-else
     [BurstTable, Missing, Durations] = loadAllBursts(DataPath, Participants, Sessions, Tasks);
- 
-    save(fullfile(TablePath, MegaTable_Filename), 'BurstTable', 'Missing', 'Durations', '-v7.3')
-end
+
 
 % Use durations in minutes rather than seconds
 Durations = Durations/60;
