@@ -75,8 +75,7 @@ end
 addpath(genpath(fullfile(extractBefore(mfilename('fullpath'), 'Analyses'), 'functions'))) % add current repo's functions
 
 % get path where these scripts were saved
-CD = mfilename('fullpath');
-Paths.Analysis = fullfile(extractBefore(CD, '2process_Bursts'), '2process_Bursts');
+Paths.Analysis = extractBefore(mfilename('fullpath'), 'analysisParameters');
 Paths.Stats = fullfile(Paths.Analysis, 'Statistics');
 
 % % get all folders in functions
