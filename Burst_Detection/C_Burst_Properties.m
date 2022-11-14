@@ -10,7 +10,7 @@ Info = burstParameters();
 Paths = Info.Paths;
 Bands = Info.Bands;
 Tasks = Info.Tasks;
-MinFreqRange = 0.5; % min difference in frequency from reference burst
+MinFreqRange = 1; % min difference in frequency from reference burst
 
 Refresh = false;
 
