@@ -1,4 +1,7 @@
 % converts mat files to csv that R can read for stats
+clear
+clc
+close all
 
 P = analysisParameters();
 Paths = P.Paths;
