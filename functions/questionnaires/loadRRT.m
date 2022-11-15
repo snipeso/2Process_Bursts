@@ -64,7 +64,8 @@ if any(ismember(fieldnames(Labels), 'DifficultyWake'))
     Labels.DifficultyWake{2} = 'Extremely hard';
 end
 
-
+Labels.KSS(7:9) = {'Sleepy, but no effort to keep awake', 'Sleepy, some effort to keep awake', ...
+    'Fighting sleep'};
 
 
 

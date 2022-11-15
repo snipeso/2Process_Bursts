@@ -33,7 +33,7 @@ Flip = true;
 Grid = size(PlotQuestions);
 Indx = 1;
 
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.6 PlotProps.Figure.Height*0.3])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.65 PlotProps.Figure.Height*0.3])
 
 for Indx_1 = 1:Grid(1)
     for Indx_2 = 1:Grid(2)
@@ -42,10 +42,9 @@ for Indx_1 = 1:Grid(1)
         Data = Answers.(Q);
         A = subfigure([], Grid, [Indx_1, Indx_2], [], true, ...
             '', PlotProps);
-        A.Position(1) = A.Position(1)+.2;
-        A.Position(3) = A.Position(3)-.15;
+        A.Position(1) = A.Position(1)+.3;
+        A.Position(3) = A.Position(3)-.25;
         plotBrokenSpaghetti(Data, qL, [-.05 1.05], [], PlotProps.Color.Participants, Flip, PlotProps)
-        title([Titles{Indx_1, Indx_2}], 'FontSize', PlotProps.Text.TitleSize)
         Indx = Indx+1;
         if Indx_1<Grid(1)
             set(gca,'xtick',[])

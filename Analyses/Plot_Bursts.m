@@ -32,9 +32,9 @@ PlotProps.Figure.Padding = 15;
 
 zScore = [false, true];
 Variables = {'Mean_coh_amplitude', 'nPeaks'};
-YLabels = {'Amplitude', '# oscillations/min'};
+YLabels = {' amplitude', ' oscillations/min'};
 Bands = {'Theta', 'Alpha'};
-YLimsZ = [-3.5 3.5; -2 4.4];
+YLimsZ = [-2.7 3; -2 4];
 Grid = [2, 2]; % variables x bands
 Flip = false; % flip data if it decreases with SD
 StatParameters = []; % could be StatsP
@@ -45,7 +45,7 @@ Indx = 1;
 
 AllData = cat(5, Amplitudes, Tots);
 
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*1.1, PlotProps.Figure.Height*0.7])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width, PlotProps.Figure.Height*0.65])
 for Indx_V = 1:numel(Variables)
     for Indx_B = 1:2
         % adjust labels according to scale
@@ -59,13 +59,9 @@ for Indx_V = 1:numel(Variables)
         A = subfigure([], Grid, [Indx_V, Indx_B], [], true, ...
             PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
         plotBrokenRain(Data, [], YLim, TaskColors, Tasks, PlotProps)
-        ylabel(YLabel)
+        ylabel([BandLabels{Indx_B}, YLabel])
         if Indx_V~=2 || Indx_B~=2
             legend off
-        end
-
-        if Indx_V==1
-            title(Bands{Indx_B}, 'FontSize', PlotProps.Text.TitleSize)
         end
 
     end

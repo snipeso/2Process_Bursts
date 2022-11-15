@@ -38,16 +38,14 @@ figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps
 
 A = subfigure([], Grid, [1, 1], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
-plotBrokenRain(Blinks, [], [], Colors, Tasks, PlotProps)
+plotBrokenRain(Blinks, [], [0 53], Colors, Tasks, PlotProps)
 ylabel('blinks/min')
-title('Blinks')
 legend off
 
 A = subfigure([], Grid, [1, 2], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
-plotBrokenRain(Microsleeps, [], [], Colors, Tasks, PlotProps)
-ylabel('% duration')
-title('Microsleeps')
+plotBrokenRain(Microsleeps, [], [0 40], Colors, Tasks, PlotProps)
+ylabel('Microsleeps duration (%)')
 
 saveFig(TitleTag, Paths.Paper, PlotProps)
 

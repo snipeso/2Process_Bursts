@@ -23,6 +23,13 @@ if~isempty(YLims)
         yticks(linspace(YLims(1), YLims(2), numel(YLabels)))
         yticklabels(YLabels)
     end
+
+        x = XPoints(9)-1.3;
+    y = YLims(1);
+    w = 5.6;
+    h = diff(YLims);
+    rectangle('Position', [x, y, w, h], 'FaceColor', [0.05 .05 .05 .05], 'EdgeColor', 'none')
+
 end
 
 Dims = size(Data);
@@ -88,3 +95,4 @@ xticklabels(XLabels)
 setAxisProperties(PlotProps)
 
 legend(Legend)
+  set(legend, 'ItemTokenSize', [10 10])

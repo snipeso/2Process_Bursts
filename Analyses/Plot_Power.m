@@ -34,13 +34,12 @@ TaskColors = P.TaskColors;
 Grid = [1, numel(BandLabels)];
 StatParameters = [];
 Flip = false;
-YLim = [-1.3, 2.8;
-    -1 5.1];
+YLim = [-1.1, 1.9];
 
-YLabel = 'Power (z-scored)';
+YLabel = ' power (z-scored)';
 
 Indx = 1;
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.35])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.32])
 
 for Indx_B = 1:numel(BandLabels)
 
@@ -50,10 +49,9 @@ for Indx_B = 1:numel(BandLabels)
     % plot
     A = subfigure([], Grid, [1, Indx_B], [], true, ...
         PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
-    plotBrokenRain(Data, [], [], TaskColors, Tasks, PlotProps)
-    ylabel(YLabel)
+    plotBrokenRain(Data, [], YLim, TaskColors, Tasks, PlotProps)
+    ylabel([BandLabels{Indx_B} YLabel])
 
-    title([BandLabels{Indx_B}], 'FontSize', PlotProps.Text.TitleSize)
     if Indx_B~=2
         legend off
     end
@@ -127,6 +125,7 @@ for Indx_Ch = 1:numel(ChLabels)
 
         if Indx_T ==1 && Indx_Ch==numel(ChLabels)
             legend(['SD1', repmat({''}, 1, 5),'WMZ', 'SD8'])
+             set(legend, 'ItemTokenSize', [10 10])
         end
 
     end
