@@ -65,3 +65,8 @@ save(fullfile(Paths.Pool, [TitleTag, '_AuC.mat']), 'Data')
 % AuC z-scored
 Data = zAuC; % P x S
 save(fullfile(Paths.Pool, [TitleTag, '_zAuC.mat']), 'Data')
+
+% save z-timecorse
+Data = zTimecourse;
+save(fullfile(Paths.Pool, [TitleTag, '_OddballResponse.mat']), 'Data')
+
