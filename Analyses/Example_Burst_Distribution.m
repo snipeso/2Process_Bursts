@@ -161,7 +161,7 @@ Indx_S = [4 11];
 
 %%% plot raw parameter changes
 Variables = {'TotBursts', 'Globality', 'Duration',  'Amplitude', 'TotCycles'};
-YLabels = {'burst/min', 'gloablity (% channels)', 'duration (s)'  'amplitude (\muV)', 'cycles/min',};
+YLabels = {'bursts/min', 'gloablity (% channels)', 'duration (s)'  'amplitude (\muV)', 'cycles/min',};
 CornerCoordinates = {[2 4], [4 4], [2 5], [4 5], [4 6]};
 Sizes = {[2, 1], [2, 1], [2, 1], [2, 1], [4, 1]};
 
