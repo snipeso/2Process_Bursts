@@ -21,7 +21,7 @@ MegaTable_Filename = 'RRT_AllBursts.mat';
 TablePath = fullfile(Paths.Data, 'EEG', 'Bursts_Table');
 DataPath = fullfile(Paths.Data, 'EEG', 'Bursts');
 
-    [BurstTable, Missing, Durations] = loadAllBursts(DataPath, Participants, Sessions, Tasks);
+[BurstTable, Missing, Durations] = loadAllBursts(DataPath, Participants, Sessions, Tasks);
 
 
 % Use durations in minutes rather than seconds
