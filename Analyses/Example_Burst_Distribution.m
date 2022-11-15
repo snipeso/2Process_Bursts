@@ -105,7 +105,7 @@ Colors(1, :, :) = repmat([.5 .5 .5], 3, 1);
 
 Indx = 1;
 figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.5, ...
-    PlotProps.Figure.Height*.6])
+    PlotProps.Figure.Height*.57])
 
 %%% plot histogram of # bursts per minute per frequency for each task
 for Indx_T = 1:numel(Tasks)

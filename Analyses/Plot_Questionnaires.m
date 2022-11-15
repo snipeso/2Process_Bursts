@@ -44,9 +44,7 @@ for Indx_1 = 1:Grid(1)
             '', PlotProps);
         A.Position(1) = A.Position(1)+.2;
         A.Position(3) = A.Position(3)-.15;
-        plotBrokenSpaghetti(Data, qL, [0 ceil(max(Data(:)))], [], PlotProps.Color.Participants, Flip, PlotProps)
-
-        padAxis('y')
+        plotBrokenSpaghetti(Data, qL, [-.05 1.05], [], PlotProps.Color.Participants, Flip, PlotProps)
         title([Titles{Indx_1, Indx_2}], 'FontSize', PlotProps.Text.TitleSize)
         Indx = Indx+1;
         if Indx_1<Grid(1)

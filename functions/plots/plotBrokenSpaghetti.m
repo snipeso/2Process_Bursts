@@ -21,14 +21,21 @@ else
     % TODO: plot stars for group comparison
 end
 
+
 % set y axis
-if~isempty(YLims)
+if ~isempty(YLims)
     ylim(YLims)
 
     if ~isempty(YLabels)
         yticks(linspace(YLims(1), YLims(2), numel(YLabels)))
         yticklabels(YLabels)
     end
+
+    x = XPoints(9)-1;
+    y = YLims(1);
+    w = 5;
+    h = diff(YLims);
+    rectangle('Position', [x, y, w, h], 'FaceColor', [0.05 .05 .05 .05], 'EdgeColor', 'none')
 end
 
 Dims = size(Data);
