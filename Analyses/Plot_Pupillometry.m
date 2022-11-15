@@ -40,15 +40,15 @@ figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps
 A = subfigure([], Grid, [1, 1], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenRain(meanDiameter, [], [-2.3 3], Colors, Tasks, PlotProps)
-ylabel('Diameter (mm) (z-scored)')
-title('Diameter')
-legend off
+ylabel('Pupil diameter (z-scored)')
+set(legend, 'location', 'northwest')
+
 
 A = subfigure([], Grid, [1, 2], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenRain(stdDiameter, [], [-2.3 3], Colors, Tasks, PlotProps)
-ylabel('sd diameter (z-scored)')
-title('STD diameter')
+ylabel('Standard deviation diameter (z-scored)')
+legend off
 
 saveFig([TitleTag, 'Diameter'], Paths.Paper, PlotProps)
 

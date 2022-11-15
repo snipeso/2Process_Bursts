@@ -88,12 +88,12 @@ end
 PlotProps = P.Manuscript;
 PlotProps.Patch.Alpha = 0.5;
 PlotProps.Axes.yPadding = 20;
-
+PlotProps.Axes.xPadding = 10;
 
 Grid = [4 6];
 
 xLims = [3 14];
-yLimsTot = [0 10; 0 17];
+yLimsTot = [0 9; 0 17];
 yLimsAmp = [0 30];
 % Legend = [SessionLabels, 'Null'];
 Legend = SessionLabels;
@@ -104,8 +104,8 @@ Colors(1, :, :) = repmat([.5 .5 .5], 3, 1);
 % Colors = cat(2, Colors, repmat(PlotProps.Color.Generic, numel(Participants), 1));
 
 Indx = 1;
-figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.5, ...
-    PlotProps.Figure.Height*.57])
+figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.1, ...
+    PlotProps.Figure.Height*.5])
 
 %%% plot histogram of # bursts per minute per frequency for each task
 for Indx_T = 1:numel(Tasks)
@@ -121,21 +121,22 @@ for Indx_T = 1:numel(Tasks)
         end
 
         A  = subfigure([], Grid, [2*Indx_P-1, Indx_T], [], true, Letter, PlotProps);
+
         A.Position(2) = A.Position(2)-0.01;
         A.Position(4) = A.Position(4)-0.01;
-        plotZiggurat(Data, '', FreqEdges(1:end-1), [Participants{Indx_P}, ' bursts/min'], ...
-            squeeze(Colors(:, :, Indx_T)), Legend, PlotProps)
-        set(legend, 'ItemTokenSize', [5 5])
+        plotZiggurat(Data, '', FreqEdges(1:end-1),  'Bursts/min', ...
+            squeeze(Colors(:, :, Indx_T)), '', PlotProps)
+
         xlim(xLims)
         ylim(yLimsTot(Indx_P, :))
         if Indx_T ~= 1
             ylabel('')
+            %               A.Position(1) = A.Position(1)-0.03;
+            %             A.Position(3) = A.Position(3)+0.03;
+            A = gca;
+            set(A.YAxis, 'Visible', 'off')
         end
-        title(Tasks{Indx_T}, 'FontSize', PlotProps.Text.TitleSize)
-
-        if Indx_P ==2 || Indx_T>1
-            legend off
-        end
+        title([Participants{Indx_P}, ' ' Tasks{Indx_T}], 'FontSize',PlotProps.Text.AxisSize)
 
 
         %%% distribution of mean amplitude
@@ -144,24 +145,36 @@ for Indx_T = 1:numel(Tasks)
         A.Position(2) = A.Position(2)+0.01;
         A.Position(4) = A.Position(4)+0.01;
 
-        plotZiggurat(Data, 'Frequency', FreqEdges(1:end-1), [Participants{Indx_P}, ' amplitude (\muV)'], ...
-            squeeze(Colors(:, :, Indx_T)), '', PlotProps)
+        plotZiggurat(Data, 'Frequency', FreqEdges(1:end-1), 'Amplitude (\muV)', ...
+            squeeze(Colors(:, :, Indx_T)), Legend, PlotProps)
         xlim(xLims)
         ylim(yLimsAmp)
+
         if Indx_T ~= 1
             ylabel('')
+            %              A.Position(1) = A.Position(1)-0.02;
+            %             A.Position(3) = A.Position(3)+0.01;
+            A = gca;
+            set(A.YAxis, 'Visible', 'off')
         end
+        set(legend, 'ItemTokenSize', [5 5])
+        if Indx_P ==2 || Indx_T>1
+            legend off
+
+        end
+
+
     end
 end
 
-
+PlotProps.Axes.xPadding = 20;
 
 Indx_B = 2;
 Indx_S = [4 11];
 
 %%% plot raw parameter changes
 Variables = {'TotBursts', 'Globality', 'Duration',  'Amplitude', 'TotCycles'};
-YLabels = {'bursts/min', 'gloablity (% channels)', 'duration (s)'  'amplitude (\muV)', 'cycles/min',};
+YLabels = {'Bursts/min', 'Gloablity (% channels)', 'Duration (s)'  'Amplitude (\muV)', 'Cycles/min',};
 CornerCoordinates = {[2 4], [4 4], [2 5], [4 5], [4 6]};
 Sizes = {[2, 1], [2, 1], [2, 1], [2, 1], [4, 1]};
 
@@ -175,16 +188,21 @@ for Indx_V = 1:numel(Variables)
         Data = Data*100;
     end
 
-      A = subfigure([], Grid, CornerCoordinates{Indx_V}, Sizes{Indx_V}, true, PlotProps.Indexes.Letters{Indx_V+2}, PlotProps);
-       A.Position(1) = A.Position(1)+0.02;
+    A = subfigure([], Grid, CornerCoordinates{Indx_V}, Sizes{Indx_V}, true, PlotProps.Indexes.Letters{Indx_V+2}, PlotProps);
+    A.Position(1) = A.Position(1)+0.02;
+    A.Position(2) = A.Position(2)+0.02;
+    A.Position(4) = A.Position(4)-0.02;
+    %      A.Position(3) = A.Position(3)+0.02;
 
-       if Indx_V ==numel(Variables)
-           A.Position(3) = A.Position(3);
-       else
-        A.Position(3) = A.Position(3)-0.02;
-       end
-     plotSimpleChange(Data, Tasks, PlotProps.Color.Participants, PlotProps)
-     ylabel(YLabels{Indx_V})
+    if Indx_V ==numel(Variables)
+        %           A.Position(1) = A.Position(1)+0.01;
+        A.Position(3) = A.Position(3)+0.02;
+        ytickangle(90)
+    else
+        %         A.Position(3) = A.Position(3)+0.02;
+    end
+    plotSimpleChange(Data, Tasks, PlotProps.Color.Participants, PlotProps)
+    ylabel(YLabels{Indx_V})
 
 end
 
@@ -224,8 +242,8 @@ end
 PlotProps = P.Manuscript;
 
 Colors = [
-    getColors(1, '', 'blue'); 
-    getColors(1, '', 'green'); 
+    getColors(1, '', 'blue');
+    getColors(1, '', 'green');
     getColors(1, '', 'yellow')
     getColors(1, '', 'orange');];
 figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.5, PlotProps.Figure.Height*.6])
@@ -250,22 +268,22 @@ PlotProps.Patch.Alpha = 1;
 PlotProps.Color.Background = 'none';
 
 
-  figure('Units','normalized', 'Position',[0 0 .2 .3])
-  axis square
- Data = squeeze(Totals(Indx_P, Indx_S, Indx_T, :))';
+figure('Units','normalized', 'Position',[0 0 .2 .3])
+axis square
+Data = squeeze(Totals(Indx_P, Indx_S, Indx_T, :))';
 
 
-        plotZiggurat(Data', 'Frequency', FreqEdges(1:end-1), 'Bursts/min', ...
-            getColors(1, '', 'blue'), '', PlotProps)
-  xlim(xLims)
-  xticks(4:2:12)
+plotZiggurat(Data', 'Frequency', FreqEdges(1:end-1), 'Bursts/min', ...
+    getColors(1, '', 'blue'), '', PlotProps)
+xlim(xLims)
+xticks(4:2:12)
 saveFig(strjoin({'Demo', 'Tots'}, '_'), Paths.Powerpoint, PlotProps)
 
-  figure('Units','normalized', 'Position',[0 0 .2 .3])
-  axis square
-  Data = squeeze(Amps(Indx_P, Indx_S, Indx_T, :));
-        plotZiggurat(Data, 'Frequency', FreqEdges(1:end-1), 'Amplitude (\muV)', ...
-            getColors(1, '', 'yellow'), '', PlotProps)
-        xticks(4:2:12)
-        xlim(xLims)
+figure('Units','normalized', 'Position',[0 0 .2 .3])
+axis square
+Data = squeeze(Amps(Indx_P, Indx_S, Indx_T, :));
+plotZiggurat(Data, 'Frequency', FreqEdges(1:end-1), 'Amplitude (\muV)', ...
+    getColors(1, '', 'yellow'), '', PlotProps)
+xticks(4:2:12)
+xlim(xLims)
 saveFig(strjoin({'Demo', 'Amps'}, '_'), Paths.Powerpoint, PlotProps)
