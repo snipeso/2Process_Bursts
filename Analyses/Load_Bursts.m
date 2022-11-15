@@ -31,8 +31,8 @@ Durations = Durations/60;
 %% Pool data
 
 Bands = {'Theta', 'Alpha'};
-Variables = {'Mean_coh_amplitude', 'nPeaks'};
-VariableNames = {'Amplitude', 'Tots'};
+Variables = {'Mean_coh_amplitude', 'nPeaks', 'Duration', 'globality_bursts'};
+VariableNames = {'Amplitude', 'TotCycles', 'Duration', 'Globality'};
 zScore = {true, false};
 
 
@@ -61,6 +61,11 @@ for Indx_Z = 1:numel(zScore)
         save(fullfile(Paths.Pool, [TitleTag, '_', Score, VariableNames{Indx_V}, '.mat']), 'Data')
     end
 end
+
+
+% do tot
+Data = bursttable2matrix(BurstTable, Missing, Durations, 'Tot', Participants, Sessions, Tasks, false);
+save(fullfile(Paths.Pool, [TitleTag, '_rawTotBursts.mat']), 'Data')
 
 
 %%
@@ -116,4 +121,13 @@ save(fullfile(Paths.Pool, [TitleTag, '_Topo_Amplitude.mat']), 'Data', 'Chanlocs'
 
 Data = All_Tots;
 save(fullfile(Paths.Pool, [TitleTag, '_Topo_Tots.mat']), 'Data', 'Chanlocs')
+
+
+
+
+% burst demographics BL pre, BL post, SD1, SD8. # bursts, globality,
+% duration (s). cycles x min. [median and IQ range]
+
+
+
 
