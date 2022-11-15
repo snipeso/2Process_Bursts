@@ -51,13 +51,9 @@ for Indx_B = 1:numel(Bursts)
 
     B = Bursts(Indx_B);
 
-    if isfield(B, 'All_Start')
-        Start = B.All_Start;
-        End = B.All_End;
-    else
-        Start = B.Start;
-        End = B.End;
-    end
+    Start = B.Start;
+    End = B.End;
+
 
 
     Ch = B.Channel;
@@ -78,10 +74,15 @@ for Indx_B = 1:numel(Bursts)
     end
 
     % plot all channels involved
-    if ~isempty(AllCh)
-        Burst = EEG.data(AllCh, Start:End)+Y(AllCh)';
-        plot(t(Start:End), Burst', 'Color', C, 'LineWidth', PlotProps.Line.Width/3, 'HandleVisibility','off');
+    for Indx_Ch = 1:numel(AllCh)
+        Ch2 = B.Coh_Burst_Channels(Indx_Ch);
+        Start2 = B.Coh_Burst_Starts(Indx_Ch);
+        End2 =  B.Coh_Burst_Ends(Indx_Ch);
+
+        Burst = EEG.data(Ch2, Start2:End2)+Y(Ch2)';
+        plot(t(Start2:End2), Burst', 'Color', C, 'LineWidth', PlotProps.Line.Width/3, 'HandleVisibility','off');
     end
+
 
     % plot main burst
     Burst = EEG.data(Ch, Start:End)+Y(Ch);

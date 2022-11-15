@@ -87,11 +87,11 @@ end
 %%
 PlotProps = P.Manuscript;
 PlotProps.Patch.Alpha = 0.5;
+PlotProps.Axes.yPadding = 20;
 
 
-Grid = [numel(Participants), numel(Tasks)];
+Grid = [4 6];
 
-miniGrid = [2, 1];
 xLims = [3 14];
 yLimsTot = [0 10; 0 17];
 yLimsAmp = [0 30];
@@ -104,22 +104,28 @@ Colors(1, :, :) = repmat([.5 .5 .5], 3, 1);
 % Colors = cat(2, Colors, repmat(PlotProps.Color.Generic, numel(Participants), 1));
 
 Indx = 1;
-figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.1, ...
-    PlotProps.Figure.Height*.65])
+figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.5, ...
+    PlotProps.Figure.Height*.6])
 
 %%% plot histogram of # bursts per minute per frequency for each task
 for Indx_T = 1:numel(Tasks)
     for Indx_P = 1:numel(Participants)
 
-        Space = subaxis(Grid, [Indx_P, Indx_T], [], PlotProps.Indexes.Letters{Indx}, PlotProps);  Indx = Indx+1;
-
         %%% distribution of number of bursts
         Data = squeeze(Totals(Indx_P, :, Indx_T, :))';
 
-        Axes = subfigure(Space, miniGrid, [1, 1], [], false, ...
-            '', PlotProps);
+        if Indx_T==1
+            Letter = PlotProps.Indexes.Letters{Indx_P};
+        else
+            Letter = '';
+        end
+
+        A  = subfigure([], Grid, [2*Indx_P-1, Indx_T], [], true, Letter, PlotProps);
+        A.Position(2) = A.Position(2)-0.01;
+        A.Position(4) = A.Position(4)-0.01;
         plotZiggurat(Data, '', FreqEdges(1:end-1), [Participants{Indx_P}, ' bursts/min'], ...
             squeeze(Colors(:, :, Indx_T)), Legend, PlotProps)
+        set(legend, 'ItemTokenSize', [5 5])
         xlim(xLims)
         ylim(yLimsTot(Indx_P, :))
         if Indx_T ~= 1
@@ -134,8 +140,9 @@ for Indx_T = 1:numel(Tasks)
 
         %%% distribution of mean amplitude
         Data = squeeze(Amps(Indx_P, :, Indx_T, :))';
-        Axes = subfigure(Space, miniGrid, [2, 1], [], false, ...
-            '', PlotProps);
+        A = subfigure([], Grid, [2*Indx_P, Indx_T], [], true, '', PlotProps);
+        A.Position(2) = A.Position(2)+0.01;
+        A.Position(4) = A.Position(4)+0.01;
 
         plotZiggurat(Data, 'Frequency', FreqEdges(1:end-1), [Participants{Indx_P}, ' amplitude (\muV)'], ...
             squeeze(Colors(:, :, Indx_T)), '', PlotProps)
@@ -148,6 +155,38 @@ for Indx_T = 1:numel(Tasks)
 end
 
 
+
+Indx_B = 2;
+Indx_S = [4 11];
+
+%%% plot raw parameter changes
+Variables = {'TotBursts', 'Globality', 'Duration',  'Amplitude', 'TotCycles'};
+YLabels = {'burst/min', 'gloablity (% channels)', 'duration (s)'  'amplitude (\muV)', 'cycles/min',};
+CornerCoordinates = {[2 4], [4 4], [2 5], [4 5], [4 6]};
+Sizes = {[2, 1], [2, 1], [2, 1], [2, 1], [4, 1]};
+
+for Indx_V = 1:numel(Variables)
+
+    load(fullfile(Paths.Pool, ['Bursts_raw', Variables{Indx_V}, '.mat']), 'Data')
+    Data = squeeze(Data(:, Indx_S, :, Indx_B));
+    Data = permute(Data, [1 3 2]);
+
+    if strcmp(Variables{Indx_V}, 'Globality')
+        Data = Data*100;
+    end
+
+      A = subfigure([], Grid, CornerCoordinates{Indx_V}, Sizes{Indx_V}, true, PlotProps.Indexes.Letters{Indx_V+2}, PlotProps);
+       A.Position(1) = A.Position(1)+0.02;
+
+       if Indx_V ==numel(Variables)
+           A.Position(3) = A.Position(3);
+       else
+        A.Position(3) = A.Position(3)-0.02;
+       end
+     plotSimpleChange(Data, Tasks, PlotProps.Color.Participants, PlotProps)
+     ylabel(YLabels{Indx_V})
+
+end
 
 saveFig('Example_Burst', Paths.Paper, PlotProps)
 
@@ -189,11 +228,11 @@ Colors = [
     getColors(1, '', 'green'); 
     getColors(1, '', 'yellow')
     getColors(1, '', 'orange');];
-figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.5, PlotProps.Figure.Height*.7])
+figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.5, PlotProps.Figure.Height*.6])
 Axes = subfigure([], [1 1], [1, 1], [], false, '', PlotProps);
 plotExampleBurstData(EEG, 20, Bursts, 'FinalBand', Colors, PlotProps)
 % xlim([177 187])
- xlim([139 149])
+xlim([139.5 149.5])
 ylim([-10 2500])
 xlabel('time (s)')
 saveFig('Example_Data', Paths.Paper, PlotProps)
