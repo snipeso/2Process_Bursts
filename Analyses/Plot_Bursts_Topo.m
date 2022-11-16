@@ -17,7 +17,7 @@ TaskColors = P.TaskColors;
 Refresh = false;
 fs = 250;
 
-TitleTag = 'Bursts';
+TitleTag = 'Bursts_Topo';
 
 load('E:\Data\Final\All_2processBursts\Bursts_Topo_Amplitude.mat', 'Data', 'Chanlocs')
 Amplitudes = zScoreData(Data, 'last');
@@ -35,17 +35,19 @@ Tots = zScoreData(Data, 'last');
 %%
 
 PlotProps = P.Manuscript;
-% PlotProps.Figure.Padding = 10;
+PlotProps.Figure.Padding = 10;
 PlotProps.Axes.yPadding = 10;
 PlotProps.Axes.xPadding = 10;
+PlotProps.External.EEGLAB.TopoRes = 200;
+PlotProps.Text.IndexSize = 24;
 Grid = [2, 1];
 miniGrid = [1 2];
 miniminiGrid = [2 4];
 zScore = true;
 Bands = {'Theta', 'Alpha'};
 Variables = {'Mean_coh_amplitude', 'nPeaks'};
-VariableLabels = {'Amplitude', '# Cycles'};
-CLabels = {'\muV (z-scored)', 'peaks/min (z-scored)'};
+VariableLabels = {'Amplitude', '# cycles'};
+CLabels = {'\muV (z-scored)', 'cycles/min (z-scored)'};
 
 CLims_Average  = { [-0.5 1], [-1 2.5];
     [-0.4 .9], [-.7 2]};
@@ -54,16 +56,31 @@ CLims = [-8 8];
 BL = 4;
 SD = 11;
 
+XShift = .16;
 L= struct;
 L.t = 't-values';
 
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*1.1 PlotProps.Figure.Height*0.5])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*1.2 PlotProps.Figure.Height*0.6])
+Txt = annotation('textbox', [0.02 0.79 0.2 0.2], 'string', PlotProps.Indexes.Letters{1}, ...
+    'Units', 'normalized', 'FontSize', PlotProps.Text.IndexSize, 'FontName', PlotProps.Text.FontName, ...
+    'FontWeight', 'Bold', 'LineStyle', 'none');
 
+Txt = annotation('textbox', [0.02 0.3 0.2 0.2], 'string', PlotProps.Indexes.Letters{3}, ...
+    'Units', 'normalized', 'FontSize', PlotProps.Text.IndexSize, 'FontName', PlotProps.Text.FontName, ...
+    'FontWeight', 'Bold', 'LineStyle', 'none');
+
+Txt = annotation('textbox', [0.502 0.79 0.2 0.2], 'string', PlotProps.Indexes.Letters{2}, ...
+    'Units', 'normalized', 'FontSize', PlotProps.Text.IndexSize, 'FontName', PlotProps.Text.FontName, ...
+    'FontWeight', 'Bold', 'LineStyle', 'none');
+
+Txt = annotation('textbox', [0.502 0.3 0.2 0.2], 'string', PlotProps.Indexes.Letters{4}, ...
+    'Units', 'normalized', 'FontSize', PlotProps.Text.IndexSize, 'FontName', PlotProps.Text.FontName, ...
+    'FontWeight', 'Bold', 'LineStyle', 'none');
 
 %%% plot average topographies
 
-Space = subaxis(Grid, [1, 1], [], PlotProps.Indexes.Letters{1}, PlotProps); % the row
-
+Space = subaxis(Grid, [1, 1], [], '', PlotProps); % the row
+Space(1) = Space(1)+20;
 for Indx_B = 1:2
     miniSpace = subaxis(miniGrid, [1, Indx_B], [], '', PlotProps, Space); % the column
     miniSpace(3) = miniSpace(3)*1.1;
@@ -78,6 +95,9 @@ for Indx_B = 1:2
         shiftaxis(Axis, Axis.Position(3)*.1, []);
         plotTopoplot(Data, [], Chanlocs, CLims_Average{1, Indx_B}, '', 'Linear', PlotProps)
         title(Tasks{Indx_T})
+        if Indx_T ==1
+            yTitle(XShift, VariableLabels{1}, PlotProps)
+        end
 
         % quantities
         Data = squeeze(mean(mean(Tots(:, :, Indx_T, :, Indx_B), 1, 'omitnan'), 2, 'omitnan'));
@@ -86,6 +106,11 @@ for Indx_B = 1:2
         A.Units = 'pixels';
         shiftaxis(Axis, Axis.Position(3)*.1, []);
         plotTopoplot(Data, [], Chanlocs, CLims_Average{2, Indx_B}, '', 'Linear', PlotProps)
+
+        if Indx_T ==1
+            yTitle(XShift, VariableLabels{2}, PlotProps)
+        end
+
     end
 
     % colorbars
@@ -98,14 +123,16 @@ for Indx_B = 1:2
     Axis.Position(1) = Axis.Position(1)-.015;
     Axis.Position(3) = Axis.Position(3)+.01;
     plotColorbar('Linear', CLims_Average{2, Indx_B}, CLabels{2}, PlotProps)
+
+
 end
 
 
 
 %%% plot t-values
 
-Space = subaxis(Grid, [2, 1], [], PlotProps.Indexes.Letters{2}, PlotProps);
-
+Space = subaxis(Grid, [2, 1], [], '', PlotProps);
+Space(1) = Space(1)+20;
 for Indx_B = 1:2
     miniSpace = subaxis(miniGrid, [1, Indx_B], [], '', PlotProps, Space); % the column
     miniSpace(3) = miniSpace(3)*1.1;
@@ -114,24 +141,32 @@ for Indx_B = 1:2
 
         % amplitudes
         Data1 = squeeze(Amplitudes(:, BL, Indx_T, :, Indx_B));
-            Data2 = squeeze(Amplitudes(:, SD, Indx_T, :, Indx_B));
+        Data2 = squeeze(Amplitudes(:, SD, Indx_T, :, Indx_B));
         Axis = subfigure(miniSpace, miniminiGrid, [1, Indx_T], [], false, {}, PlotProps);
         A = gca;
         A.Units = 'pixels';
         shiftaxis(Axis, Axis.Position(3)*.1, []);
-       topoDiff(Data1, Data2, Chanlocs, CLims, StatsP, PlotProps);
-       colorbar off
+        topoDiff(Data1, Data2, Chanlocs, CLims, StatsP, PlotProps);
+        colorbar off
         title(Tasks{Indx_T})
 
+        if Indx_T ==1
+            yTitle(XShift, VariableLabels{1}, PlotProps)
+        end
+
         % quantities
-          Data1 = squeeze(Tots(:, BL, Indx_T, :, Indx_B));
-            Data2 = squeeze(Tots(:, SD, Indx_T, :, Indx_B));
+        Data1 = squeeze(Tots(:, BL, Indx_T, :, Indx_B));
+        Data2 = squeeze(Tots(:, SD, Indx_T, :, Indx_B));
         Axis = subfigure(miniSpace, miniminiGrid, [2, Indx_T], [], false, {}, PlotProps);
         A = gca;
         A.Units = 'pixels';
         shiftaxis(Axis, Axis.Position(3)*.1, []);
         topoDiff(Data1, Data2, Chanlocs, CLims, StatsP, PlotProps);
         colorbar off
+
+        if Indx_T ==1
+            yTitle(XShift, VariableLabels{2}, PlotProps)
+        end
     end
 
     % colorbars
@@ -145,3 +180,20 @@ for Indx_B = 1:2
     Axis.Position(3) = Axis.Position(3)+.01;
     plotColorbar('Linear', CLims, 't-values', PlotProps)
 end
+
+
+% fix colormaps
+Fig = gcf;
+
+% Pos = [];
+for Indx_Ch = 1:numel(Fig.Children)
+    %     Pos = [Pos, Fig.Children(Indx_Ch).Position(2)];
+    if Indx_Ch < 22
+        Fig.Children(Indx_Ch).Colormap = reduxColormap(PlotProps.Color.Maps.Divergent, PlotProps.Color.Steps.Divergent);
+    else
+        Fig.Children(Indx_Ch).Colormap = reduxColormap(PlotProps.Color.Maps.Linear, PlotProps.Color.Steps.Linear);
+    end
+end
+
+
+   saveFig(TitleTag, Paths.Paper, PlotProps)
