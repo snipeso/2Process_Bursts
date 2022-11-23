@@ -32,7 +32,7 @@ PlotProps.Figure.Padding = 15;
 
 zScore = [false, true];
 Variables = {'Mean_coh_amplitude', 'nPeaks'};
-YLabels = {' amplitude', ' oscillations/min'};
+YLabels = {' amplitude', ' cycles/min'};
 Bands = {'Theta', 'Alpha'};
 YLimsZ = [-2.7 3; -2 4];
 Grid = [2, 2]; % variables x bands
