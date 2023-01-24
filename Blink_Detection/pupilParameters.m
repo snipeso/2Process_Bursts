@@ -7,8 +7,8 @@ Paths = struct();
 Paths.Raw = 'G:\LSM\Data\Raw';
 Paths.Preprocessed = 'E:\Data\Preprocessed\Pupils';
 Paths.Data = 'E:\Data\Final\Eyes';
-Paths.dataModels = 'C:\Users\colas\Projects\PhD\Others\pupil-size\code\dataModels';
-Paths.helperfunctions = 'C:\Users\colas\Projects\PhD\Others\pupil-size\code\helperFunctions';
+Paths.dataModels = 'C:\Users\colas\Projects\PhD\LSM\2process_Bursts\functions\external\PhysioData\code\dataModels';
+Paths.helperfunctions = 'C:\Users\colas\Projects\PhD\LSM\2process_Bursts\functions\external\PhysioData\code\helperFunctions';
 
 P.Paths = Paths;
 

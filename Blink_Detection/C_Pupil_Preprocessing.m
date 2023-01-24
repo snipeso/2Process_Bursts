@@ -1,3 +1,7 @@
+% Scripts for cleaning pupil data (removing blinks, artefacts, etc) using
+% PhysioData toolbox.
+% Scripts by Elias Meier, modified by Sophia Snipes.
+
 clear
 close all
 clc
@@ -7,7 +11,7 @@ paths = P.Paths;
 Tasks = P.Tasks;
 Refresh = true;
 
-MaxCloseGap = 0.4; % largest gap size to interpolate
+MaxCloseGap = 0.5; % largest gap size to interpolate
 MinChunkSize = 0.5; % smallest allowable chunk of data
 
 addpath(paths.dataModels);
@@ -55,6 +59,8 @@ for Indx_T = 1:numel(Tasks)
         Mean_new_dia = M.meanPupil_ValidSamples.samples.pupilDiameter;
         [Rightdata, Leftdata, Meandata] = EqualizeLength(old_t, L_new_t, R_new_t, Mean_new_t, L_new_dia, R_new_dia, Mean_new_dia);
 
+        Old = Leftdata;
+
         % get sampling rate
         fs = 1/(mode(diff(old_t))/1000);
         RD = Rightdata; % temp
@@ -75,7 +81,6 @@ for Indx_T = 1:numel(Tasks)
         end
     end
 end
-
 
 close all
 
