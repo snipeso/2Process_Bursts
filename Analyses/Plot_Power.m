@@ -30,6 +30,9 @@ load(fullfile(Paths.Pool, 'Power_spectrum.mat'), 'Data', 'Freqs', 'ChLabels')
 Spectrum = Data;
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Plot
+
 %% Figure 3: power by session
 
 PlotProps = P.Manuscript;
