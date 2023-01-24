@@ -27,7 +27,7 @@ P.new_srate = 50/1000;
 % add path of functions
 CD = mfilename('fullpath');
 
-Paths_Analysis = fullfile(extractBefore(CD, 'Blink_Detection'), 'functions');
+Paths_Analysis = extractBefore(CD, 'Blink_Detection');
 
 % % get all folders in functions
 Subfolders = deblank(string(ls(fullfile(Paths_Analysis, 'functions')))); % all content

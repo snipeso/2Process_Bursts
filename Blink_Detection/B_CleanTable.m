@@ -1,6 +1,7 @@
 % gets the pupil labs table, and turns it into the structures needed to
 % preprocess the pupil data. This involves interpolation, conversion into
-% mm.
+% mm. Scripts by Elias Meier and Sophia Snipes.
+
 clear
 clc
 close all
@@ -30,7 +31,7 @@ Iris_mm = 12; % average human iris diameter
 
 IrisDiameters = readtable(fullfile(Paths.Data, 'Overviews', 'IrisDiameters.csv'));
 
-for Indx_T = 2%1:numel(Tasks)
+for Indx_T = 1:numel(Tasks)
     Task = Tasks{Indx_T};
 
     Source = fullfile(Paths.Preprocessed, 'Raw', Task);
@@ -91,7 +92,6 @@ for Indx_T = 2%1:numel(Tasks)
             segmentEnd = diameter.t_ms(end);
             segmentName = {('TRIAL_1')};
             segmentsTable = table(segmentName, segmentStart, segmentEnd);
-
 
 
             % deal with annotations
