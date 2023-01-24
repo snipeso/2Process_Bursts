@@ -24,7 +24,7 @@ if~isempty(YLims)
     y = YLims(1);
     w = 5.6;
     h = diff(YLims);
-    rectangle('Position', [x, y, w, h], 'FaceColor', [0.05 .05 .05 .05], 'EdgeColor', 'none')
+    rectangle('Position', [x, y, w, h], 'FaceColor', [0.05 .05 .05 .05], 'EdgeColor', 'none', 'HandleVisibility','off')
 
 end
 

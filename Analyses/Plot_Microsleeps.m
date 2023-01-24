@@ -1,6 +1,11 @@
+%%% plot microsleep data
+
 clear
 clc
 close all
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% load parameters
 
 P = analysisParameters();
 Paths = P.Paths;
@@ -8,12 +13,15 @@ Participants = P.Participants;
 Sessions = P.Sessions;
 Labels = P.Labels;
 StatsP = P.StatsP;
-Tasks = P.Tasks;
+Tasks = P.Tasks(1:2);
 TaskColors = P.TaskColors;
 Bands = P.Bands;
 BandLabels = fieldnames(Bands);
 TitleTag = 'Microsleeps';
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% load data
 
 load(fullfile(Paths.Pool, 'Microsleeps_nBlinks.mat'), 'Data')
 zBlinks = zScoreData(Data, 'first');
@@ -24,7 +32,10 @@ zMicrosleeps =zScoreData(Data, 'first');
 Microsleeps = Data;
 
 
-%% plot across sessions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% plot
+
+%% Figure 10: plot blinks and microsleeps across sessions
 
 PlotProps = P.Manuscript;
 YLim = [];
@@ -39,38 +50,16 @@ figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps
 A = subfigure([], Grid, [1, 1], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenRain(Blinks, [], [0 53], Colors, Tasks, PlotProps)
-ylabel('blinks/min')
-legend off
+set(legend, 'location', 'northwest')
+ylabel('Blinks/min')
+
 
 A = subfigure([], Grid, [1, 2], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenRain(Microsleeps, [], [0 40], Colors, Tasks, PlotProps)
+legend off
 ylabel('Microsleeps duration (%)')
 
 saveFig(TitleTag, Paths.Paper, PlotProps)
-
-
-%% stats
-clc
-
-for Indx_T = 1:numel(Tasks)-1
-
-    disp(strjoin({Tasks{Indx_T}, 'Blinks'}, ' '))
-
-    % gather data
-    Data = squeeze(zBlinks(:, :, Indx_T));
-    Stats = standardStats(Data, StatsP);
-
-    disp(strjoin({Tasks{Indx_T}, 'Microsleeps'}, ' '))
-
-
-    % gather data
-    Data = squeeze(zMicrosleeps(:, :, Indx_T));
-    Stats = standardStats(Data, StatsP);
-
-
-end
-disp('******')
-
 
 
