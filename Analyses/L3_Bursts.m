@@ -1,4 +1,4 @@
-%%% script to load data pertaining to bursts.
+%%% script to load data pertaining to bursts. Quite slow!
 
 clear
 clc

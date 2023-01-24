@@ -1,4 +1,4 @@
-% 
+% Script to load in pupillometry data
 
 clear
 clc
@@ -70,5 +70,5 @@ save(fullfile(Paths.Pool, [TitleTag, '_zAuC.mat']), 'Data')
 
 % save z-timecorse
 Data = zTimecourse;
-save(fullfile(Paths.Pool, [TitleTag, '_OddballResponse.mat']), 'Data')
+save(fullfile(Paths.Pool, [TitleTag, '_OddballResponse.mat']), 'Data', 't')
 
