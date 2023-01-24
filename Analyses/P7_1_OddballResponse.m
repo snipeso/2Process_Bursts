@@ -19,11 +19,14 @@ TaskColors = P.TaskColors;
 Bands = P.Bands;
 BandLabels = fieldnames(Bands);
 TitleTag = 'Pupillometry';
+PlotProps = P.Manuscript;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% load data
 
+load(fullfile(Paths.Pool, [TitleTag, '_OddballResponse.mat']), 'Data', 't')
+zTimecourse = Data;
 
 
 
@@ -35,11 +38,13 @@ TitleTag = 'Pupillometry';
 
 
 Grid = [3 4];
-% YLims = [-.4 1];
-YLims = [-3.3 5];
+YLims = [-2 4];
+% YLims = [-3.3 5];
 Coordinates = {[1 1], [1 2], [1 3], [1, 4];
     [2 1], [2 2], [2 3], [2, 4];
     [3 1], [3 2], [3 3], [3, 4]}';
+
+XLabels = P.Labels.Sessions;
 
 % Colors = [0.6 0.6 0.6; getColors(1, '', 'red')];
 Colors = PlotProps.Color.Participants;
