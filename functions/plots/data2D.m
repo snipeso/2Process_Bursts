@@ -24,7 +24,7 @@ end
 
 switch PlotType
     case 'line'
-        plotConfettiSpaghetti(Data, Stats, XLabels, Colors, PlotProps)
+        plotConfettiSpaghetti(Data, Stats, XLabels, Colors, YLims, PlotProps)
     case 'box'
         plotScatterBox(Data, Stats, XLabels, Colors, YLims, PlotProps)
     case 'grid'

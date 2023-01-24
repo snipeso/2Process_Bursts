@@ -1,7 +1,7 @@
 
 
 
-% load(fullfile('E:\Data\Preprocessed\Clean\Waves\Oddball', 'P10_Oddball_Main7_Clean.mat'), 'EEG')
+load(fullfile('E:\Data\Preprocessed\Clean\Waves\Oddball', 'P10_Oddball_Main7_Clean.mat'), 'EEG')
 
 P = analysisParameters();
 PlotProps = P.Powerpoint;

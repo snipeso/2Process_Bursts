@@ -4,12 +4,8 @@ function P = analysisParameters()
 P.Sessions = {'BaselinePre', 'BaselinePost', 'MainPre', 'Main1', 'Main2', ...
     'Main3', 'Main4', 'Main5', 'Main6', 'Main7', 'Main8', 'MainPost'};
 
-% Labels.Sessions = {'BL-Pre', 'BL-Post', 'Pre', '4:00', '7:00', '10:00', ...
-%     '15:00', '17:30', '20:00', '23:00', '2:40', 'Post'};
-
-
-Labels.Sessions = {'BL Pre', 'BL Post', 'Pre', 'SD1', 'SD2', 'SD3', ...
-    'SD4', 'SD5', 'SD6', 'SD7', 'SD8', 'Post'};
+Labels.Sessions = {'BL Pre', 'BL Post', 'Pre', 'S1', 'S2', 'S3', ...
+    'S4', 'S5', 'S6', 'S7', 'S8', 'Post'};
 
 P.Participants = {'P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08', ...
     'P09', 'P10', 'P11', 'P12', 'P13', 'P14', 'P15', 'P16', 'P17', 'P19'};
@@ -62,7 +58,7 @@ Paths.Data  = fullfile(Core, 'Final'); % where data gets saved once its been tur
 Paths.Results = fullfile(Core, 'Results', '2process_Bursts');
 Paths.Pool = fullfile(Paths.Data, 'All_2processBursts');
 Paths.Scoring = fullfile(Core, 'Scoring');
-Paths.Paper = 'C:\Users\colas\Dropbox\Research\Publications and Presentations\Sleep\Paper3\Figures';
+Paths.Paper = 'C:\Users\colas\Dropbox\Research\Publications and Presentations\Sleep\Paper2\Figures';
 Paths.Powerpoint = 'C:\Users\colas\Dropbox\Research\Projects\HuberSleepLab\LSM\Repeat Figures\MatlabFigures';
 
 % if eeglab has not run, run it so all the subdirectories get added
