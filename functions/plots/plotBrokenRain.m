@@ -20,7 +20,7 @@ if~isempty(YLims)
         yticklabels(YLabels)
     end
 
-        x = XPoints(9)-1.3;
+    x = XPoints(9)-1.3;
     y = YLims(1);
     w = 5.6;
     h = diff(YLims);
@@ -31,7 +31,7 @@ end
 Dims = size(Data);
 
 if Dims(3)>2
-Shifts = linspace(-TaskWidth, TaskWidth, Dims(3)); % distance from center point for each task
+    Shifts = linspace(-TaskWidth, TaskWidth, Dims(3)); % distance from center point for each task
 elseif Dims(3)==2
     Shifts = [-.3 .3];
 else
@@ -46,23 +46,23 @@ for Indx_T = 1:Dims(3)
     Color = Colors(Indx_T, :);
     for Indx_S = 1:Dims(2)
 
-    X = XPoints(Indx_S)+Shifts(Indx_T);
-    scatter(X*ones(Dims(1), 1), squeeze(Data(:, Indx_S, Indx_T)), ...
-        PlotProps.Scatter.Size/4, Color,'filled', 'MarkerFaceAlpha', PlotProps.Patch.Alpha, ...
-        'HandleVisibility','off')
+        X = XPoints(Indx_S)+Shifts(Indx_T);
+        scatter(X*ones(Dims(1), 1), squeeze(Data(:, Indx_S, Indx_T)), ...
+            PlotProps.Scatter.Size/4, Color,'filled', 'MarkerFaceAlpha', PlotProps.Patch.Alpha, ...
+            'HandleVisibility','off')
     end
 end
 
 
 %%% plot task means
 for Indx_T = 1:Dims(3)
-    
+
     Color = Colors(Indx_T, :);
     % plot night
     for Indx_N = 1:size(Sleep, 1)
         X = XPoints(Sleep(Indx_N, :)) + Shifts(Indx_T);
         MEAN = squeeze(mean(Data(:, Sleep(Indx_N, :), Indx_T), 1, 'omitnan'));
-        
+
         plot(X, MEAN, Dots, 'LineWidth', PlotProps.Line.Width, ...
             'Color', Color,  'HandleVisibility', 'off') % connecting lines
 
@@ -73,10 +73,10 @@ for Indx_T = 1:Dims(3)
     % plot day
     X = XPoints(Wake)+Shifts(Indx_T);
     MEAN = squeeze(mean(Data(:, Wake, Indx_T), 'omitnan'));
-    
+
     plot(X, MEAN, 'LineWidth', PlotProps.Line.Width, ...
         'Color', Color, 'HandleVisibility', 'on')
-    
+
     scatter(X, MEAN, PlotProps.Scatter.Size, Color, ...
         'filled', 'MarkerEdgeColor',  Color, 'HandleVisibility', 'off')
 end
@@ -91,4 +91,4 @@ xticklabels(XLabels)
 setAxisProperties(PlotProps)
 
 legend(Legend)
-  set(legend, 'ItemTokenSize', [10 10])
+set(legend, 'ItemTokenSize', [10 10], 'location', 'northwest')

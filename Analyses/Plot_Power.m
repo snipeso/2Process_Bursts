@@ -1,6 +1,11 @@
+% Script to plot change in power
+
 clear
 clc
 close all
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% set parameters
 
 P = analysisParameters();
 Paths = P.Paths;
@@ -15,6 +20,9 @@ BandLabels = fieldnames(Bands);
 TitleTag = 'Power';
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% load data
+
 load(fullfile(Paths.Pool, 'Power_z-scored.mat'), 'Data')
 Power = Data;
 
@@ -22,14 +30,13 @@ load(fullfile(Paths.Pool, 'Power_spectrum.mat'), 'Data', 'Freqs', 'ChLabels')
 Spectrum = Data;
 
 
-%% Plot power by session
-
+%% Figure 3: power by session
 
 PlotProps = P.Manuscript;
 PlotProps.Axes.xPadding = 30;
 PlotProps.Axes.yPadding = 30;
 PlotProps.Figure.Padding = 15;
-TaskColors = P.TaskColors;
+
 
 Grid = [1, numel(BandLabels)];
 StatParameters = [];
@@ -52,7 +59,7 @@ for Indx_B = 1:numel(BandLabels)
     plotBrokenRain(Data, [], YLim, TaskColors, Tasks, PlotProps)
     ylabel([BandLabels{Indx_B} YLabel])
 
-    if Indx_B~=2
+    if Indx_B~=1
         legend off
     end
 end
@@ -60,26 +67,8 @@ end
 saveFig(TitleTag, Paths.Paper, PlotProps)
 
 
-%% Power band stats
-clc
 
-for Indx_B = 1:numel(BandLabels)
-    for Indx_T = 1:numel(Tasks)
-
-        disp(strjoin({Tasks{Indx_T}, BandLabels{Indx_B}}, ' '))
-
-        % gather data
-        Data = squeeze(Power(:, :, Indx_T, Indx_B));
-        Stats = standardStats(Data, StatsP);
-    end
-    disp('******')
-end
-
-
-
-
-
-%% plot spectrograms
+%% Figure 4: spectrograms
 
 PlotProps = P.Manuscript;
 PlotProps.Figure.Padding = 35;
@@ -120,12 +109,12 @@ for Indx_Ch = 1:numel(ChLabels)
         end
 
         A = gca;
-        A.Children(3).LineStyle = ':';
-        A.Children(4).LineStyle = ':';
+        A.Children(3).LineStyle = '--';
+        A.Children(4).LineStyle = '--';
 
-        if Indx_T ==1 && Indx_Ch==numel(ChLabels)
-            legend(['SD1', repmat({''}, 1, 5),'WMZ', 'SD8'])
-             set(legend, 'ItemTokenSize', [10 10])
+        if Indx_T ==1 && Indx_Ch==1
+            legend(['S1', repmat({''}, 1, 5),'WMZ', 'S8'], 'location', 'northwest')
+            set(legend, 'ItemTokenSize', [20 20])
         end
 
     end
