@@ -1,3 +1,5 @@
+%%% script to load data pertaining to bursts.
+
 clear
 clc
 close all
@@ -6,19 +8,13 @@ P = analysisParameters();
 Paths = P.Paths;
 Participants = P.Participants;
 Sessions = P.Sessions;
-Labels = P.Labels;
-StatsP = P.StatsP;
 Tasks = P.Tasks;
-TaskColors = P.TaskColors;
 
 fs = 250;
 
 TitleTag = 'Bursts';
 
 %%% Load data
-
-MegaTable_Filename = 'RRT_AllBursts.mat';
-TablePath = fullfile(Paths.Data, 'EEG', 'Bursts_Table');
 DataPath = fullfile(Paths.Data, 'EEG', 'Bursts');
 
 [BurstTable, Missing, Durations] = loadAllBursts(DataPath, Participants, Sessions, Tasks);
@@ -34,7 +30,6 @@ Bands = {'Theta', 'Alpha'};
 Variables = {'Mean_coh_amplitude', 'nPeaks', 'Duration', 'globality_bursts'};
 VariableNames = {'Amplitude', 'TotCycles', 'Duration', 'Globality'};
 zScore = {true, false};
-
 
 
 for Indx_Z = 1:numel(zScore)
@@ -68,8 +63,7 @@ Data = bursttable2matrix(BurstTable, Missing, Durations, 'Tot', Participants, Se
 save(fullfile(Paths.Pool, [TitleTag, '_rawTotBursts.mat']), 'Data')
 
 
-%%
-
+%% assemble topographic data
 
 load(fullfile(Paths.Analysis, 'Chanlocs123.mat'))
 All_Amps = nan(numel(Participants), numel(Sessions), numel(Tasks), numel(Chanlocs), 2);
@@ -121,8 +115,6 @@ save(fullfile(Paths.Pool, [TitleTag, '_Topo_Amplitude.mat']), 'Data', 'Chanlocs'
 
 Data = All_Tots;
 save(fullfile(Paths.Pool, [TitleTag, '_Topo_Tots.mat']), 'Data', 'Chanlocs')
-
-
 
 
 % burst demographics BL pre, BL post, SD1, SD8. # bursts, globality,
