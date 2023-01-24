@@ -1,3 +1,5 @@
+% script to load in power data, save to neat little matrix
+
 clear
 clc
 close all
@@ -5,7 +7,6 @@ close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Parameters
 
-% ROI = 'preROI';
 ROI = 'All';
 
 P = analysisParameters();
@@ -15,18 +16,14 @@ Bands = P.Bands;
 Sessions = P.Sessions;
 Channels = P.Channels;
 Participants = P.Participants;
-StatsP = P.StatsP;
 Tasks = P.Tasks;
 
-
-ChLabels = fieldnames(Channels.(ROI));
-BandLabels = fieldnames(Bands);
 FactorLabels = {'Session', 'Task'};
 
 Duration = 6; % minutes
 WelchWindow = 8;
 
-SmoothFactor=2; % for spectral plots
+SmoothFactor = 2; % for spectral plots
 
 Tag = ['window',num2str(WelchWindow), 's_duration' num2str(Duration),'m'];
 TitleTag = 'Power';
