@@ -63,7 +63,51 @@ for Indx_P = 1:numel(Participants)
 end
 
 
-%%
+
+%% Figure 5: plot example screenshot
+
+Task = 'Fixation';
+Participant = 'P15';
+PlotProps = P.Manuscript;
+
+load(fullfile('E:\Data\Final\EEG\Bursts', Task, [Participant, '_', Task, '_Main8_Bursts.mat']), 'Bursts')
+load(fullfile('E:\Data\Preprocessed\Clean\Waves', Task, [Participant, '_', Task, '_Main8_Clean.mat']), 'EEG')
+
+% assign conventional labels
+for Indx_B = 1:numel(Bursts)
+    Period = 1/Bursts(Indx_B).Mean_period;
+    if Period > 4 && Period <=6
+        Bursts(Indx_B).FinalBand = '4-6 Hz';
+    elseif  Period > 6 && Period <= 9
+        Bursts(Indx_B).FinalBand = '6-9 Hz';
+    elseif Period > 9 && Period<=11
+        Bursts(Indx_B).FinalBand = '9-11 Hz';
+    elseif Period<= 4
+        Bursts(Indx_B).FinalBand = '< 4 Hz';
+    elseif Period >11
+        Bursts(Indx_B).FinalBand = '> 11 Hz';
+    end
+
+end
+
+Colors = [
+    getColors(1, '', 'blue');
+    getColors(1, '', 'green');
+    getColors(1, '', 'yellow')
+    getColors(1, '', 'orange');];
+figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.5, PlotProps.Figure.Height*.6])
+Axes = subfigure([], [1 1], [1, 1], [], false, '', PlotProps);
+plotExampleBurstData(EEG, 20, Bursts, 'FinalBand', Colors, PlotProps)
+xlim([139.5 149.5])
+ylim([-10 2500])
+xlabel('Time (s)')
+saveFig('Example_Data', Paths.Paper, PlotProps)
+
+
+
+
+%% Figure 6: example bursts & cycle measures
+
 PlotProps = P.Manuscript;
 PlotProps.Patch.Alpha = 0.5;
 PlotProps.Axes.yPadding = 18;
@@ -199,43 +243,4 @@ saveFig('Example_Burst', Paths.Paper, PlotProps)
 
 
 
-
-%% Figure 5: plot example screenshot
-
-Task = 'Fixation';
-Participant = 'P15';
-PlotProps = P.Manuscript;
-
-load(fullfile('E:\Data\Final\EEG\Bursts', Task, [Participant, '_', Task, '_Main8_Bursts.mat']), 'Bursts')
-load(fullfile('E:\Data\Preprocessed\Clean\Waves', Task, [Participant, '_', Task, '_Main8_Clean.mat']), 'EEG')
-
-% assign conventional labels
-for Indx_B = 1:numel(Bursts)
-    Period = 1/Bursts(Indx_B).Mean_period;
-    if Period > 4 && Period <=6
-        Bursts(Indx_B).FinalBand = '4-6 Hz';
-    elseif  Period > 6 && Period <= 9
-        Bursts(Indx_B).FinalBand = '6-9 Hz';
-    elseif Period > 9 && Period<=11
-        Bursts(Indx_B).FinalBand = '9-11 Hz';
-    elseif Period<= 4
-        Bursts(Indx_B).FinalBand = '< 4 Hz';
-    elseif Period >11
-        Bursts(Indx_B).FinalBand = '> 11 Hz';
-    end
-
-end
-
-Colors = [
-    getColors(1, '', 'blue');
-    getColors(1, '', 'green');
-    getColors(1, '', 'yellow')
-    getColors(1, '', 'orange');];
-figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.5, PlotProps.Figure.Height*.6])
-Axes = subfigure([], [1 1], [1, 1], [], false, '', PlotProps);
-plotExampleBurstData(EEG, 20, Bursts, 'FinalBand', Colors, PlotProps)
-xlim([139.5 149.5])
-ylim([-10 2500])
-xlabel('Time (s)')
-saveFig('Example_Data', Paths.Paper, PlotProps)
 
