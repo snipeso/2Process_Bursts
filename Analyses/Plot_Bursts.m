@@ -8,7 +8,6 @@ close all
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Load parameters
 
-
 P = analysisParameters();
 Paths = P.Paths;
 Participants = P.Participants;
@@ -111,8 +110,10 @@ clc
 for Indx_B = 1:numel(BandLabels)
     for Indx_T = 1:numel(Tasks)
 
+        disp(' ')
         disp(strjoin({Tasks{Indx_T}, BandLabels{Indx_B}, 'Tots'}, ' '))
 
+        disp(' ')
         % gather data
         Data = squeeze(Tots(:, :, Indx_T, Indx_B));
         Stats = standardStats(Data, StatsP);

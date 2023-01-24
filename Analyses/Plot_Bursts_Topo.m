@@ -1,9 +1,12 @@
-
-
+% script for figure plotting topographies
 
 clear
 clc
 close all
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Load parameters
 
 P = analysisParameters();
 Paths = P.Paths;
@@ -15,9 +18,13 @@ Tasks = P.Tasks;
 TaskColors = P.TaskColors;
 
 Refresh = false;
-fs = 250;
 
 TitleTag = 'Bursts_Topo';
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% load data
+
 
 load('E:\Data\Final\All_2processBursts\Bursts_Topo_Amplitude.mat', 'Data', 'Chanlocs')
 Amplitudes = zScoreData(Data, 'last');

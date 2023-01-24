@@ -6,6 +6,7 @@ function [Stats, Strings] = standardStats(Data, StatsP)
 % Data is a P x S matrix.
 % Strings is BLpre vs BLpost, SD1 vs SD8, and WMZ
 
+disp('')
 Strings = cell([1 3]);
 
 % overnight change
