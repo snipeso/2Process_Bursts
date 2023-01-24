@@ -71,17 +71,19 @@ end
 addpath(genpath(fullfile(extractBefore(mfilename('fullpath'), 'Analyses'), 'functions'))) % add current repo's functions
 
 % get path where these scripts were saved
-Paths.Analysis = extractBefore(mfilename('fullpath'), 'analysisParameters');
+Paths.Analysis = extractBefore(mfilename('fullpath'), 'Analyses');
 Paths.Stats = fullfile(Paths.Analysis, 'Statistics');
 
 % % get all folders in functions
-% Subfolders = deblank(string(ls(fullfile(Paths.Analysis, 'functions')))); % all content
-% Subfolders(contains(Subfolders, '.')) = []; % remove all files
+Subfolders = deblank(string(ls(fullfile(Paths.Analysis, 'functions')))); % all content
+Subfolders(contains(Subfolders, '.')) = []; % remove all files
 
-% for Indx_F = 1:numel(Subfolders)
-%     addpath(fullfile(Paths.Analysis, 'functions', Subfolders{Indx_F}))
-% end
+for Indx_F = 1:numel(Subfolders)
+    addpath(fullfile(Paths.Analysis, 'functions', Subfolders{Indx_F}))
+end
 
+% also add subfolders of external functions
+addExternalFunctions()
 
 P.Paths = Paths;
 

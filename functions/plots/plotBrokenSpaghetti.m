@@ -3,11 +3,9 @@ function Stats = plotBrokenSpaghetti(Data, YLabels, YLims, StatsP, Colors, Flip,
 % overnight changes vs day changes
 
 XPoints = [-8 -4 0 4 7 10 14.5 17.5 20 23 26.5 30];
-% XLabels = {'BL Pre (23:00)', 'BL Post (10:00)', 'Pre (23:00)', 'SD1 (4:00)', 'SD2 (7:00)', 'SD3 (10:00)', ...
-%     'SD4 (15:00)', 'SD5 (17:30)', 'SD6 (20:00)', 'SD7 (23:00)', 'SD8 (2:40)', 'Post'};
 
-XLabels = {'BL Pre', 'BL Post', 'Pre', 'SD1', 'SD2', 'SD3', ...
-    'SD4', 'SD5', 'SD6', 'SD7', 'SD8', 'Post'};
+XLabels = {'BL Pre', 'BL Post', 'Pre', 'S1', 'S2', 'S3', ...
+    'S4', 'S5', 'S6', 'S7', 'S8', 'Post'};
 Dots = ':';
 
 Sleep = [1:2; 3:4; 11:12];
@@ -18,7 +16,6 @@ if ~isempty(StatsP)
     Stats = pairedttest(Data, [], StatsP);
 else
     Stats = [];
-    % TODO: plot stars for group comparison
 end
 
 

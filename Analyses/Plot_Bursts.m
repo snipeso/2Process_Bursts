@@ -1,6 +1,13 @@
+% scripts that gets figure for burst amplitudes vs cycles/sec
+
 clear
 clc
 close all
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Load parameters
+
 
 P = analysisParameters();
 Paths = P.Paths;
@@ -15,6 +22,10 @@ BandLabels = fieldnames(Bands);
 
 TitleTag = 'Bursts';
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% load data
+
 load('E:\Data\Final\All_2processBursts\Bursts_zscoreAmplitude.mat', 'Data')
 Amplitudes = Data;
 
@@ -23,7 +34,10 @@ load('E:\Data\Final\All_2processBursts\Bursts_zscoreTots.mat', 'Data')
 Tots = Data;
 
 
-%% Figure X-Y Amplitude vs Quantity across sleep deprivation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% plot
+
+%% Figure 7: Amplitude vs Quantity across sleep deprivation
 
 PlotProps = P.Manuscript;
 PlotProps.Axes.xPadding = 30;
@@ -43,7 +57,7 @@ Score = 'zscored';
 
 Indx = 1;
 
-AllData = cat(5, Amplitudes, Tots);
+AllData = cat(5, Amplitudes, Tots); % concatenate so I can loop
 
 figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width, PlotProps.Figure.Height*0.65])
 for Indx_V = 1:numel(Variables)
@@ -68,10 +82,12 @@ for Indx_V = 1:numel(Variables)
 
 
 end
+
 saveFig(strjoin({TitleTag, 'All', Score}, '_'), Paths.Paper, PlotProps)
 
-%%% stats
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% stats
 
 %% amplitudes
 clc
