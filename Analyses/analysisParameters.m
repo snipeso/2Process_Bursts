@@ -169,3 +169,4 @@ Bands.Alpha = [8 12];
 
 
 P.Bands = Bands;
+clc

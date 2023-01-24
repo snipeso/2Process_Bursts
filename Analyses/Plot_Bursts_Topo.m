@@ -39,7 +39,7 @@ Tots = zScoreData(Data, 'last');
 % Plot
 
 
-%%
+%% Figure 8: topography of amplitudes and burst quantities
 
 PlotProps = P.Manuscript;
 PlotProps.Figure.Padding = 10;
@@ -53,13 +53,13 @@ miniminiGrid = [2 4];
 zScore = true;
 Bands = {'Theta', 'Alpha'};
 Variables = {'Mean_coh_amplitude', 'nPeaks'};
-VariableLabels = {'Amplitude', '# cycles'};
+VariableLabels = {'Amplitude', 'Quantity'};
 CLabels = {'\muV (z-scored)', 'cycles/min (z-scored)'};
 
-CLims_Average  = { [-0.5 1], [-1 2.5];
-    [-0.4 .9], [-.7 2]};
+CLims_Average  = { [-0.5 .7], [-1 2.4];
+    [-0.4 1], [-.7 2.1]};
 
-CLims = [-8 8];
+CLims = [-10 10];
 BL = 4;
 SD = 11;
 
@@ -130,8 +130,6 @@ for Indx_B = 1:2
     Axis.Position(1) = Axis.Position(1)-.015;
     Axis.Position(3) = Axis.Position(3)+.01;
     plotColorbar('Linear', CLims_Average{2, Indx_B}, CLabels{2}, PlotProps)
-
-
 end
 
 
@@ -180,21 +178,19 @@ for Indx_B = 1:2
     Axis = subfigure(miniSpace, miniminiGrid, [1, Indx_T+1], [], false, {}, PlotProps);
     Axis.Position(1) = Axis.Position(1)-.015;
     Axis.Position(3) = Axis.Position(3)+.01;
-    plotColorbar('Linear', CLims, 't-values', PlotProps)
+    plotColorbar('Divergent', CLims, 't-values', PlotProps)
 
     Axis = subfigure(miniSpace, miniminiGrid, [2, Indx_T+1], [], false, {}, PlotProps);
     Axis.Position(1) = Axis.Position(1)-.015;
     Axis.Position(3) = Axis.Position(3)+.01;
-    plotColorbar('Linear', CLims, 't-values', PlotProps)
+    plotColorbar('Divergent', CLims, 't-values', PlotProps)
 end
 
 
 % fix colormaps
 Fig = gcf;
 
-% Pos = [];
 for Indx_Ch = 1:numel(Fig.Children)
-    %     Pos = [Pos, Fig.Children(Indx_Ch).Position(2)];
     if Indx_Ch < 22
         Fig.Children(Indx_Ch).Colormap = reduxColormap(PlotProps.Color.Maps.Divergent, PlotProps.Color.Steps.Divergent);
     else
@@ -203,4 +199,4 @@ for Indx_Ch = 1:numel(Fig.Children)
 end
 
 
-   saveFig(TitleTag, Paths.Paper, PlotProps)
+saveFig(TitleTag, Paths.Paper, PlotProps)
