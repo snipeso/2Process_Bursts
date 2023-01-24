@@ -1,14 +1,16 @@
+% creates big table with all the stats together
+
 clear
 clc
 close all
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% load parameters
+
 P = analysisParameters();
 Paths = P.Paths;
-Participants = P.Participants;
-Sessions = P.Sessions;
-PlotProps = P.Manuscript;
 Tasks = P.Tasks;
-Labels = P.Labels;
 StatsP = P.StatsP;
 BandLabels = fieldnames(P.Bands);
 
@@ -16,7 +18,11 @@ AllStats = table();
 Labels = {};
 TaskLabels = {};
 
-VariableNames = {'BL', 'SD', 'WMZ'};
+VariableNames = {'Sleep', 'Extended Wake', 'WMZ'};
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% load data
 
 % KSS
 load(fullfile(Paths.Pool, 'Questionnaires_KSS.mat'), 'Data')
@@ -71,7 +77,11 @@ for Indx_B = 1:2
     end
 end
 
-%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% run stats
+
 % other
 Variables = {'Pupillometry_meanDiameter.mat', 'Pupillometry_stdDiameter.mat', ...
     'Microsleeps_nBlinks.mat', 'Microsleeps_prcntMicrosleep.mat'};
@@ -94,5 +104,7 @@ AllStats.Labels = Labels;
 AllStats.Task = TaskLabels;
 
 AllStats = AllStats(:, [4, 5, 1:3]);
+
+%% Table 1
 
 writetable(AllStats, fullfile(Paths.Paper, 'AllStats.xlsx'))
