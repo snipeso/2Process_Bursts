@@ -78,20 +78,19 @@ for Indx_B = 1:2
 end
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% run stats
-
 % other
 Variables = {'Pupillometry_meanDiameter.mat', 'Pupillometry_stdDiameter.mat', ...
-    'Microsleeps_nBlinks.mat', 'Microsleeps_prcntMicrosleep.mat'};
-VariableLabels = {'Pupil diameter (mean)', 'Pupil diameter (std)', 'Blink rate', 'Microsleeps (%)'};
+    'Pupillometry_zAuC.mat', 'Microsleeps_nBlinks.mat', 'Microsleeps_prcntMicrosleep.mat'};
+VariableLabels = {'Pupil diameter (mean)', 'Pupil diameter (std)', 'AuC', 'Blink rate', 'Microsleeps (%)'};
 
 for Indx_V = 1:numel(Variables)
     
     load(fullfile(Paths.Pool, Variables{Indx_V}), 'Data')
     Data = zScoreData(Data, 'first');
     for Indx_T=1:2
+        if numel(size(Data))<3 && Indx_T>1
+            continue
+        end
         [Stats, Strings] = standardStats(squeeze(Data(:, :, Indx_T)), StatsP);
 
         AllStats = [AllStats; cell2table(Strings, 'VariableNames', VariableNames)];

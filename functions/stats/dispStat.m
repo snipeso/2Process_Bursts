@@ -18,9 +18,7 @@ if any(strcmp(Fieldnames, 't')) % paired t-test
 
 
     disp(Label)
-    N = Stats.N(P(1), P(2));
-    String = ['N = ', num2str(N), ...
-        ', t = ', num2str(Stats.t(P(1), P(2)), '%.2f'), ...
+    String = ['t(', num2str(Stats.df(P(1), P(2))), ') = ', num2str(Stats.t(P(1), P(2)), '%.2f'), ...
         pString , ', g = ', num2str(Stats.hedgesg(P(1), P(2)), '%.2f')];
 
     disp(String)

@@ -14,7 +14,7 @@ Participants = P.Participants;
 Sessions = P.Sessions;
 Labels = P.Labels;
 StatsP = P.StatsP;
-Tasks = P.Tasks;
+Tasks = P.Tasks(1:2);
 TaskColors = P.TaskColors;
 Bands = P.Bands;
 BandLabels = fieldnames(Bands);
@@ -44,11 +44,11 @@ PlotProps = P.Manuscript;
 YLim = [];
 StatParameters = StatsP;
 Flip = false;
-Grid = [1, 2];
+Grid = [1, 3];
 Indx=1;
 Colors = P.TaskColors;
 
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.32])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*1.2 PlotProps.Figure.Height*0.32])
 
 subfigure([], Grid, [1, 1], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
@@ -60,8 +60,15 @@ set(legend, 'location', 'northwest')
 A = subfigure([], Grid, [1, 2], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenRain(stdDiameter, [], [-2.3 3], Colors, Tasks, PlotProps)
-ylabel('Standard deviation diameter (z-scored)')
+ylabel('SD pupil diameter (z-scored)')
 legend off
+
+
+A = subfigure([], Grid, [1, 3], [], true, ...
+    PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
+plotBrokenSpaghetti(AuC, [], [-2 5], [], PlotProps.Color.Participants, false, PlotProps);
+ylabel('Oddball AUC target response')
+
 
 saveFig([TitleTag, 'Diameter'], Paths.Paper, PlotProps)
 

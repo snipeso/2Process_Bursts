@@ -1,19 +1,24 @@
+% load data for blinks and microsleeps
+
 clear
 clc
 close all
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% set parameters
 
 P = analysisParameters();
 Paths = P.Paths;
 Participants = P.Participants;
 Sessions = P.Sessions;
-PlotProps = P.Manuscript;
-Labels = P.Labels;
-StatsP = P.StatsP;
 Tasks = {'Fixation', 'Oddball'};
-Colors = P.TaskColors(1:2, :);
 Refresh = true;
 
 TitleTag = 'Microsleeps';
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% load data 
 
 % load in data table of all eye closures
 AllBlinks = fullfile(Paths.Data, 'Eyes', 'Blinks', 'AllBlinks.mat');
@@ -29,7 +34,6 @@ if Refresh || ~exist(AllBlinks, 'file')
 else
     load(AllBlinks, 'BlinkTable', 'RecordingDurations', 'Confidence')
 end
-
 
 MicrosleepThreshold = 1;
 BlinkThreshold = 1; % anything less is a blink, more is a microsleep
@@ -54,7 +58,7 @@ for Indx_P = 1:numel(Participants)
 end
 
 
-%% save to pool
+%%% save to pool
 
 % blinks
 Data = TotBlinks; % P x S x T
