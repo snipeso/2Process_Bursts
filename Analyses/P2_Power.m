@@ -36,9 +36,9 @@ Spectrum = Data;
 %% Figure 3: power by session
 
 PlotProps = P.Manuscript;
-PlotProps.Axes.xPadding = 30;
-PlotProps.Axes.yPadding = 30;
-PlotProps.Figure.Padding = 15;
+PlotProps.Axes.xPadding = 20;
+% PlotProps.Axes.yPadding = 30;
+% PlotProps.Figure.Padding = 15;
 
 
 Grid = [1, numel(BandLabels)];
@@ -49,7 +49,7 @@ YLim = [-1.1, 1.9];
 YLabel = ' power (z-scored)';
 
 Indx = 1;
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.32])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.8 PlotProps.Figure.Height*0.32])
 
 for Indx_B = 1:numel(BandLabels)
 
@@ -85,7 +85,7 @@ Grid = [numel(ChLabels), numel(Tasks)];
 Colors = flip(flip(getColors([numel(Tasks), numel(Sessions)-3]), 3), 1);
 
 
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Width*.75])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*1.2 PlotProps.Figure.Height*.6])
 for Indx_Ch = 1:numel(ChLabels)
     for Indx_T = 1:numel(Tasks)
 

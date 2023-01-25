@@ -72,11 +72,11 @@ for Indx_S = 1:numel(Sessions)
     end
 
     if Indx_S>8
-        xlabel('t(s)')
+        xlabel('Time (s)')
     end
 
     if Coordinate(2) ==1
-        ylabel('diameter (z-scored)')
+        ylabel('Diameter (z-scored)')
     end
 end
 

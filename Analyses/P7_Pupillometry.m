@@ -67,7 +67,7 @@ legend off
 A = subfigure([], Grid, [1, 3], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenSpaghetti(AuC, [], [-2 5], [], PlotProps.Color.Participants, false, PlotProps);
-ylabel('Oddball AUC target response')
+ylabel('Oddball AUC (z-scored)')
 
 
 saveFig([TitleTag, 'Diameter'], Paths.Paper, PlotProps)

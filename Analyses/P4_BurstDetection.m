@@ -203,7 +203,7 @@ Variables = {'TotBursts', 'Globality', 'Duration',  'Amplitude', 'TotCycles'};
 YLabels = {'Bursts/min', 'Gloablity (% channels)', 'Duration (s)'  'Amplitude (\muV)', 'Cycles/min',};
 CornerCoordinates = {[2 4], [4 4], [2 5], [4 5], [4 6]};
 Sizes = {[2, 1], [2, 1], [2, 1], [2, 1], [4, 1]};
-YLims = {[0 135], [2 28], [.5 1.7], [6 22], [0 1200]};
+YLims = {[0 150], [2 28], [.5 1.7], [6 22], [0 1200]};
 
 for Indx_V = 1:numel(Variables)
 
@@ -223,18 +223,17 @@ for Indx_V = 1:numel(Variables)
         A.Position(2) = Base(2);
     end
     A.Position(4) = A.Position(4)-0.02;
-    CC(1)
 
     if Indx_V ==numel(Variables)
         ytickangle(90)
     end
-    plotSimpleChange(Data, Tasks, PlotProps.Color.Participants, PlotProps)
+    plotSimpleChange(Data, Tasks, PlotProps.Color.Participants, PlotProps);
     ylabel(YLabels{Indx_V})
     ylim(YLims{Indx_V})
 
 
     if Indx_V ==1
-        legend('S1 to S8', 'location', 'northwest')
+        legend('Alpha S1 to S8', 'location', 'northwest')
         set(legend, 'ItemTokenSize', [10 10])
     end
 end

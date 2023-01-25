@@ -29,7 +29,7 @@ load('E:\Data\Final\All_2processBursts\Bursts_zscoreAmplitude.mat', 'Data')
 Amplitudes = Data;
 
 
-load('E:\Data\Final\All_2processBursts\Bursts_zscoreTots.mat', 'Data')
+load('E:\Data\Final\All_2processBursts\Bursts_zscoreTotCycles.mat', 'Data')
 Tots = Data;
 
 

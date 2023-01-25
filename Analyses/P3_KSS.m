@@ -38,7 +38,7 @@ Flip = true;
 Grid = size(PlotQuestions);
 Indx = 1;
 
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.62 PlotProps.Figure.Height*0.28])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.6 PlotProps.Figure.Height*0.32])
 
 for Indx_1 = 1:Grid(1)
     for Indx_2 = 1:Grid(2)
@@ -49,7 +49,7 @@ for Indx_1 = 1:Grid(1)
             '', PlotProps);
         A.Position(1) = A.Position(1)+.3;
         A.Position(3) = A.Position(3)-.3;
-        plotBrokenSpaghetti(Data, qL, [-.05 1.05], [], PlotProps.Color.Participants, Flip, PlotProps)
+        plotBrokenSpaghetti(Data, qL, [-.05 1.05], [], PlotProps.Color.Participants, Flip, PlotProps);
         Indx = Indx+1;
         if Indx_1<Grid(1)
             set(gca,'xtick',[])
