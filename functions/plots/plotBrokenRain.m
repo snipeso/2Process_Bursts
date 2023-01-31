@@ -90,5 +90,6 @@ xticklabels(XLabels)
 
 setAxisProperties(PlotProps)
 
+axis square
 legend(Legend)
 set(legend, 'ItemTokenSize', [10 10], 'location', 'northwest')
