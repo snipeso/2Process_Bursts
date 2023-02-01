@@ -58,7 +58,7 @@ A = subfigure([], Grid, [1, 2], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenRain(Microsleeps, [], [0 40], Colors, Tasks, PlotProps)
 legend off
-ylabel('Long eye-closures (%)')
+ylabel('Microsleeps (%)')
 
 saveFig(TitleTag, Paths.Paper, PlotProps)
 

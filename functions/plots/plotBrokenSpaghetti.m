@@ -129,5 +129,6 @@ if Flip && mean(MEANS(:, 11))<mean(MEANS(:, 4)) % if SD is lower than BL
     set(gca, 'YDir','reverse')
 end
 
+axis square
 
 setAxisProperties(PlotProps)

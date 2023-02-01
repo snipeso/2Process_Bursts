@@ -58,7 +58,7 @@ Indx = 1;
 
 AllData = cat(5, Amplitudes, Tots); % concatenate so I can loop
 
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width, PlotProps.Figure.Height*0.65])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.8, PlotProps.Figure.Height*0.64])
 for Indx_V = 1:numel(Variables)
     for Indx_B = 1:2
         % adjust labels according to scale
