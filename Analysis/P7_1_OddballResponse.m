@@ -36,7 +36,7 @@ zTimecourse = Data;
 
 %% plot response to targets
 
-
+PlotProps = P.Manuscript;
 Grid = [3 4];
 YLims = [-2 4];
 % YLims = [-3.3 5];
@@ -48,6 +48,7 @@ XLabels = P.Labels.Sessions;
 
 % Colors = [0.6 0.6 0.6; getColors(1, '', 'red')];
 Colors = PlotProps.Color.Participants;
+PlotProps.Line.Width = 3;
 
 Legend = {'Standard', 'Target'};
 
@@ -68,7 +69,7 @@ for Indx_S = 1:numel(Sessions)
     if Indx_S>1
         legend off
     else
-        set(legend, 'ItemTokenSize', [10 10], 'location', 'southwest')
+        set(legend, 'ItemTokenSize', [10 10], 'location', 'northwest')
     end
 
     if Indx_S>8
