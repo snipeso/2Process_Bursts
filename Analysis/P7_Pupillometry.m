@@ -16,8 +16,6 @@ Labels = P.Labels;
 StatsP = P.StatsP;
 Tasks = P.Tasks(1:2);
 TaskColors = P.TaskColors;
-Bands = P.Bands;
-BandLabels = fieldnames(Bands);
 TitleTag = 'Pupillometry';
 
 
