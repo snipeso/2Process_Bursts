@@ -52,8 +52,12 @@ Intercepts = Slopes;
 for Indx_P = 1:numel(Participants)
     for Indx_S = 1:numel(Sessions)
         for Indx_T = 1:numel(Tasks)
+            Data = squeeze(chData(Indx_P, Indx_S, Indx_T, :));
+            if all(isnan(Data))
+                continue
+            end
             [Slopes(Indx_P, Indx_S, Indx_T), Intercepts(Indx_P, Indx_S, Indx_T)] = ...
-                fooofFit(Freqs, squeeze(chData(Indx_P, Indx_S, Indx_T, :)), Range, false);
+                fooofFit(Freqs, Data, Range, false);
         end
     end
     disp(['Finished ', Participants{Indx_P}])
