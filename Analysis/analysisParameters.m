@@ -68,7 +68,8 @@ if ~exist('topoplot', 'file')
 end
 
 
-addpath(genpath(fullfile(extractBefore(mfilename('fullpath'), '2Process_Bursts'), '2Process_Bursts', 'functions'))) % add current repo's functions
+addpath(genpath(fullfile(extractBefore(mfilename('fullpath'), '2Process_Bursts'), ...
+    '2Process_Bursts', 'functions'))) % add current repo's functions
 
 % get path where these scripts were saved
 Paths.Analysis = [extractBefore(mfilename('fullpath'), '2Process_Bursts'), 'Analysis'];
@@ -79,9 +80,9 @@ Subfolders = deblank(string(ls(fullfile(Paths.Analysis, 'functions')))); % all c
 Subfolders(contains(Subfolders, '.')) = []; % remove all files
 
 
-for Indx_F = 1:numel(Subfolders)
-    addpath(fullfile(Paths.Analysis, 'functions', Subfolders{Indx_F}))
-end
+% for Indx_F = 1:numel(Subfolders)
+%     addpath(fullfile(Paths.Analysis, 'functions', Subfolders{Indx_F}))
+% end
 
 % also add subfolders of external functions
 addExternalFunctions()
