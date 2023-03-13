@@ -20,20 +20,24 @@ PlotProps = P.Manuscript;
 Path = 'E:\Data\Final\EEG\Unlocked\window8s_duration6m';
 Task = 'Fixation';
 
-Sessions = {'Main2', 'Main8'};
+Sessions = {'Main5', 'Main7', 'Main8'};
 Range = [1 40];
 YLim = [-2 1.5];
 Grid = [1, numel(Sessions)+1];
 
 
-for Indx_P = 1:numel(Participants)
+for Indx_P = 10:numel(Participants)
     figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.32])
 AllData = [];
     Participant = Participants{Indx_P};
 for Indx_S = 1:numel(Sessions)
-
+try
     load(fullfile(Path, Task, strjoin({Participant, Task, Sessions{Indx_S}, 'Welch.mat'}, '_')),...
         'Power', 'Freqs', 'Chanlocs')
+catch
+    load(fullfile(Path, Task, strjoin({Participant, Task, 'Main7', 'Welch.mat'}, '_')),...
+        'Power', 'Freqs', 'Chanlocs')
+end
 
 
      Data = mean(Power(labels2indexes(Channels,Chanlocs), :), 1, 'omitnan');
