@@ -167,9 +167,10 @@ Channels.All.All = All;
 
 P.Channels = Channels;
 
-Bands.Theta = [4 8];
-Bands.Alpha = [8 12];
-
+% Bands.Theta = [4 8];
+% Bands.Alpha = [8 12];
+Bands.End = [1, 1.1];
+Bands.Delta = [1 4];
 
 P.Bands = Bands;
 clc

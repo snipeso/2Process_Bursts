@@ -1,12 +1,16 @@
 function Stats = spectrumDiff(Data, AllFreqs, BL_Indx, LineLabels, Colors, ...
-    xLog, PlotProps, StatsP, Labels)
+    xLog, yLog, PlotProps, StatsP, Labels)
 % plots changes in power spectrum, highlighting significant frequencies
 % different from specified BL_Indx. It also marks where the theta range is.
 % Data is a P x S x Freq matrix.
-% From 2process_Bursts
 
 
 % Just use the specified range (also to avoid extra statistics)
+
+if yLog
+    Data = log(Data);
+    Data(isinf(Data)) = nan;
+end
 
 XLims = Labels.FreqLimits;
 XIndx = dsearchn(AllFreqs', XLims');
@@ -62,7 +66,6 @@ end
 plotGloWorms(squeeze(mean(Data, 1, 'omitnan')), X, logical(Sig), Colors, PlotProps)
 
 ylim([Min Max])
-ylabel(Labels.zPower)
 
 xlim(xLims)
 xlabel(Labels.Frequency)
