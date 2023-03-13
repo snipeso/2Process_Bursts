@@ -138,6 +138,7 @@ StatsP.Paired.Benchmarks = -2:.5:2;
 StatsP.FreqBin = 1; % # of frequencies to bool in spectrums stats
 StatsP.minProminence = .1; % minimum prominence for when finding clusters of g values
 StatsP.Correlation = 'Spearman';
+StatsP.ttesttype = 'paired';
 P.StatsP = StatsP;
 
 
