@@ -83,7 +83,7 @@ for Indx_S  = 1:Dims(1)
     xlim(XLim)
 end
 
-setLims(Dims(1), 1, 'y')
+setLims(Dims(1), 1, 'y');
 
 %% Fattinger method
 
@@ -112,7 +112,7 @@ for Indx_S  = 1:Dims(1)
     xlim(XLim)
 end
 
-setLims(Dims(1), 1, 'y')
+setLims(Dims(1), 1, 'y');
 
 %% Snipes method
 
@@ -173,23 +173,23 @@ for Indx_S  = 1:Dims(1)
     xlim(XLim)
 end
 
-setLims(Dims(1), 1, 'y')
+setLims(Dims(1), 1, 'y');
 
 
 
 
 
-%% 
+%%
 
 Indx_S = 2;
-   D = Signals(Indx_S, :);
-    Df = AllfEEG(2).data(Indx_S, :);
+D = Signals(Indx_S, :);
+Df = AllfEEG(2).data(Indx_S, :);
 
-     Peaks = peakDetection(D, Df);
-    Peaks = peakProperties(D, Peaks, fs);
-    Peaks = meanFreq(Peaks);
+Peaks = peakDetection(D, Df);
+Peaks = peakProperties(D, Peaks, fs);
+Peaks = meanFreq(Peaks);
 
-    BT = P.BurstThresholds(3);
+BT = P.BurstThresholds(3);
 BT.period = 1./[4 8];
 BT = removeEmptyFields(BT);
 [Bursts, BurstPeakIDs, Diagnostics] = findBursts(Peaks, BT, Min_Peaks, Keep_Points);
