@@ -14,15 +14,48 @@ Info.Min_Peaks = 4;
 
 Info.Max_Minutes = 6; % first number of clean minutes to look for bursts in
 
-BurstThresholds = struct();
-BurstThresholds.monotonicity = .6;
-BurstThresholds.periodConsistency = .6;
-BurstThresholds.periodMeanConsistency = .6;
-BurstThresholds.efficiency = .6;
-BurstThresholds.truePeak = 1;
-BurstThresholds.flankConsistency = .5;
-BurstThresholds.ampConsistency = .6;
-Info.BurstThresholds = BurstThresholds;
+% BurstThresholds = struct();
+% BurstThresholds.monotonicity = .6;
+% BurstThresholds.periodConsistency = .6;
+% BurstThresholds.periodMeanConsistency = .6;
+% BurstThresholds.efficiency = .6;
+% BurstThresholds.truePeak = 1;
+% BurstThresholds.flankConsistency = .5;
+% BurstThresholds.ampConsistency = .6;
+% Info.BurstThresholds = BurstThresholds;
+
+% short
+BT = struct();
+BT(1).periodConsistency = .3;
+BT(1).amplitude = 25;
+BT(1).Min_Peaks = 3;
+BT(1).isProminent = 1;
+BT(1).truePeak = 1;
+
+% long
+BT(2).monotonicity = .5;
+BT(2).periodConsistency = .5;
+BT(2).periodMeanConsistency = .5;
+BT(2).efficiency = .6;
+BT(2).truePeak = 1;
+BT(2).flankConsistency = .5;
+BT(2).ampConsistency = .5;
+% BT(2).efficiencyAdj = .5; TODO????
+BT(2).Min_Peaks = 6;
+
+
+% clean
+BT(3).monotonicity = .6;
+BT(3).periodConsistency = .6; % C
+BT(3).periodMeanConsistency = .6;
+BT(3).efficiency = .6;
+BT(3).truePeak = 1; % A
+BT(3).flankConsistency = .5; % D
+BT(3).ampConsistency = .6;% E
+BT(3).Min_Peaks = 4;
+
+Info.BurstThresholds = BT;
+
 
 
 %%% Parameters to aggregate across channels

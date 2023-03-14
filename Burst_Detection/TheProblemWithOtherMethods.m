@@ -62,7 +62,7 @@ hpSignals = hpfilt(Signals, fs, 2.5);
 figure('Units','normalized','OuterPosition',[0 0 1 1])
 for Indx_S  = 1:Dims(1)
     Df = hpSignals(Indx_S, :);
-      D = Signals(Indx_S, :);
+    D = Signals(Indx_S, :);
 
     % detect negative peaks
     Peaks = peakDetection(Df, Df);
@@ -90,7 +90,7 @@ setLims(Dims(1), 1, 'y')
 figure('Units','normalized','OuterPosition',[0 0 1 1])
 for Indx_S  = 1:Dims(1)
     Df = hpSignals(Indx_S, :);
-  D = Signals(Indx_S, :);
+    D = Signals(Indx_S, :);
 
 
     % detect negative peaks
@@ -109,57 +109,89 @@ for Indx_S  = 1:Dims(1)
     scatter(t([thetaPeaks.NegPeakID]), D([thetaPeaks.NegPeakID]))
     scatter(t([topThetaPeaks.NegPeakID]), D([topThetaPeaks.NegPeakID]), 'r', 'filled')
     title([Titles{Indx_S}, ' Ntot=', num2str(numel(thetaPeaks)), '; Ntop=', num2str(numel(topThetaPeaks))])
-   xlim(XLim)
+    xlim(XLim)
 end
 
 setLims(Dims(1), 1, 'y')
 
 %% Snipes method
 
+AllEEG = EEG;
+AllEEG.data = Signals;
 
+Bands = P.Bands;
+BandNames = fieldnames(Bands);
+
+AllfEEG = struct();
 % Filter signal
+for Indx_B = 1:numel(BandNames)
+    fSignals = nan(size(Signals));
+    for Indx_S = 1:Dims(1)
 
-fSignals = nan(size(Signals));
-for Indx_S = 1:Dims(1)
+        Filt = Signals(Indx_S, :);
+        Filt = hpfilt(Filt, fs, Bands.(BandNames{Indx_B})(1));
+        Filt = lpfilt(Filt, fs, Bands.(BandNames{Indx_B})(2));
+        fSignals(Indx_S, :) = Filt;
+    end
 
-    Filt = Signals(Indx_S, :);
-    Filt = hpfilt(Filt, fs, 4);
-    Filt = lpfilt(Filt, fs, 8);
-    fSignals(Indx_S, :) = Filt;
+    fEEG = AllEEG;
+    fEEG.data = fSignals;
+    AllfEEG = catStruct(AllfEEG, fEEG);
 end
 
-%% plot
 
 Min_Peaks = 4;
 Keep_Points = ones(size(t));
+FinalBursts = getAllBursts(AllEEG, AllfEEG, P.BurstThresholds, Min_Peaks, P.Bands, Keep_Points);
+FinalBursts = meanFreq(FinalBursts);
 
-BT = P.BurstThresholds;
-BT.period = 1./[4 8]; % add period threshold
+BurstFreqs = [FinalBursts.Frequency];
+ThetaBursts = BurstFreqs>=4 & BurstFreqs <=8;
+
+%% plot
 
 figure('Units','normalized','OuterPosition',[0 0 1 1])
 for Indx_S  = 1:Dims(1)
     D = Signals(Indx_S, :);
-    Df = fSignals(Indx_S, :);
+    Df = AllfEEG(2).data(Indx_S, :);
 
     % detect negative peaks
+
+    topThetaPeaks = FinalBursts([FinalBursts.Channel]==Indx_S & ThetaBursts);
+
     Peaks = peakDetection(D, Df);
     Peaks = peakProperties(D, Peaks, fs);
     Peaks = meanFreq(Peaks);
-    [Bursts, BurstPeakIDs, Diagnostics] = findBursts(Peaks, BT, Min_Peaks, Keep_Points);
-
-
-    Freqs = [Peaks.Frequency];
-    thetaPeaks = Peaks(Freqs<8 &Freqs>=4);
-    topThetaPeaks = Peaks(BurstPeakIDs);
-
+    thetaPeaks = Peaks([Peaks.Frequency]>=4 & [Peaks.Frequency]<=8);
 
     subplot(Dims(1), 1, Indx_S)
     hold on
     plot(t, D)
     scatter(t([thetaPeaks.NegPeakID]), D([thetaPeaks.NegPeakID]))
     scatter(t([topThetaPeaks.NegPeakID]), D([topThetaPeaks.NegPeakID]), 'r', 'filled')
-    title([Titles{Indx_S}, ' Ntot=', num2str(numel(thetaPeaks)), '; Ntop=', num2str(numel(topThetaPeaks))])
-     xlim(XLim)
+    title([Titles{Indx_S}, ' Ntot=', num2str(numel(thetaPeaks)), '; Ntop=', num2str(numel([topThetaPeaks.NegPeakID]))])
+    xlim(XLim)
 end
 
 setLims(Dims(1), 1, 'y')
+
+
+
+
+
+%% 
+
+Indx_S = 2;
+   D = Signals(Indx_S, :);
+    Df = AllfEEG(2).data(Indx_S, :);
+
+     Peaks = peakDetection(D, Df);
+    Peaks = peakProperties(D, Peaks, fs);
+    Peaks = meanFreq(Peaks);
+
+    BT = P.BurstThresholds(3);
+BT.period = 1./[4 8];
+BT = removeEmptyFields(BT);
+[Bursts, BurstPeakIDs, Diagnostics] = findBursts(Peaks, BT, Min_Peaks, Keep_Points);
+plotBursts(D, fs, Peaks, BurstPeakIDs, BT)
+xlim(XLim)
