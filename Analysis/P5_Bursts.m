@@ -12,7 +12,6 @@ P = analysisParameters();
 Paths = P.Paths;
 Participants = P.Participants;
 Sessions = P.Sessions;
-Labels = P.Labels;
 StatsP = P.StatsP;
 Tasks = P.Tasks;
 TaskColors = P.TaskColors;
@@ -25,13 +24,70 @@ TitleTag = 'Bursts';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% load data
 
-% load('E:\Data\Final\All_2processBursts\Bursts_zscoreAmplitude.mat', 'Data')
-load('E:\Data\Final\All_2processBursts\Bursts_rawAmplitude.mat', 'Data')
+% load z-scored
+load('E:\Data\Final\All_2processBursts\Bursts_zscoreAmplitude.mat', 'Data')
 Amplitudes = Data;
-
 
 load('E:\Data\Final\All_2processBursts\Bursts_zscoreTotCycles.mat', 'Data')
 Tots = Data;
+
+% load raw
+load('E:\Data\Final\All_2processBursts\Bursts_rawAmplitude.mat', 'Data')
+rawAmplitudes = Data;
+
+load('E:\Data\Final\All_2processBursts\Bursts_rawTotCycles.mat', 'Data')
+rawTots = Data;
+
+
+
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Describe changes
+clc
+
+
+AllRaw = cat(5, rawAmplitudes, rawTots);
+Labels = {'Amplitudes', 'Tots'};
+UnitTypes = {' miV', ' cyc/min'};
+Roundedness = 1;
+Unit = '%';
+
+BaseIndx = 4; % S1
+CompareIndx = [6 11]; % S3 and S8
+
+for Indx_L = 1:numel(Labels)
+    for Indx_B = 1:numel(BandLabels)
+        for C_Indx = CompareIndx
+            for Indx_T = 1:numel(Tasks)
+
+                Data1 = squeeze(AllRaw(:, BaseIndx, Indx_T, Indx_B, Indx_L));
+                Data2 = squeeze(AllRaw(:, C_Indx, Indx_T, Indx_B, Indx_L));
+                Data = 100*(Data2-Data1)./Data1;
+
+                String = strjoin([Labels{Indx_L}, BandLabels(Indx_B), Sessions(C_Indx), Tasks(Indx_T)], ' ');
+                dispDescriptive(Data, String, Unit, Roundedness);
+                dispDescriptive(Data1, Sessions{BaseIndx}, UnitTypes{Indx_L}, 2);
+                dispDescriptive(Data2, Sessions{C_Indx}, UnitTypes{Indx_L}, 2);
+                disp('*')
+            end
+            disp('***')
+        end
+        disp('*******')
+    end
+    disp('____________')
+
+    Data1 = squeeze(AllRaw(:, 2, 1, 2, Indx_L));
+    Data2 = squeeze(AllRaw(:, 2, 3, 2, Indx_L));
+    Data = 100*(Data2-Data1)./Data1;
+
+    dispDescriptive(Data, [Labels{Indx_L}, ' Berger'], Unit, Roundedness);
+    dispDescriptive(Data1, 'EO', UnitTypes{Indx_L}, 2);
+    dispDescriptive(Data2, 'EC', UnitTypes{Indx_L}, 2);
+end
+
+% Fix BL vs Stand BL (Berger effect)
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -77,10 +133,7 @@ for Indx_V = 1:numel(Variables)
         if Indx_V~=2 || Indx_B~=2
             legend off
         end
-
     end
-
-
 end
 
-% saveFig(strjoin({TitleTag, 'All', Score}, '_'), Paths.Paper, PlotProps)
+saveFig(strjoin({TitleTag, 'All', Score}, '_'), Paths.Paper, PlotProps)
