@@ -25,7 +25,8 @@ TitleTag = 'Bursts';
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% load data
 
-load('E:\Data\Final\All_2processBursts\Bursts_zscoreAmplitude.mat', 'Data')
+% load('E:\Data\Final\All_2processBursts\Bursts_zscoreAmplitude.mat', 'Data')
+load('E:\Data\Final\All_2processBursts\Bursts_rawAmplitude.mat', 'Data')
 Amplitudes = Data;
 
 
@@ -82,4 +83,4 @@ for Indx_V = 1:numel(Variables)
 
 end
 
-saveFig(strjoin({TitleTag, 'All', Score}, '_'), Paths.Paper, PlotProps)
+% saveFig(strjoin({TitleTag, 'All', Score}, '_'), Paths.Paper, PlotProps)
