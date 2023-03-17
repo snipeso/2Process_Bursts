@@ -166,12 +166,9 @@ P.Channels = Channels;
 
 Bands.Theta = [4 8];
 Bands.Alpha = [8 12];
-<<<<<<< Updated upstream
-
-=======
 % Bands.End = [1, 1.1];
 % Bands.Delta = [1 4];
->>>>>>> Stashed changes
+
 
 P.Bands = Bands;
 clc
