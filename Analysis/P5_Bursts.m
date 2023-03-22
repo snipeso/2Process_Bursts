@@ -57,9 +57,8 @@ CompareIndx = [6 11]; % S3 and S8
 
 for Indx_L = 1:numel(Labels)
     for Indx_B = 1:numel(BandLabels)
-        for C_Indx = CompareIndx
-            for Indx_T = 1:numel(Tasks)
-
+        for Indx_T = 1:numel(Tasks)
+            for C_Indx = CompareIndx
                 Data1 = squeeze(AllRaw(:, BaseIndx, Indx_T, Indx_B, Indx_L));
                 Data2 = squeeze(AllRaw(:, C_Indx, Indx_T, Indx_B, Indx_L));
                 Data = 100*(Data2-Data1)./Data1;
@@ -76,6 +75,7 @@ for Indx_L = 1:numel(Labels)
     end
     disp('____________')
 
+    % Fix BL vs Stand BL (Berger effect)
     Data1 = squeeze(AllRaw(:, 2, 1, 2, Indx_L));
     Data2 = squeeze(AllRaw(:, 2, 3, 2, Indx_L));
     Data = 100*(Data2-Data1)./Data1;
@@ -85,7 +85,7 @@ for Indx_L = 1:numel(Labels)
     dispDescriptive(Data2, 'EC', UnitTypes{Indx_L}, 2);
 end
 
-% Fix BL vs Stand BL (Berger effect)
+
 
 
 
