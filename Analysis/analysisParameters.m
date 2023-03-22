@@ -68,10 +68,10 @@ if ~exist('topoplot', 'file')
 end
 
 
-addpath(genpath(fullfile(extractBefore(mfilename('fullpath'), 'Analyses'), 'functions'))) % add current repo's functions
+addpath(genpath(fullfile(extractBefore(mfilename('fullpath'), 'Analysis'), 'functions'))) % add current repo's functions
 
 % get path where these scripts were saved
-Paths.Analysis = extractBefore(mfilename('fullpath'), 'Analyses');
+Paths.Analysis = extractBefore(mfilename('fullpath'), 'Analysis');
 Paths.Stats = fullfile(Paths.Analysis, 'Statistics');
 
 % % get all folders in functions
