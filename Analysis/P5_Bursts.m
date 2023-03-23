@@ -49,17 +49,19 @@ clc
 AllRaw = cat(5, rawAmplitudes, rawTots);
 Labels = {'Amplitudes', 'Tots'};
 UnitTypes = {' miV', ' cyc/min'};
-Roundedness = 1;
+Roundedness = 0;
 Unit = '%';
 
 BaseIndx = 4; % S1
 CompareIndx = [6 11]; % S3 and S8
+
 
 for Indx_L = 1:numel(Labels)
     for Indx_B = 1:numel(BandLabels)
         for Indx_T = 1:numel(Tasks)
             for C_Indx = CompareIndx
                 Data1 = squeeze(AllRaw(:, BaseIndx, Indx_T, Indx_B, Indx_L));
+
                 Data2 = squeeze(AllRaw(:, C_Indx, Indx_T, Indx_B, Indx_L));
                 Data = 100*(Data2-Data1)./Data1;
 
@@ -83,10 +85,38 @@ for Indx_L = 1:numel(Labels)
     dispDescriptive(Data, [Labels{Indx_L}, ' Berger'], Unit, Roundedness);
     dispDescriptive(Data1, 'EO', UnitTypes{Indx_L}, 2);
     dispDescriptive(Data2, 'EC', UnitTypes{Indx_L}, 2);
+
+    disp('____________')
 end
 
 
 
+
+%% table with actual values
+
+AllRaw = cat(5, rawAmplitudes, rawTots);
+Labels = {'Amplitudes', 'Tots'};
+CompareIndx = [4 6 11]; % S3 and S8
+Roundedness = 1;
+UnitTypes = {' miV', ' cyc/min'};
+
+VariableNames = ['Variable', 'Band', 'Task', Sessions(CompareIndx)];
+AllStats = table();
+for Indx_L = 1:numel(Labels)
+    for Indx_B = 1:numel(BandLabels)
+        for Indx_T = 1:numel(Tasks)
+
+            AllStrings = [Labels(Indx_L), BandLabels(Indx_B), Tasks(Indx_T)];
+            for Indx = CompareIndx
+                Data = squeeze(AllRaw(:, Indx, Indx_T, Indx_B, Indx_L));
+                String = dispDescriptive(Data, '', UnitTypes{Indx_L}, Roundedness);
+                AllStrings = cat(2, AllStrings, String);
+            end
+            AllStats = cat(1, AllStats, cell2table(AllStrings, 'VariableNames', VariableNames));
+
+        end
+    end
+end
 
 
 
