@@ -5,7 +5,7 @@ clc
 close all
 
 Refresh = false;
-Task = 'Fixation';
+Task = 'Oddball';
 Source = fullfile('E:\Data\Preprocessed\Pupils\Raw\', Task);
 
 Destination = fullfile('E:\Public\2Process_Bursts\Pupils\', Task);
@@ -30,8 +30,8 @@ for Indx_F = 1:numel(Files)
     writetable(Pupil, fullfile(Destination, NewFilename))
 
     AnnotationFilename = replace(NewFilename, 'Pupils', 'Annotations');
-writetable(Annotations, fullfile(Destination, AnnotationFilename))
-disp(['Finished ', NewFilename])
+    writetable(Annotations, fullfile(Destination, AnnotationFilename))
+    disp(['Finished ', NewFilename])
 end
 
 

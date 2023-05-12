@@ -5,7 +5,7 @@ clc
 close all
 
 Refresh = false;
-Task = 'Fixation';
+Task = 'Oddball';
 Source = fullfile('E:\Data\Preprocessed\Clean\Waves\', Task);
 
 Destination = fullfile('E:\Public\2Process_Bursts\EEG', Task);
