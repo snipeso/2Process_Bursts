@@ -1,4 +1,4 @@
-%%% script to load data pertaining to bursts. Quite slow!
+%%% Gets the duration of bursts as % of the recording.
 
 clear
 clc
@@ -25,7 +25,7 @@ save(fullfile(Paths.Pool, 'PrcntBurst.mat'), 'Data')
 
 
 
-%%
+%% find out how much a given burst occupies the recording
 
 clc
 

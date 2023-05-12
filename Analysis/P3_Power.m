@@ -9,10 +9,7 @@ close all
 
 P = analysisParameters();
 Paths = P.Paths;
-Participants = P.Participants;
 Sessions = P.Sessions;
-Labels = P.Labels;
-StatsP = P.StatsP;
 Tasks = P.Tasks;
 TaskColors = P.TaskColors;
 Bands = P.Bands;
@@ -69,7 +66,7 @@ saveFig(TitleTag, Paths.Paper, PlotProps)
 
 
 
-%% Figure 4: spectrograms
+%% Figure S1: spectrograms
 
 PlotProps = P.Manuscript;
 PlotProps.Figure.Padding = 35;

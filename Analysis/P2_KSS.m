@@ -13,9 +13,6 @@ Participants = P.Participants;
 Sessions = P.Sessions;
 PlotProps = P.Manuscript;
 
-Labels = P.Labels;
-StatsP = P.StatsP;
-
 TitleTag = 'Questionnaires';
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

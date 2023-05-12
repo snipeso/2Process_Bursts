@@ -9,16 +9,9 @@ close all
 
 P = analysisParameters();
 Paths = P.Paths;
-Participants = P.Participants;
-Sessions = P.Sessions;
-Labels = P.Labels;
 StatsP = P.StatsP;
 Tasks = P.Tasks(1:2);
-TaskColors = P.TaskColors;
-Bands = P.Bands;
-BandLabels = fieldnames(Bands);
 TitleTag = 'Microsleeps';
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% load data
@@ -31,11 +24,10 @@ load(fullfile(Paths.Pool, 'Microsleeps_prcntMicrosleep.mat'), 'Data')
 zMicrosleeps =zScoreData(Data, 'first');
 Microsleeps = Data;
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% plot
 
-%% Figure 10: plot blinks and microsleeps across sessions
+%% Figure 8: plot blinks and microsleeps across sessions
 
 PlotProps = P.Manuscript;
 YLim = [];

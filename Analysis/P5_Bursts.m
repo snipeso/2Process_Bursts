@@ -12,7 +12,6 @@ P = analysisParameters();
 Paths = P.Paths;
 Participants = P.Participants;
 Sessions = P.Sessions;
-StatsP = P.StatsP;
 Tasks = P.Tasks;
 TaskColors = P.TaskColors;
 Bands = P.Bands;
@@ -123,12 +122,9 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% plot
 
-%% Figure 7: Amplitude vs Quantity across sleep deprivation
+%% Figure 5: Amplitude vs Quantity across sleep deprivation
 
 PlotProps = P.Manuscript;
-% PlotProps.Axes.xPadding = 30;
-% PlotProps.Axes.yPadding = 30;
-% PlotProps.Figure.Padding = 15;
 
 zScore = [false, true];
 Variables = {'Mean_coh_amplitude', 'nPeaks'};
@@ -161,7 +157,7 @@ for Indx_V = 1:numel(Variables)
             PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
         plotBrokenRain(Data, [], YLim, TaskColors, Tasks, PlotProps)
         if Indx_B ==1
-        ylabel(YLabel)
+            ylabel(YLabel)
         end
 
         if Indx_V~=2 || Indx_B~=2

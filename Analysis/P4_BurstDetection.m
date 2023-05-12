@@ -16,7 +16,6 @@ Participants = {'P15', 'P16'};
 Sessions = {'Main1', 'Main8'};
 SessionLabels = {'S1', 'S8'};
 
-
 FreqEdges = 2:.25:14;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -64,7 +63,7 @@ end
 
 
 
-%% Figure 5: plot example screenshot
+%% Figure S3: plot example screenshot
 
 Task = 'Fixation';
 Participant = 'P15';

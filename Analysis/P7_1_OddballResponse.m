@@ -10,16 +10,8 @@ close all
 
 P = analysisParameters();
 Paths = P.Paths;
-Participants = P.Participants;
 Sessions = P.Sessions;
-Labels = P.Labels;
-StatsP = P.StatsP;
-Tasks = P.Tasks;
-TaskColors = P.TaskColors;
-Bands = P.Bands;
-BandLabels = fieldnames(Bands);
 TitleTag = 'Pupillometry';
-PlotProps = P.Manuscript;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -28,25 +20,21 @@ PlotProps = P.Manuscript;
 load(fullfile(Paths.Pool, [TitleTag, '_OddballResponse.mat']), 'Data', 't')
 zTimecourse = Data;
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Plots
 
 
-%% plot response to targets
+%% Figure S2: plot pupil response to targets
 
 PlotProps = P.Manuscript;
 Grid = [3 4];
 YLims = [-2 4];
-% YLims = [-3.3 5];
 Coordinates = {[1 1], [1 2], [1 3], [1, 4];
     [2 1], [2 2], [2 3], [2, 4];
     [3 1], [3 2], [3 3], [3, 4]}';
 
 XLabels = P.Labels.Sessions;
 
-% Colors = [0.6 0.6 0.6; getColors(1, '', 'red')];
 Colors = PlotProps.Color.Participants;
 PlotProps.Line.Width = 3;
 

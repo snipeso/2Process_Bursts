@@ -10,14 +10,9 @@ close all
 
 P = analysisParameters();
 Paths = P.Paths;
-Participants = P.Participants;
 Sessions = P.Sessions;
-Labels = P.Labels;
 StatsP = P.StatsP;
 Tasks = P.Tasks(1:2);
-TaskColors = P.TaskColors;
-Bands = P.Bands;
-BandLabels = fieldnames(Bands);
 TitleTag = 'Pupillometry';
 
 
@@ -34,11 +29,10 @@ load(fullfile(Paths.Pool, 'Pupillometry_zAuC.mat'), 'Data')
 AuC = Data;
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Plots
 
-%% Figure 9: plot diameter across sessions
+%% Figure 7: plot diameter across sessions
 
 PlotProps = P.Manuscript;
 YLim = [];

@@ -63,9 +63,6 @@ Data = bursttable2matrix(BurstTable, Missing, Durations, 'Tot', Participants, Se
 save(fullfile(Paths.Pool, [TitleTag, '_rawTotBursts.mat']), 'Data')
 
 
-% do percent of recording
-
-
 
 %% assemble topographic data
 

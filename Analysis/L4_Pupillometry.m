@@ -12,12 +12,7 @@ P = analysisParameters();
 Paths = P.Paths;
 Participants = P.Participants;
 Sessions = P.Sessions;
-PlotProps = P.Manuscript;
-Labels = P.Labels;
-StatsP = P.StatsP;
 Tasks = {'Fixation', 'Oddball'};
-Colors = P.TaskColors(1:2, :);
-XLabels = Labels.Sessions;
 
 TitleTag = 'Pupillometry';
 

@@ -10,12 +10,8 @@ close all
 
 P = analysisParameters();
 Paths = P.Paths;
-Participants = P.Participants;
-Sessions = P.Sessions;
-Labels = P.Labels;
 StatsP = P.StatsP;
 Tasks = P.Tasks;
-TaskColors = P.TaskColors;
 
 Refresh = false;
 
@@ -34,12 +30,11 @@ load('E:\Data\Final\All_2processBursts\Bursts_Topo_Tots.mat', 'Data')
 Tots = zScoreData(Data, 'last');
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Plot
 
 
-%% Figure 8: topography of amplitudes and burst quantities
+%% Figure 6: topography of amplitudes and burst quantities
 
 PlotProps = P.Manuscript;
 PlotProps.Figure.Padding = 10;
@@ -67,6 +62,7 @@ XShift = .16;
 L= struct;
 L.t = 't-values';
 
+% first plot index letters
 figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*1.2 PlotProps.Figure.Height*0.6])
 Txt = annotation('textbox', [0.02 0.79 0.2 0.2], 'string', PlotProps.Indexes.Letters{1}, ...
     'Units', 'normalized', 'FontSize', PlotProps.Text.IndexSize, 'FontName', PlotProps.Text.FontName, ...
@@ -84,7 +80,8 @@ Txt = annotation('textbox', [0.502 0.3 0.2 0.2], 'string', PlotProps.Indexes.Let
     'Units', 'normalized', 'FontSize', PlotProps.Text.IndexSize, 'FontName', PlotProps.Text.FontName, ...
     'FontWeight', 'Bold', 'LineStyle', 'none');
 
-%%% plot average topographies
+
+%%% plot average topographies of burst amplitudes and quantities
 
 Space = subaxis(Grid, [1, 1], [], '', PlotProps); % the row
 Space(1) = Space(1)+20;
@@ -134,7 +131,7 @@ end
 
 
 
-%%% plot t-values
+%%% plot t-values of S1 vs S8 comparison
 
 Space = subaxis(Grid, [2, 1], [], '', PlotProps);
 Space(1) = Space(1)+20;
