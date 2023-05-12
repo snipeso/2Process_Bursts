@@ -74,5 +74,8 @@ if ~isempty(LineLabels) && ~isempty(StatsP)
     Alpha = num2str(StatsP.Alpha);
     Sig = ['p<', Alpha(2:end)];
     legend([LineLabels, Sig])
+    elseif ~isempty(LineLabels) 
+legend(LineLabels)
+set(legend, 'ItemTokenSize', [10 10])
 end
 

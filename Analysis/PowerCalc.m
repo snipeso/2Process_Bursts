@@ -24,10 +24,10 @@ for Indx_M = 1:numel(AllMeasurements)
     M1 = mean(Data, 'omitnan');
     STD = std(Data, 'omitnan');
 %     N = nnz(~isnan(Data));
-N = 10;
+N = 18;
     DF = N-1;
 
-    M2 = sampsizepwr('t', [M1, STD], [], .9, N);
+    M2 = sampsizepwr('t', [M1, STD], [], .8, N);
 
     % Cohen's d
     d = (M2 - M1)/STD;

@@ -126,13 +126,13 @@ end
 %% Figure 7: Amplitude vs Quantity across sleep deprivation
 
 PlotProps = P.Manuscript;
-PlotProps.Axes.xPadding = 30;
-PlotProps.Axes.yPadding = 30;
-PlotProps.Figure.Padding = 15;
+% PlotProps.Axes.xPadding = 30;
+% PlotProps.Axes.yPadding = 30;
+% PlotProps.Figure.Padding = 15;
 
 zScore = [false, true];
 Variables = {'Mean_coh_amplitude', 'nPeaks'};
-YLabels = {' amplitude', ' cycles/min'};
+YLabels = {'Amplitude', 'Cycles/min'};
 Bands = {'Theta', 'Alpha'};
 YLimsZ = [-2.7 3; -2 4];
 Grid = [2, 2]; % variables x bands
@@ -145,7 +145,8 @@ Indx = 1;
 
 AllData = cat(5, Amplitudes, Tots); % concatenate so I can loop
 
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.8, PlotProps.Figure.Height*0.64])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.7 PlotProps.Figure.Height*0.55])
+
 for Indx_V = 1:numel(Variables)
     for Indx_B = 1:2
         % adjust labels according to scale
@@ -159,11 +160,45 @@ for Indx_V = 1:numel(Variables)
         A = subfigure([], Grid, [Indx_V, Indx_B], [], true, ...
             PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
         plotBrokenRain(Data, [], YLim, TaskColors, Tasks, PlotProps)
-        ylabel([BandLabels{Indx_B}, YLabel])
+        if Indx_B ==1
+        ylabel(YLabel)
+        end
+
         if Indx_V~=2 || Indx_B~=2
             legend off
+        end
+
+        if Indx_V ==1
+            title(Bands{Indx_B})
         end
     end
 end
 
 saveFig(strjoin({TitleTag, 'All', Score}, '_'), Paths.Paper, PlotProps)
+
+
+
+
+%% plot simple figure for graphic abstract
+
+PlotProps = P.Manuscript;
+PlotProps.Line.Alpha = .15;
+
+Hours = P.XLabels(4:11);
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.35 PlotProps.Figure.Height*0.3])
+set(gca,'YTick',[])
+Data = squeeze(AllData(:, 4:11, 1, 2, 1));
+plotConfettiSpaghetti(Data, [], Hours, repmat(getColors(1, '', 'yellow'), numel(Participants), 1), [], PlotProps)
+ylabel('Alpha amplitudes')
+saveFig(strjoin({TitleTag, 'dummy', 'amplitudes'}, '_'), Paths.Paper, PlotProps)
+
+
+
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.35 PlotProps.Figure.Height*0.3])
+set(gca,'YTick',[])
+Data = squeeze(AllData(:, 4:11, 1, 2, 2));
+plotConfettiSpaghetti(Data, [], Hours, repmat(getColors(1, '', 'blue'), numel(Participants), 1), [], PlotProps)
+ylabel('Alpha cycles/min')
+saveFig(strjoin({TitleTag, 'dummy', 'quantities'}, '_'), Paths.Paper, PlotProps)
+
+

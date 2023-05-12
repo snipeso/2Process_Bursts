@@ -36,9 +36,6 @@ Spectrum = Data;
 %% Figure 3: power by session
 
 PlotProps = P.Manuscript;
-PlotProps.Axes.xPadding = 20;
-% PlotProps.Axes.yPadding = 30;
-% PlotProps.Figure.Padding = 15;
 
 
 Grid = [1, numel(BandLabels)];
@@ -46,10 +43,10 @@ StatParameters = [];
 Flip = false;
 YLim = [-1.1, 1.9];
 
-YLabel = ' power (z-scored)';
+YLabel = 'Power (z-scored)';
 
 Indx = 1;
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.8 PlotProps.Figure.Height*0.32])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.7 PlotProps.Figure.Height*0.28])
 
 for Indx_B = 1:numel(BandLabels)
 
@@ -60,11 +57,12 @@ for Indx_B = 1:numel(BandLabels)
     A = subfigure([], Grid, [1, Indx_B], [], true, ...
         PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
     plotBrokenRain(Data, [], YLim, TaskColors, Tasks, PlotProps)
-    ylabel([BandLabels{Indx_B} YLabel])
+    ylabel( YLabel)
 
     if Indx_B~=1
         legend off
     end
+    title(BandLabels{Indx_B})
 end
 
 saveFig(TitleTag, Paths.Paper, PlotProps)
@@ -85,7 +83,7 @@ Grid = [numel(ChLabels), numel(Tasks)];
 Colors = flip(flip(getColors([numel(Tasks), numel(Sessions)-3]), 3), 1);
 
 
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*1.2 PlotProps.Figure.Height*.6])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*.6])
 for Indx_Ch = 1:numel(ChLabels)
     for Indx_T = 1:numel(Tasks)
 

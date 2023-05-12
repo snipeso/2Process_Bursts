@@ -69,6 +69,9 @@ end
 Task = 'Fixation';
 Participant = 'P15';
 PlotProps = P.Manuscript;
+PlotProps.Figure.Padding = 5;
+PlotProps.Axes.xPadding = 5;
+PlotProps.Axes.yPadding = 30;
 
 load(fullfile('E:\Data\Final\EEG\Bursts', Task, [Participant, '_', Task, '_Main8_Bursts.mat']), 'Bursts')
 load(fullfile('E:\Data\Preprocessed\Clean\Waves', Task, [Participant, '_', Task, '_Main8_Clean.mat']), 'EEG')
@@ -95,10 +98,12 @@ Colors = [
     getColors(1, '', 'green');
     getColors(1, '', 'yellow')
     getColors(1, '', 'orange');];
-figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.5, PlotProps.Figure.Height*.6])
+figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1, PlotProps.Figure.Height*.5])
 Axes = subfigure([], [1 1], [1, 1], [], false, '', PlotProps);
+Axes.Position(2) = Axes.Position(2)+ .025;
 plotExampleBurstData(EEG, 20, Bursts, 'FinalBand', Colors, PlotProps)
-xlim([139.5 149.5])
+% xlim([139.5 149.5])
+xlim([141.5 149.5])
 ylim([-10 2500])
 xlabel('Time (s)')
 saveFig('Example_Data', Paths.Paper, PlotProps)
@@ -125,8 +130,8 @@ Colors = flip(flip(Colors, 1), 3);
 Colors(1, :, :) = repmat([.5 .5 .5], 3, 1);
 
 Indx = 1;
-figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1.2, ...
-    PlotProps.Figure.Height*.48])
+figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width, ...
+    PlotProps.Figure.Height*.44])
 
 %%% plot histogram of # bursts per minute per frequency for each task
 Base = nan(2, 1); % keep track of where the second plot is, to align
@@ -179,7 +184,7 @@ for Indx_T = 1:numel(Tasks)
         Base(Indx_P) = A.Position(2);
 
         Shift = Shift + .005;
-        plotZiggurat(Data, 'Frequency', FreqEdges(1:end-1), 'Amplitude (\muV)', ...
+        plotZiggurat(Data, 'Frequency (Hz)', FreqEdges(1:end-1), 'Amplitude (\muV)', ...
             squeeze(Colors(:, :, Indx_T)), '', PlotProps)
         xlim(xLims)
         ylim(yLimsAmp)

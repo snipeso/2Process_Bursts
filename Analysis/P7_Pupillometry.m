@@ -48,7 +48,7 @@ Grid = [1, 3];
 Indx=1;
 Colors = P.TaskColors;
 
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*1.2 PlotProps.Figure.Height*0.32])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.28])
 
 subfigure([], Grid, [1, 1], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;

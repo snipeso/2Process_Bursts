@@ -51,3 +51,5 @@ Analysis/surfmesh.mat
 Analysis/surfmesh.mat
 *.mat
 *.jpg
+*.xlsx
+*.edf

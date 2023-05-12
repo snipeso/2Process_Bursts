@@ -106,10 +106,15 @@ Manuscript = getProperties({'LSM', 'Manuscript'});
 Powerpoint =  getProperties({'LSM', 'Powerpoint'});
 Poster =  getProperties({'LSM', 'Poster'});
 
-Manuscript.Figure.Padding = 25;
+Manuscript.Figure.Padding = 15;
 Manuscript.Axes.yPadding = 20;
-Manuscript.Figure.Width = 23;
-Manuscript.Figure.Hight = 32.52;
+Manuscript.Axes.xPadding = 20;
+Manuscript.Figure.Width = 27;
+Manuscript.Figure.Height = 35;
+Manuscript.Text.FontName = 'Avenir Next LT Pro';
+Manuscript.Text.AxisSize = 10;
+Manuscript.Text.TitleSize = 12;
+Manuscript.Text.IndexSize = 17;
 
 P.TaskColors = flip(getColors(3));
 
@@ -166,9 +171,6 @@ P.Channels = Channels;
 
 Bands.Theta = [4 8];
 Bands.Alpha = [8 12];
-% Bands.End = [1, 1.1];
-% Bands.Delta = [1 4];
-
 
 P.Bands = Bands;
 clc
