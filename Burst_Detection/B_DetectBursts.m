@@ -12,7 +12,6 @@ Bands = Info.Bands;
 BandLabels = fieldnames(Bands);
 
 Tasks = Info.Tasks;
-Tasks = {'Oddball'};
 Refresh = false;
 
 % Parameters for bursts
@@ -29,7 +28,7 @@ for Indx_T = 1:numel(Tasks)
     % folder locations
     Source = fullfile(Paths.Preprocessed, 'Clean', 'Waves', Task); % normal data
     Source_Filtered = fullfile(Paths.Preprocessed, 'Clean', 'Waves_Filtered', Task); % extremely filtered data
-    Source_Cuts = fullfile(Paths.Preprocessed, 'Cutting', 'Cuts', Task); % timepoints marked as artefacts
+    Source_Cuts = fullfile(Paths.Preprocessed, 'Cutting', 'Cuts', Task); % timepoints marked as artefacts. Comes from Theta-SD-vs-WM (https://github.com/snipeso/Theta-SD-vs-WM)
     Destination = fullfile(Paths.Data, 'EEG', 'Bursts_AllChannels', Task);
 
     if ~exist(Destination, 'dir')

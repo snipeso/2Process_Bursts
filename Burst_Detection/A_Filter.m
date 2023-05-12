@@ -31,7 +31,6 @@ for Indx_T = 1:numel(Tasks)
     for Indx_F = 1:numel(Content)
 
         Filename_Source = Content{Indx_F};
-
         Filename_Destination = replace(Filename_Source, 'Clean.mat', 'Filtered.mat');
 
         if exist(fullfile(Destination, BandLabels{end}, Filename_Destination), 'file') && ~Refresh

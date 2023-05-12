@@ -25,11 +25,6 @@ BurstThresholds.ampConsistency = .6;
 Info.BurstThresholds = BurstThresholds;
 
 
-%%% Parameters to aggregate across channels
-Info.MinCoherence = .7;
-Info.MinCorr = .8;
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Locations
 
@@ -62,7 +57,6 @@ addMatcyclePaths()
 
 % get path where these scripts were saved
 CD = mfilename('fullpath');
-% Paths.Analysis = fullfile(extractBefore(Paths.Analysis, 'Analysis'));
 Paths.Analysis = fullfile(extractBefore(CD, '2process_Bursts'), '2process_Bursts');
 
 % get all folders in functions
@@ -84,13 +78,6 @@ Bands.Theta = [4 8];
 Bands.ThetaAlpha = [6 10];
 Bands.Alpha = [8 12];
 Bands.AlphaHigh = [10 14];
-
-% % bands used to
-% PowerBands.Delta = [1 4];
-% PowerBands.Theta = [4 8];
-% PowerBands.Alpha = [8 12];
-% PowerBands.Beta = [15 25];
-% Info.PowerBands = PowerBands;
 
 Info.Bands = Bands;
 

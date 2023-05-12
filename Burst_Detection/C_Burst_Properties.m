@@ -54,7 +54,7 @@ for Indx_T = 1:numel(Tasks)
         % get frequency of each burst
         AllBursts = meanFreq(AllBursts);
 
-        % assemble bursts
+        % assemble bursts across channels
         if ~strcmp(Filename_EEG(1:3), 'P00') % skip null file, since it will not have simultaneous bursts
             Bursts = aggregateBurstsByFrequency(AllBursts, EEG, MinFreqRange);
         else
@@ -65,7 +65,7 @@ for Indx_T = 1:numel(Tasks)
         Bursts = burstPeakProperties(Bursts, EEG);
         Bursts = meanBurstPeakProperties(Bursts); % just does the mean of the main peak's properties
 
-        % classify the burst
+        % classify the burst (not used)
         Bursts = classifyBursts(Bursts);
 
         % save
