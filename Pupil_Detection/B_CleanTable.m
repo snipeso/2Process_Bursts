@@ -72,7 +72,6 @@ for Indx_T = 1:numel(Tasks)
             eye1 = Pupil(Pupil.eye_id==0 & strcmp(Pupil.method, Method), keep_col);
             eye2 = Pupil(Pupil.eye_id==1 & strcmp(Pupil.method, Method), keep_col);
 
-
             % apply conversion of diameter in pixels into mm
             Row = strcmp(IrisDiameters.Participant, Participants{Indx_P}) & ...
                 strcmp(IrisDiameters.Session, Sessions{Indx_S}) & ...
@@ -83,7 +82,6 @@ for Indx_T = 1:numel(Tasks)
             eye1.diameter = (eye1.diameter*Image_cm*Iris_mm)/(Iris1_cm*Image_px);
             eye2.diameter = (eye2.diameter*Image_cm*Iris_mm)/(Iris2_cm*Image_px);
 
-
             % convert to PDM structure
             diameter = pupil2pdm(eye1, eye2, new_srate);
 
@@ -92,7 +90,6 @@ for Indx_T = 1:numel(Tasks)
             segmentEnd = diameter.t_ms(end);
             segmentName = {('TRIAL_1')};
             segmentsTable = table(segmentName, segmentStart, segmentEnd);
-
 
             % deal with annotations
             if ~isempty(Annotations)

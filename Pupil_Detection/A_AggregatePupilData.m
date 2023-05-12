@@ -1,7 +1,9 @@
 % goes through "raw" folder structure, gets relevant file, then saves into
 % mat in destination.
 % from 2process_Bursts.
-
+clear
+clc
+close all
 
 P = pupilParameters();
 Paths = P.Paths;

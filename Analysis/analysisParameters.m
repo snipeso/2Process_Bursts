@@ -83,6 +83,7 @@ for Indx_F = 1:numel(Subfolders)
 end
 
 % also add subfolders of external functions
+addpath('C:\Users\colas\Code\External')
 addExternalFunctions()
 
 P.Paths = Paths;
@@ -90,6 +91,7 @@ P.Paths = Paths;
 
 %%% chART stuff for plotting
 % same for plotting scripts, saved to a different repo (https://github.com/snipeso/chart)
+addpath('C:\Users\colas\Code\chART')
 if ~exist('addchARTpaths.m', 'file')
     addchARTpaths() % TODO, find in folder automatically
 end
