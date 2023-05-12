@@ -8,7 +8,7 @@ Refresh = false;
 Task = 'Fixation';
 Source = fullfile('E:\Data\Preprocessed\Pupils\Raw\', Task);
 
-Destination = fullfile('E:\Public\2Process_Bursts\', Task);
+Destination = fullfile('E:\Public\2Process_Bursts\Pupils\', Task);
 
 if ~exist(Destination, 'dir')
     mkdir(Destination)
@@ -30,7 +30,8 @@ for Indx_F = 1:numel(Files)
     writetable(Pupil, fullfile(Destination, NewFilename))
 
     AnnotationFilename = replace(NewFilename, 'Pupils', 'Annotations');
-
+writetable(Annotations, fullfile(Destination, AnnotationFilename))
+disp(['Finished ', NewFilename])
 end
 
 
