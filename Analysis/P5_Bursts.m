@@ -179,9 +179,10 @@ saveFig(strjoin({TitleTag, 'All', Score}, '_'), Paths.Paper, PlotProps)
 
 PlotProps = P.Manuscript;
 PlotProps.Line.Alpha = .15;
+PlotProps.Text.AxisSize = 15;
 
 Hours = P.XLabels(4:11);
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.35 PlotProps.Figure.Height*0.3])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.26 PlotProps.Figure.Height*0.26])
 set(gca,'YTick',[])
 Data = squeeze(AllData(:, 4:11, 1, 2, 1));
 plotConfettiSpaghetti(Data, [], Hours, repmat(getColors(1, '', 'yellow'), numel(Participants), 1), [], PlotProps)
@@ -190,7 +191,7 @@ saveFig(strjoin({TitleTag, 'dummy', 'amplitudes'}, '_'), Paths.Paper, PlotProps)
 
 
 
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.35 PlotProps.Figure.Height*0.3])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.26 PlotProps.Figure.Height*0.26])
 set(gca,'YTick',[])
 Data = squeeze(AllData(:, 4:11, 1, 2, 2));
 plotConfettiSpaghetti(Data, [], Hours, repmat(getColors(1, '', 'blue'), numel(Participants), 1), [], PlotProps)
