@@ -5,7 +5,7 @@ clc
 close all
 
 Refresh = false;
-Task = 'Oddball';
+Task = 'Fixation';
 Source = fullfile('E:\Data\Preprocessed\Pupils\Raw\', Task);
 
 Destination = fullfile('E:\Public\2Process_Bursts\Pupils\', Task);
@@ -27,7 +27,11 @@ for Indx_F = 1:numel(Files)
 
     load(fullfile(Source, Filename), 'Pupil', 'Annotations')
 
-    writetable(Pupil, fullfile(Destination, NewFilename))
+    Pupil = Pupil(strcmp(Pupil.method, '2d c++'), :);
+
+    PupilRedux = Pupil(:, {'pupil_timestamp', 'eye_id', 'confidence', 'norm_pos_x', 'norm_pos_y', 'diameter'});
+
+    writetable(PupilRedux, fullfile(Destination, NewFilename))
 
     AnnotationFilename = replace(NewFilename, 'Pupils', 'Annotations');
     writetable(Annotations, fullfile(Destination, AnnotationFilename))
