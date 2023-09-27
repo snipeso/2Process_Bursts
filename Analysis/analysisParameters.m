@@ -58,7 +58,7 @@ Paths.Data  = fullfile(Core, 'Final'); % where data gets saved once its been tur
 Paths.Results = fullfile(Core, 'Results', '2process_Bursts');
 Paths.Pool = fullfile(Paths.Data, 'All_2processBursts');
 Paths.Scoring = fullfile(Core, 'Scoring');
-Paths.Paper = 'C:\Users\colas\Dropbox\Research\Publications and Presentations\Sleep\WorldSleep2023\WMZ Poster';
+Paths.Paper = 'C:\Users\colas\Dropbox\Research\Publications and Presentations\Sleep\WorldSleep2023\WMZ Poster\MATLAB Figures\';
 
 % if eeglab has not run, run it so all the subdirectories get added
 if ~exist('topoplot', 'file')

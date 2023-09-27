@@ -75,4 +75,4 @@ ylim([0 nCh+1])
 
 legend(Legend)
 
-setAxisProperties(PlotProps)
+chART.set_axis_properties(PlotProps)

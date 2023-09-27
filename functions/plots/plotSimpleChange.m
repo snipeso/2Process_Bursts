@@ -25,4 +25,4 @@ xticklabels(xLabels)
 end
 xlim([0.35 Dims(2)+0.65])
 
-setAxisProperties(PlotProps)
+chART.set_axis_properties(PlotProps)

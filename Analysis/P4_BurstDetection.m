@@ -270,7 +270,7 @@ figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1, PlotPr
 Axes = chART.sub_plot([], [1 1], [1, 1], [], false, '', PlotProps);
 Axes.Position(2) = Axes.Position(2)+ .025;
 plotExampleBurstData(EEG, 20, [], 'FinalBand', [], PlotProps)
-setAxisProperties(PlotProps);
+chART.set_axis_properties(PlotProps);
 % xlim([139.5 149.5])
 xlim([141.5 149.5])
 ylim([-10 2500])

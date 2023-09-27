@@ -88,7 +88,7 @@ xticks(XPoints)
 xticklabels(XLabels)
 
 
-setAxisProperties(PlotProps)
+chART.set_axis_properties(PlotProps)
 
 axis square
 legend(Legend)

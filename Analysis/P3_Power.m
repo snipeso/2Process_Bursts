@@ -33,9 +33,9 @@ Spectrum = Data;
 %% Figure 3: power by session
 
 PlotProps = P.Manuscript;
+Indx_B = 1;
 
-
-Grid = [1, numel(BandLabels)];
+Grid = [1, 1];
 StatParameters = [];
 Flip = false;
 YLim = [-1.1, 1.9];
@@ -43,9 +43,8 @@ YLim = [-1.1, 1.9];
 YLabel = 'Power (z-scored)';
 
 Indx = 1;
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.7 PlotProps.Figure.Height*0.28])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.5 PlotProps.Figure.Height*.25])
 
-for Indx_B = 1:numel(BandLabels)
 
     % gather data
     Data = squeeze(Power(:, :, :, Indx_B));
@@ -60,7 +59,7 @@ for Indx_B = 1:numel(BandLabels)
         legend off
     end
     title(BandLabels{Indx_B})
-end
+
 
 chART.save_figure(TitleTag, Paths.Paper, PlotProps)
 
