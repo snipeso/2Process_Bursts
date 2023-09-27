@@ -38,33 +38,25 @@ PlotProps = P.Manuscript;
 YLim = [];
 StatParameters = StatsP;
 Flip = false;
-Grid = [1, 3];
+Grid = [1, 1];
 Indx=1;
 Colors = P.TaskColors;
 
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.28])
-
-chART.sub_plot([], Grid, [1, 1], [], true, ...
-    PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
-plotBrokenRain(meanDiameter, [], [-2.3 3], Colors, Tasks, PlotProps)
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.35 PlotProps.Figure.Height*.25])
+ chART.sub_plot([], Grid, [1, 1], [], true, '', PlotProps);
+plotBrokenSpaghetti(squeeze(meanDiameter(:, :, 2)), [], [-2.3 3], [], PlotProps.Color.Participants, false, PlotProps)
 ylabel('Pupil diameter (z-scored)')
-set(legend, 'location', 'northwest')
+
+chART.save_figure([TitleTag, 'Diametermean'], Paths.Paper, PlotProps)
 
 
-A = chART.sub_plot([], Grid, [1, 2], [], true, ...
-    PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
-plotBrokenRain(stdDiameter, [], [-2.3 3], Colors, Tasks, PlotProps)
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.35 PlotProps.Figure.Height*.25])
+chART.sub_plot([], Grid, [1, 1], [], true, '', PlotProps);
+plotBrokenSpaghetti(squeeze(stdDiameter(:, :, 2)), [], [-2.3 3], [], PlotProps.Color.Participants, false, PlotProps)
 ylabel('SD pupil diameter (z-scored)')
 legend off
 
-
-A = chART.sub_plot([], Grid, [1, 3], [], true, ...
-    PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
-plotBrokenSpaghetti(AuC, [], [-2 5], [], PlotProps.Color.Participants, false, PlotProps);
-ylabel('Pupil oddball response (z-scored)')
-
-
-chART.save_figure([TitleTag, 'Diameter'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, 'DiameterSTD'], Paths.Paper, PlotProps)
 
 
 
