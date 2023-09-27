@@ -38,4 +38,4 @@ ylim([0 4])
 PlotProps = P.Manuscript;
 PlotProps.Color.Background = 'none';
 set(gca, 'Color', 'none')
-saveFig('dummy2process', P.Paths.Paper, PlotProps)
+chART.save_figure('dummy2process', P.Paths.Paper, PlotProps)

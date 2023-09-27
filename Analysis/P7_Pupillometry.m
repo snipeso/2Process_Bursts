@@ -64,7 +64,7 @@ plotBrokenSpaghetti(AuC, [], [-2 5], [], PlotProps.Color.Participants, false, Pl
 ylabel('Pupil oddball response (z-scored)')
 
 
-saveFig([TitleTag, 'Diameter'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, 'Diameter'], Paths.Paper, PlotProps)
 
 
 

@@ -21,7 +21,7 @@ Burst = 147:242;
 plot(t(Burst), Data(Burst), 'LineWidth', 6, 'Color', getColors(1, '', 'red'))
 axis off
 
-saveFig('Example_Burst', P.Paths.Powerpoint, PlotProps)
+chART.save_figure('Example_Burst', P.Paths.Powerpoint, PlotProps)
 
 
 

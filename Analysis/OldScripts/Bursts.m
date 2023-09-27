@@ -97,7 +97,7 @@ for Indx_V = 1:numel(Variables)
 
 
 end
-saveFig(strjoin({TitleTag, 'All', Score}, '_'), Paths.Paper, PlotProps)
+chART.save_figure(strjoin({TitleTag, 'All', Score}, '_'), Paths.Paper, PlotProps)
 
 
 
@@ -228,7 +228,7 @@ for Indx_T = 1:numel(Tasks)
         end
     end
 
-    saveFig(strjoin({TitleTag, 'Topographies', Tasks{Indx_T}}, '_'), Paths.Paper, PlotProps)
+    chART.save_figure(strjoin({TitleTag, 'Topographies', Tasks{Indx_T}}, '_'), Paths.Paper, PlotProps)
 end
 
 

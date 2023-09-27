@@ -98,4 +98,4 @@ for Indx_Ch = 1:numel(ChLabels)
     end
 end
 
-saveFig([TitleTag, '_spectrums'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, '_spectrums'], Paths.Paper, PlotProps)

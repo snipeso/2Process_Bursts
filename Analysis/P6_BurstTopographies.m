@@ -200,4 +200,4 @@ for Indx_Ch = 1:numel(Fig.Children)
 end
 
 
-% saveFig(TitleTag, Paths.Paper, PlotProps)
+% chART.save_figure(TitleTag, Paths.Paper, PlotProps)

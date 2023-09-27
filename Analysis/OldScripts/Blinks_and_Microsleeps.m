@@ -82,7 +82,7 @@ ylabel('% duration')
 title('Microsleeps')
 legend off
 
-saveFig('EyeClosure', Paths.Paper, PlotProps)
+chART.save_figure('EyeClosure', Paths.Paper, PlotProps)
 
 %% plot confidence
 
@@ -90,4 +90,4 @@ figure
 plotBrokenRain(Confidence, [], [], Colors, Tasks, PlotProps)
 title('Average signal confidence (0.1<c<.95)')
 
-saveFig('Confidence', Paths.Paper, PlotProps)
+chART.save_figure('Confidence', Paths.Paper, PlotProps)

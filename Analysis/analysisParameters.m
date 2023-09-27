@@ -58,8 +58,7 @@ Paths.Data  = fullfile(Core, 'Final'); % where data gets saved once its been tur
 Paths.Results = fullfile(Core, 'Results', '2process_Bursts');
 Paths.Pool = fullfile(Paths.Data, 'All_2processBursts');
 Paths.Scoring = fullfile(Core, 'Scoring');
-Paths.Paper = 'C:\Users\colas\Dropbox\Research\Publications and Presentations\Sleep\Paper2\Figures';
-Paths.Powerpoint = 'C:\Users\colas\Dropbox\Research\Projects\HuberSleepLab\LSM\Repeat Figures\MatlabFigures';
+Paths.Paper = 'C:\Users\colas\Dropbox\Research\Publications and Presentations\Sleep\WorldSleep2023\WMZ Poster';
 
 % if eeglab has not run, run it so all the subdirectories get added
 if ~exist('topoplot', 'file')
@@ -98,15 +97,12 @@ else
 end
 
 Manuscript = chART.load_plot_properties({'LSM', 'Manuscript'});
-Powerpoint =  chART.load_plot_properties({'LSM', 'Powerpoint'});
-Poster =  chART.load_plot_properties({'LSM', 'Poster'});
 
 Manuscript.Figure.Padding = 15;
 Manuscript.Axes.yPadding = 20;
 Manuscript.Axes.xPadding = 20;
 Manuscript.Figure.Width = 27;
 Manuscript.Figure.Height = 35;
-Manuscript.Text.FontName = 'Avenir Next LT Pro';
 Manuscript.Text.AxisSize = 10;
 Manuscript.Text.TitleSize = 12;
 Manuscript.Text.IndexSize = 17;
@@ -114,10 +110,6 @@ Manuscript.Text.IndexSize = 17;
 P.TaskColors = flip(chART.color_picker(3));
 
 P.Manuscript = Manuscript; % for papers
-P.Powerpoint = Powerpoint; % for presentations
-P.Poster = Poster;
-P.Format = Format; % plots just to view data
-
 
 %%% Stats
 

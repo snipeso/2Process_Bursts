@@ -125,7 +125,7 @@ A = chART.sub_plot([], Grid, [1, 2], [], true, ...
 Data = squeeze(chData(:, 1, :, :, :));
 spectrumDiff(Data, Freqs, BL_Indx, [], getColors([1 size(Data, 2)]), xLog, PlotProps, [], P.Labels);
 title('Z-scored', 'FontSize', PlotProps.Text.TitleSize)
-saveFig([TitleTag, '_spectrums_BL'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, '_spectrums_BL'], Paths.Paper, PlotProps)
 
 
 %% plot change from 1st h pre, to 1st h post spectrum
@@ -149,7 +149,7 @@ A = chART.sub_plot([], Grid, [1, 2], [], true, ...
 Data = squeeze(chData(:, [2 3], 1, :, :));
 plotSpectrumMountains(Data, Freqs, xLog, yLims, PlotProps, P.Labels)
 title('Z-scored', 'FontSize', PlotProps.Text.TitleSize)
-saveFig([TitleTag, '_spectrums_SD'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, '_spectrums_SD'], Paths.Paper, PlotProps)
 
 
 %% plot change in z-scored SWA across hours for all nights
@@ -170,7 +170,7 @@ for Indx_N = 1:numel(Nights)
     ylim(yLims)
 end
 
-saveFig([TitleTag, '_SWA_overnight_z'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, '_SWA_overnight_z'], Paths.Paper, PlotProps)
 
 %%
 figure
@@ -233,7 +233,7 @@ title('SWA by season')
 xlim([1 12])
 set(gca, 'FontName', PlotProps.Text.FontName, 'FontSize', PlotProps.Text.AxisSize)
 
-saveFig([TitleTag, '_SWA_seasons'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, '_SWA_seasons'], Paths.Paper, PlotProps)
 
 
 %% age
@@ -246,4 +246,4 @@ title('SWA by age')
 % xlim([1 12])
 set(gca, 'FontName', PlotProps.Text.FontName, 'FontSize', PlotProps.Text.AxisSize)
 
-saveFig([TitleTag, '_SWA_age'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, '_SWA_age'], Paths.Paper, PlotProps)

@@ -35,7 +35,7 @@ Flip = true;
 Grid = size(PlotQuestions);
 Indx = 1;
 
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.50 PlotProps.Figure.Height*.25])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.5 PlotProps.Figure.Height*.25])
 
 for Indx_1 = 1:Grid(1)
     for Indx_2 = 1:Grid(2)
@@ -54,5 +54,5 @@ for Indx_1 = 1:Grid(1)
     end
 end
 
-saveFig([TitleTag, '_main_raw'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, '_main_raw'], Paths.Paper, PlotProps)
 

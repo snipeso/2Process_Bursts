@@ -103,7 +103,7 @@ plotBrokenSpaghetti(Data, [], [], [], PlotProps.Color.Participants, Flip, PlotPr
 title('Performance', 'FontSize', PlotProps.Text.TitleSize)
 ylabel('% incorrect trials') % TOCHECK
 
-saveFig([TitleTag, '_main_raw'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, '_main_raw'], Paths.Paper, PlotProps)
 
 
 

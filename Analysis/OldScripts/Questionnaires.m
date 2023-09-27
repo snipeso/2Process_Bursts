@@ -67,7 +67,7 @@ for Indx_1 = 1:Grid(1)
     end
 end
 
-saveFig([TitleTag, '_main_raw'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, '_main_raw'], Paths.Paper, PlotProps)
 
 
 %% Figure X, same as above, but z-scored
@@ -100,7 +100,7 @@ for Indx_1 = 1:Grid(1)
     end
 end
 
-saveFig([TitleTag, '_main_z-scored'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, '_main_z-scored'], Paths.Paper, PlotProps)
 
 
 

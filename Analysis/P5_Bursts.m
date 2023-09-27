@@ -170,7 +170,7 @@ for Indx_V = 1:numel(Variables)
     end
 end
 
-saveFig(strjoin({TitleTag, 'All', Score}, '_'), Paths.Paper, PlotProps)
+chART.save_figure(strjoin({TitleTag, 'All', Score}, '_'), Paths.Paper, PlotProps)
 
 
 
@@ -188,7 +188,7 @@ figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.26 PlotP
 Data = squeeze(AllData(:, 4:11, 1, 2, 1));
 plotConfettiSpaghetti(Data, [], Hours, repmat(getColors(1, '', 'yellow'), numel(Participants), 1), [], PlotProps)
 ylabel('Alpha amplitudes (\muV z-scored)')
-saveFig(strjoin({TitleTag, 'dummy', 'amplitudes'}, '_'), Paths.Paper, PlotProps)
+chART.save_figure(strjoin({TitleTag, 'dummy', 'amplitudes'}, '_'), Paths.Paper, PlotProps)
 
 
 
@@ -196,6 +196,6 @@ figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.26 PlotP
 Data = squeeze(AllData(:, 4:11, 1, 2, 2));
 plotConfettiSpaghetti(Data, [], Hours, repmat(getColors(1, '', 'blue'), numel(Participants), 1), [], PlotProps)
 ylabel('Alpha quantities (cyc/min z-scored)')
-saveFig(strjoin({TitleTag, 'dummy', 'quantities'}, '_'), Paths.Paper, PlotProps)
+chART.save_figure(strjoin({TitleTag, 'dummy', 'quantities'}, '_'), Paths.Paper, PlotProps)
 
 

@@ -109,7 +109,7 @@ xlim([141.5 149.5])
 ylim([-10 2500])
 xlabel('Time (s)')
 
-% saveFig('Example_Data', Paths.Paper, PlotProps)
+% chART.save_figure('Example_Data', Paths.Paper, PlotProps)
 
 
 
@@ -246,7 +246,7 @@ for Indx_V = 1:numel(Variables)
     end
 end
 
-saveFig('Example_Burst', Paths.Paper, PlotProps)
+chART.save_figure('Example_Burst', Paths.Paper, PlotProps)
 
 
 

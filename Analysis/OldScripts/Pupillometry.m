@@ -59,7 +59,7 @@ plotBrokenRain(zsdAllDiameters, [], [], Colors, Tasks, PlotProps)
 ylabel('sd diameter (z-scored)')
 title('STD diameter')
 
-saveFig([TitleTag, 'Diameter'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, 'Diameter'], Paths.Paper, PlotProps)
 
 
 
@@ -112,7 +112,7 @@ for Indx_S = 1:numel(Sessions)
 
 end
 
-saveFig([TitleTag, 'EvokedResponse'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, 'EvokedResponse'], Paths.Paper, PlotProps)
 
 %%
 figure
@@ -158,7 +158,7 @@ for Indx_S = 1:numel(Sessions)
 
 end
 
-saveFig([TitleTag, 'EvokedBlink'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, 'EvokedBlink'], Paths.Paper, PlotProps)
 
 
 %% baselines
@@ -168,7 +168,7 @@ figure
 plotBrokenRain(zAverageBaselines, [], [], getColors(2), Legend, PlotProps)
 ylabel('mm')
 title('Average baselines')
-saveFig([TitleTag, 'TrialBaselines'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, 'TrialBaselines'], Paths.Paper, PlotProps)
 
 
 
@@ -183,6 +183,6 @@ figure
 plotBrokenSpaghetti(AuC, [], [], [], PlotProps.Color.Participants, false, PlotProps)
 ylabel('mm')
 title('AuC Target - Standard')
-saveFig([TitleTag, 'AuC'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, 'AuC'], Paths.Paper, PlotProps)
 
 

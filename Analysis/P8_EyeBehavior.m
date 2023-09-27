@@ -52,6 +52,6 @@ plotBrokenRain(Microsleeps, [], [0 40], Colors, Tasks, PlotProps)
 legend off
 ylabel('Microsleeps (%)')
 
-saveFig(TitleTag, Paths.Paper, PlotProps)
+chART.save_figure(TitleTag, Paths.Paper, PlotProps)
 
 

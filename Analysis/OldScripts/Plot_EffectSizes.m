@@ -278,4 +278,4 @@ Stats = plotEffectSizes(Data, 'vertical', true, WMZ_Colors, WMZ_Names, ...
     {'Raw', 'Z-scored'}, PlotProps, StatsP, Labels);
 title('B: WMZ', 'FontSize', PlotProps.Text.TitleSize)
 legend( {'Raw', 'Z-scored'}, 'location', 'southeast')
-saveFig(TitleTag, Paths.Paper, PlotProps)
+chART.save_figure(TitleTag, Paths.Paper, PlotProps)

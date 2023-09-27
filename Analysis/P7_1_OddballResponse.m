@@ -69,4 +69,4 @@ for Indx_S = 1:numel(Sessions)
     end
 end
 
-saveFig([TitleTag, 'EvokedResponse'], Paths.Paper, PlotProps)
+chART.save_figure([TitleTag, 'EvokedResponse'], Paths.Paper, PlotProps)

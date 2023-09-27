@@ -173,7 +173,7 @@ figure('units','centimeters','position',[0 0 PlotProps.Figure.Width*1.1 PlotProp
 Stats = corrAll(Data(:, Order), Data(:, Order), '', SD_Names(Order), '', ...
     SD_Names(Order), StatsP, PlotProps, 'FDR');
 axis square
-saveFig(strjoin({TitleTag, 'SD'}, '_'), Paths.Paper, PlotProps)
+chART.save_figure(strjoin({TitleTag, 'SD'}, '_'), Paths.Paper, PlotProps)
 
 
 %% plot WMZ data

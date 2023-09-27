@@ -50,7 +50,7 @@ for Indx_P = 3:numel(Participants)
 
         end
 
-        saveFig(strjoin({Participants{Indx_P}, Task, Sessions{Indx_S}, 'Bursts'}, '_'), Destination, PlotProps)
+        chART.save_figure(strjoin({Participants{Indx_P}, Task, Sessions{Indx_S}, 'Bursts'}, '_'), Destination, PlotProps)
         
     end
 
