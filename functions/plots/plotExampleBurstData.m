@@ -19,8 +19,16 @@ Data = Data+Y';
 
 plot(t, Data,  'Color', Color, 'LineWidth', PlotProps.Line.Width/3, 'HandleVisibility','off')
 
+set(gca, 'YTick', [], 'YColor', 'none', 'FontName', PlotProps.Text.FontName, 'FontSize', PlotProps.Text.AxisSize)
+
+
+if isempty(Bursts)
+    return
+end
+
 
 %%% plot bursts
+
 if isempty(ColorCode)
     Colors = 'b';
 else
@@ -89,6 +97,6 @@ for Indx_B = 1:numel(Bursts)
     plot(t(Start:End), Burst', 'Color', [C], 'LineWidth', PlotProps.Line.Width, 'HandleVisibility','off');
 end
 
-set(gca, 'YTick', [], 'YColor', 'none', 'FontName', PlotProps.Text.FontName, 'FontSize', PlotProps.Text.AxisSize)
+
 xlim(Bursts(1).Start/EEG.srate+[0 20])
 legend(Groups,  'FontSize', PlotProps.Text.AxisSize)

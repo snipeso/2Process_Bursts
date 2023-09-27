@@ -37,6 +37,10 @@ Tots = zScoreData(Data, 'last');
 %% Figure 6: topography of amplitudes and burst quantities
 
 PlotProps = P.Manuscript;
+PlotProps.Figure.Width = PlotProps.Figure.Width*2;
+PlotProps.Figure.Height = PlotProps.Figure.Height*2;
+PlotProps.Text.FontName = 'Tw Cen MT';
+PlotProps.Figure.Height
 PlotProps.Figure.Padding = 10;
 PlotProps.Axes.yPadding = 10;
 PlotProps.Axes.xPadding = 10;
@@ -196,4 +200,4 @@ for Indx_Ch = 1:numel(Fig.Children)
 end
 
 
-saveFig(TitleTag, Paths.Paper, PlotProps)
+% saveFig(TitleTag, Paths.Paper, PlotProps)

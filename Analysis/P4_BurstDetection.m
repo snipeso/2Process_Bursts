@@ -67,7 +67,8 @@ end
 
 Task = 'Fixation';
 Participant = 'P15';
-PlotProps = P.Manuscript;
+PlotProps = P.Powerpoint;
+PlotProps.FontName = 'Tw Cen MT';
 PlotProps.Figure.Padding = 5;
 PlotProps.Axes.xPadding = 5;
 PlotProps.Axes.yPadding = 30;
@@ -97,15 +98,18 @@ Colors = [
     getColors(1, '', 'green');
     getColors(1, '', 'yellow')
     getColors(1, '', 'orange');];
-figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1, PlotProps.Figure.Height*.5])
+% figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1, PlotProps.Figure.Height*.5])
+figure('units', 'normalized', 'outerposition', [0 0 1 1])
 Axes = subfigure([], [1 1], [1, 1], [], false, '', PlotProps);
 Axes.Position(2) = Axes.Position(2)+ .025;
+Bursts = [];
 plotExampleBurstData(EEG, 20, Bursts, 'FinalBand', Colors, PlotProps)
 % xlim([139.5 149.5])
 xlim([141.5 149.5])
 ylim([-10 2500])
 xlabel('Time (s)')
-saveFig('Example_Data', Paths.Paper, PlotProps)
+
+% saveFig('Example_Data', Paths.Paper, PlotProps)
 
 
 
@@ -247,3 +251,27 @@ saveFig('Example_Burst', Paths.Paper, PlotProps)
 
 
 
+%% 
+
+Task = 'Game';
+Participant = 'P10';
+Session = 'Session2';
+
+PlotProps = P.Manuscript;
+PlotProps.Text.FontName = 'Tw Cen MT';
+PlotProps.Figure.Padding = 5;
+PlotProps.Axes.xPadding = 5;
+PlotProps.Axes.yPadding = 30;
+
+load(fullfile('E:\Data\Preprocessed\Clean\Waves', Task, [Participant, '_', Task, '_', Session, '_Clean.mat']), 'EEG')
+
+
+figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1, PlotProps.Figure.Height*.5])
+Axes = subfigure([], [1 1], [1, 1], [], false, '', PlotProps);
+Axes.Position(2) = Axes.Position(2)+ .025;
+plotExampleBurstData(EEG, 20, [], 'FinalBand', [], PlotProps)
+setAxisProperties(PlotProps);
+% xlim([139.5 149.5])
+xlim([141.5 149.5])
+ylim([-10 2500])
+xlabel('Time (s)')
