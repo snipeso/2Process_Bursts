@@ -44,21 +44,21 @@ Colors = P.TaskColors;
 
 figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.28])
 
-subfigure([], Grid, [1, 1], [], true, ...
+chART.sub_plot([], Grid, [1, 1], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenRain(meanDiameter, [], [-2.3 3], Colors, Tasks, PlotProps)
 ylabel('Pupil diameter (z-scored)')
 set(legend, 'location', 'northwest')
 
 
-A = subfigure([], Grid, [1, 2], [], true, ...
+A = chART.sub_plot([], Grid, [1, 2], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenRain(stdDiameter, [], [-2.3 3], Colors, Tasks, PlotProps)
 ylabel('SD pupil diameter (z-scored)')
 legend off
 
 
-A = subfigure([], Grid, [1, 3], [], true, ...
+A = chART.sub_plot([], Grid, [1, 3], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenSpaghetti(AuC, [], [-2 5], [], PlotProps.Color.Participants, false, PlotProps);
 ylabel('Pupil oddball response (z-scored)')

@@ -49,7 +49,7 @@ for Indx_S = 1:numel(Sessions)
 
     AllN(Indx_S) = N;
     Coordinate = Coordinates{Indx_S};
-    A = subfigure([], Grid, Coordinate, [], true, ...
+    A = chART.sub_plot([], Grid, Coordinate, [], true, ...
         '', PlotProps);
     plotAngelHair(t, Data, Colors, Legend, PlotProps)
     title([XLabels{Indx_S}, ' (n=', num2str(N), ')'])

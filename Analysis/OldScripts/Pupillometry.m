@@ -41,19 +41,19 @@ Colors = P.TaskColors;
 
 figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.4])
 
-A = subfigure([], Grid, [1, 1], [], true, ...
+A = chART.sub_plot([], Grid, [1, 1], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenRain(zAllDiameters, [], [], Colors, Tasks, PlotProps)
 ylabel('Diameter (mm) (z-scored)')
 title('Diameter')
 
-% A = subfigure([], Grid, [1, 2], [], true, ...
+% A = chART.sub_plot([], Grid, [1, 2], [], true, ...
 %     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 % plotBrokenRain(zAllPUI, [], [], Colors, Tasks, PlotProps)
 % ylabel('PUI (z-scored)')
 % title('PUI')
 
-A = subfigure([], Grid, [1, 2], [], true, ...
+A = chART.sub_plot([], Grid, [1, 2], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenRain(zsdAllDiameters, [], [], Colors, Tasks, PlotProps)
 ylabel('sd diameter (z-scored)')
@@ -97,7 +97,7 @@ for Indx_S = 1:numel(Sessions)
     N = nnz(~isnan(Data(:, 1, 1))); % number of participants included
 
     AllN(Indx_S) = N;
-    A = subfigure([], Grid, Coordinates{Indx_S}, [], true, ...
+    A = chART.sub_plot([], Grid, Coordinates{Indx_S}, [], true, ...
         '', PlotProps);
     plotAngelHair(t, Data, Colors, Legend, PlotProps)
     title([XLabels{Indx_S}, ' (n=', num2str(N), ')'])
@@ -143,7 +143,7 @@ for Indx_S = 1:numel(Sessions)
     Data = squeeze(MissingData(:, Indx_S, :, :));
     N = nnz(~isnan(Data(:, 1, 1))); % number of participants included
 
-    A = subfigure([], Grid, Coordinates{Indx_S}, [], true, ...
+    A = chART.sub_plot([], Grid, Coordinates{Indx_S}, [], true, ...
         '', PlotProps);
     plotAngelHair(t, Data, Colors, Legend, PlotProps)
     title([XLabels{Indx_S}, ' (n=', num2str(N), ')'])

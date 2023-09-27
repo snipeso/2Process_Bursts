@@ -39,14 +39,14 @@ Colors = P.TaskColors;
 
 figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.7 PlotProps.Figure.Height*0.28])
 
-A = subfigure([], Grid, [1, 1], [], true, ...
+A = chART.sub_plot([], Grid, [1, 1], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenRain(Blinks, [], [0 53], Colors, Tasks, PlotProps)
 set(legend, 'location', 'northwest')
 ylabel('Blinks/min')
 
 
-A = subfigure([], Grid, [1, 2], [], true, ...
+A = chART.sub_plot([], Grid, [1, 2], [], true, ...
     PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
 plotBrokenRain(Microsleeps, [], [0 40], Colors, Tasks, PlotProps)
 legend off

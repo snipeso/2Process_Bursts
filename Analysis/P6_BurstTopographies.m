@@ -97,7 +97,7 @@ for Indx_B = 1:2
 
         % amplitudes
         Data = squeeze(mean(mean(Amplitudes(:, :, Indx_T, :, Indx_B), 1, 'omitnan'), 2, 'omitnan'));
-        Axis = subfigure(miniSpace, miniminiGrid, [1, Indx_T], [], false, {}, PlotProps);
+        Axis = chART.sub_plot(miniSpace, miniminiGrid, [1, Indx_T], [], false, {}, PlotProps);
         A = gca;
         A.Units = 'pixels';
         shiftaxis(Axis, Axis.Position(3)*.1, []);
@@ -109,7 +109,7 @@ for Indx_B = 1:2
 
         % quantities
         Data = squeeze(mean(mean(Tots(:, :, Indx_T, :, Indx_B), 1, 'omitnan'), 2, 'omitnan'));
-        Axis = subfigure(miniSpace, miniminiGrid, [2, Indx_T], [], false, {}, PlotProps);
+        Axis = chART.sub_plot(miniSpace, miniminiGrid, [2, Indx_T], [], false, {}, PlotProps);
         A = gca;
         A.Units = 'pixels';
         shiftaxis(Axis, Axis.Position(3)*.1, []);
@@ -122,12 +122,12 @@ for Indx_B = 1:2
     end
 
     % colorbars
-    Axis = subfigure(miniSpace, miniminiGrid, [1, Indx_T+1], [], false, {}, PlotProps);
+    Axis = chART.sub_plot(miniSpace, miniminiGrid, [1, Indx_T+1], [], false, {}, PlotProps);
     Axis.Position(1) = Axis.Position(1)-.015;
     Axis.Position(3) = Axis.Position(3)+.01;
     plotColorbar('Linear', CLims_Average{1, Indx_B}, CLabels{1}, PlotProps)
 
-    Axis = subfigure(miniSpace, miniminiGrid, [2, Indx_T+1], [], false, {}, PlotProps);
+    Axis = chART.sub_plot(miniSpace, miniminiGrid, [2, Indx_T+1], [], false, {}, PlotProps);
     Axis.Position(1) = Axis.Position(1)-.015;
     Axis.Position(3) = Axis.Position(3)+.01;
     plotColorbar('Linear', CLims_Average{2, Indx_B}, CLabels{2}, PlotProps)
@@ -148,7 +148,7 @@ for Indx_B = 1:2
         % amplitudes
         Data1 = squeeze(Amplitudes(:, BL, Indx_T, :, Indx_B));
         Data2 = squeeze(Amplitudes(:, SD, Indx_T, :, Indx_B));
-        Axis = subfigure(miniSpace, miniminiGrid, [1, Indx_T], [], false, {}, PlotProps);
+        Axis = chART.sub_plot(miniSpace, miniminiGrid, [1, Indx_T], [], false, {}, PlotProps);
         A = gca;
         A.Units = 'pixels';
         shiftaxis(Axis, Axis.Position(3)*.1, []);
@@ -163,7 +163,7 @@ for Indx_B = 1:2
         % quantities
         Data1 = squeeze(Tots(:, BL, Indx_T, :, Indx_B));
         Data2 = squeeze(Tots(:, SD, Indx_T, :, Indx_B));
-        Axis = subfigure(miniSpace, miniminiGrid, [2, Indx_T], [], false, {}, PlotProps);
+        Axis = chART.sub_plot(miniSpace, miniminiGrid, [2, Indx_T], [], false, {}, PlotProps);
         A = gca;
         A.Units = 'pixels';
         shiftaxis(Axis, Axis.Position(3)*.1, []);
@@ -176,12 +176,12 @@ for Indx_B = 1:2
     end
 
     % colorbars
-    Axis = subfigure(miniSpace, miniminiGrid, [1, Indx_T+1], [], false, {}, PlotProps);
+    Axis = chART.sub_plot(miniSpace, miniminiGrid, [1, Indx_T+1], [], false, {}, PlotProps);
     Axis.Position(1) = Axis.Position(1)-.015;
     Axis.Position(3) = Axis.Position(3)+.01;
     plotColorbar('Divergent', CLims, 't-values', PlotProps)
 
-    Axis = subfigure(miniSpace, miniminiGrid, [2, Indx_T+1], [], false, {}, PlotProps);
+    Axis = chART.sub_plot(miniSpace, miniminiGrid, [2, Indx_T+1], [], false, {}, PlotProps);
     Axis.Position(1) = Axis.Position(1)-.015;
     Axis.Position(3) = Axis.Position(3)+.01;
     plotColorbar('Divergent', CLims, 't-values', PlotProps)

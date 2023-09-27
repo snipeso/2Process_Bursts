@@ -89,24 +89,17 @@ addExternalFunctions()
 P.Paths = Paths;
 
 
-%%% chART stuff for plotting
-% same for plotting scripts, saved to a different repo (https://github.com/snipeso/chart)
-addpath('C:\Users\colas\Code\chART')
-if ~exist('addchARTpaths.m', 'file')
-    addchARTpaths() % TODO, find in folder automatically
-end
-
 % plot sizes depending on which screen being used
 Pix = get(0,'screensize');
 if Pix(3) < 2000
-    Format = getProperties({'LSM', 'SmallScreen'});
+    Format = chART.load_plot_properties({'LSM', 'SmallScreen'});
 else
-    Format = getProperties({'LSM', 'LargeScreen'});
+    Format = chART.load_plot_properties({'LSM', 'LargeScreen'});
 end
 
-Manuscript = getProperties({'LSM', 'Manuscript'});
-Powerpoint =  getProperties({'LSM', 'Powerpoint'});
-Poster =  getProperties({'LSM', 'Poster'});
+Manuscript = chART.load_plot_properties({'LSM', 'Manuscript'});
+Powerpoint =  chART.load_plot_properties({'LSM', 'Powerpoint'});
+Poster =  chART.load_plot_properties({'LSM', 'Poster'});
 
 Manuscript.Figure.Padding = 15;
 Manuscript.Axes.yPadding = 20;
@@ -118,7 +111,7 @@ Manuscript.Text.AxisSize = 10;
 Manuscript.Text.TitleSize = 12;
 Manuscript.Text.IndexSize = 17;
 
-P.TaskColors = flip(getColors(3));
+P.TaskColors = flip(chART.color_picker(3));
 
 P.Manuscript = Manuscript; % for papers
 P.Powerpoint = Powerpoint; % for presentations

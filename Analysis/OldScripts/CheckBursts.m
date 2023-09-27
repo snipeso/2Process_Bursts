@@ -40,7 +40,7 @@ for Indx_P = 3:numel(Participants)
 
             fs = EEG.srate;
 
-            subfigure([], Grid, [Indx_S, 1], [], true, '', PlotProps);
+            chART.sub_plot([], Grid, [Indx_S, 1], [], true, '', PlotProps);
             plotBurstPatches(Bursts, EEG.nbchan, fs, PlotProps)
             if Indx_S > 1
                 legend off

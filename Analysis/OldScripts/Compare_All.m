@@ -192,7 +192,7 @@ PlotProps.Figure.Padding = 100;
 PlotProps.Scatter.Size = 15;
 
 figure('units','centimeters','position',[0 0 PlotProps.Figure.Width*2 PlotProps.Figure.Height])
-Axes = subfigure([], Grid, [1 1], [], true, PlotProps.Indexes.Letters{1}, PlotProps);
+Axes = chART.sub_plot([], Grid, [1 1], [], true, PlotProps.Indexes.Letters{1}, PlotProps);
 Axes.Position(1) = Axes.Position(1)+.08;
 Axes.Position(3) = Axes.Position(3)-.08;
 % Axes.Position(4) = Axes.Position(4)-.02;
@@ -203,7 +203,7 @@ xlim([.5 numel(WMZ_Names)+.5])
 ylabel(P.Labels.ES)
 title('SD effect', 'FontSize',PlotProps.Text.TitleSize)
 
-Axes = subfigure([], Grid, [1 2], [1 3], true, PlotProps.Indexes.Letters{2}, PlotProps);
+Axes = chART.sub_plot([], Grid, [1 2], [1 3], true, PlotProps.Indexes.Letters{2}, PlotProps);
 Stats = corrAll(Data(:, Order), Data(:, Order), '', '', '', ...
     WMZ_Names(Order), StatsP, PlotProps, 'FDR');
 

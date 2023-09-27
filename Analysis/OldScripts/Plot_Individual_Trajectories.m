@@ -131,7 +131,7 @@ for Indx_P = 1:numel(Participants)
     for Indx_V = 1:numel(SD_Names)
 
         Data = squeeze(SD(Indx_P, :, Indx_V));
-        A = subfigure([], Grid, [Indx_V, 1], [], false, '', PlotProps);
+        A = chART.sub_plot([], Grid, [Indx_V, 1], [], false, '', PlotProps);
        plotBrokenSpaghetti(Data, [], [], [], SD_Colors(Indx_V, :), false, PlotProps)
         title([SD_Names{Indx_V}, ' ', Participants{Indx_P}])
         if Indx_V < numel(SD_Names)

@@ -52,7 +52,7 @@ for Indx_1 = 1:Grid(1)
         Q = PlotQuestions{Indx_1, Indx_2};
         qL = qLabels.(Q);
         Data = Answers.(Q);
-        A = subfigure([], Grid, [Indx_1, Indx_2], [], true, ...
+        A = chART.sub_plot([], Grid, [Indx_1, Indx_2], [], true, ...
             '', PlotProps);
         A.Position(1) = A.Position(1)+.07;
         A.Position(3) = A.Position(3)-.07;
@@ -85,7 +85,7 @@ for Indx_1 = 1:Grid(1)
         Q = PlotQuestions{Indx_1, Indx_2};
         Data = Answers.(Q);
          Data = zScoreData(Data, 'first');
-        A = subfigure([], Grid, [Indx_1, Indx_2], [], true, ...
+        A = chART.sub_plot([], Grid, [Indx_1, Indx_2], [], true, ...
             '', PlotProps);
         A.Position(1) = A.Position(1)+.07;
         A.Position(3) = A.Position(3)-.07;

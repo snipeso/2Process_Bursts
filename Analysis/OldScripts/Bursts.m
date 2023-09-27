@@ -81,7 +81,7 @@ for Indx_V = 1:numel(Variables)
             Missing, Durations, Variable, Participants, Sessions, Tasks, Z);
 
         % plot
-        A = subfigure([], Grid, [Indx_V, Indx_B], [], true, ...
+        A = chART.sub_plot([], Grid, [Indx_V, Indx_B], [], true, ...
             PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
         plotBrokenRain(Matrix, [], YLim, TaskColors, Tasks, PlotProps)
         ylabel(YLabel)
@@ -188,7 +188,7 @@ for Indx_T = 1:numel(Tasks)
             % plot average across all sessions
             Data = squeeze(mean(mean(zTopos(:, :, Indx_T, :, Indx_B, Indx_V), 1, 'omitnan'), 2, 'omitnan'));
 
-            A = subfigure(Space, miniGrid, [Indx_V, 1], [], false, {}, PlotProps);
+            A = chART.sub_plot(Space, miniGrid, [Indx_V, 1], [], false, {}, PlotProps);
             plotTopoplot(Data, [], Chanlocs, [], CLabels{Indx_V}, 'Linear', PlotProps)
 
             if Indx_V ==1
@@ -207,7 +207,7 @@ for Indx_T = 1:numel(Tasks)
             Data1 = squeeze(zTopos(:, BL, Indx_T, :, Indx_B, Indx_V));
             Data2 = squeeze(zTopos(:, SD, Indx_T, :, Indx_B, Indx_V));
 
-            A = subfigure(Space, miniGrid, [Indx_V, 2], [], false, {}, PlotProps);
+            A = chART.sub_plot(Space, miniGrid, [Indx_V, 2], [], false, {}, PlotProps);
             Stats = topoDiff(Data1, Data2, Chanlocs, CLims, StatsP, PlotProps);
 
             if Indx_V ==1

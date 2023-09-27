@@ -42,7 +42,7 @@ for Indx_1 = 1:Grid(1)
         Q = PlotQuestions{Indx_1, Indx_2};
         qL = qLabels.(Q);
         Data = Answers.(Q);
-        A = subfigure([], Grid, [Indx_1, Indx_2], [], true, ...
+        A = chART.sub_plot([], Grid, [Indx_1, Indx_2], [], true, ...
             '', PlotProps);
         A.Position(1) = A.Position(1)+.3;
         A.Position(3) = A.Position(3)-.3;

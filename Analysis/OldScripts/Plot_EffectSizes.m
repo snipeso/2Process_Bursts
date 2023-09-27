@@ -260,7 +260,7 @@ PlotProps.Line.Width = 1;
 figure('units','centimeters','position',[0 0 PlotProps.Figure.Width*1.3, PlotProps.Figure.Height*.9])
 % figure('units', 'normalized', 'outerposition', [0 0 .5 1])
 
-A = subfigure([], Grid, [1, 2], [], true, '', PlotProps);
+A = chART.sub_plot([], Grid, [1, 2], [], true, '', PlotProps);
 A.Position(1) =  A.Position(1)-.1;
 A.Position(3) = A.Position(3)+.1;
 Stats = plotEffectSizes(SD, 'vertical', true, SD_Colors, SD_Names, ...
@@ -271,7 +271,7 @@ legend off
 
 Data = permute(cat(4, WMZ, noWMZ), [1 4, 2, 3]);
 
-A = subfigure([], Grid, [1, 4], [], true, '', PlotProps);
+A = chART.sub_plot([], Grid, [1, 4], [], true, '', PlotProps);
 A.Position(1) =  A.Position(1)-.1;
 A.Position(3) = A.Position(3)+.1;
 Stats = plotEffectSizes(Data, 'vertical', true, WMZ_Colors, WMZ_Names, ...

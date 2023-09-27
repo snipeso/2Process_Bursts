@@ -100,7 +100,7 @@ Colors = [
     getColors(1, '', 'orange');];
 % figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1, PlotProps.Figure.Height*.5])
 figure('units', 'normalized', 'outerposition', [0 0 1 1])
-Axes = subfigure([], [1 1], [1, 1], [], false, '', PlotProps);
+Axes = chART.sub_plot([], [1 1], [1, 1], [], false, '', PlotProps);
 Axes.Position(2) = Axes.Position(2)+ .025;
 Bursts = [];
 plotExampleBurstData(EEG, 20, Bursts, 'FinalBand', Colors, PlotProps)
@@ -151,7 +151,7 @@ for Indx_T = 1:numel(Tasks)
             Letter = '';
         end
 
-        A  = subfigure([], Grid, [2*Indx_P-1, Indx_T], [], true, Letter, PlotProps);
+        A  = chART.sub_plot([], Grid, [2*Indx_P-1, Indx_T], [], true, Letter, PlotProps);
         A.Position(1) = A.Position(1)-Shift;
         A.Position(2) = A.Position(2)-0.01;
         A.Position(4) = A.Position(4)-0.01;
@@ -180,7 +180,7 @@ for Indx_T = 1:numel(Tasks)
 
         %%% distribution of mean amplitude
         Data = squeeze(Amps(Indx_P, :, Indx_T, :))';
-        A = subfigure([], Grid, [2*Indx_P, Indx_T], [], true, '', PlotProps);
+        A = chART.sub_plot([], Grid, [2*Indx_P, Indx_T], [], true, '', PlotProps);
         A.Position(1) = A.Position(1)-Shift;
         A.Position(2) = A.Position(2)+0.03;
         A.Position(4) = H;
@@ -223,7 +223,7 @@ for Indx_V = 1:numel(Variables)
         Data = Data*100;
     end
     CC = CornerCoordinates{Indx_V};
-    A = subfigure([], Grid, CC, Sizes{Indx_V}, true, PlotProps.Indexes.Letters{Indx_V+2}, PlotProps);
+    A = chART.sub_plot([], Grid, CC, Sizes{Indx_V}, true, PlotProps.Indexes.Letters{Indx_V+2}, PlotProps);
 
     if CC(1) == 2
         A.Position(2) = Base(1);
@@ -267,7 +267,7 @@ load(fullfile('E:\Data\Preprocessed\Clean\Waves', Task, [Participant, '_', Task,
 
 
 figure('units', 'centimeters', 'Position', [0 0 PlotProps.Figure.Width*1, PlotProps.Figure.Height*.5])
-Axes = subfigure([], [1 1], [1, 1], [], false, '', PlotProps);
+Axes = chART.sub_plot([], [1 1], [1, 1], [], false, '', PlotProps);
 Axes.Position(2) = Axes.Position(2)+ .025;
 plotExampleBurstData(EEG, 20, [], 'FinalBand', [], PlotProps)
 setAxisProperties(PlotProps);

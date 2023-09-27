@@ -110,7 +110,7 @@ xLog = true;
 PlotProps = P.Manuscript;
 
 figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.35])
-A = subfigure([], Grid, [1, 1], [], true, ...
+A = chART.sub_plot([], Grid, [1, 1], [], true, ...
     PlotProps.Indexes.Letters{1}, PlotProps);
 
 Data = squeeze(raw_chData(:, 1, :, :, :));
@@ -119,7 +119,7 @@ title('Raw', 'FontSize', PlotProps.Text.TitleSize)
 ylabel('PSD')
 
 
-A = subfigure([], Grid, [1, 2], [], true, ...
+A = chART.sub_plot([], Grid, [1, 2], [], true, ...
     PlotProps.Indexes.Letters{2}, PlotProps);
 
 Data = squeeze(chData(:, 1, :, :, :));
@@ -134,7 +134,7 @@ xLog = true;
 yLims = [1 40];
 
 figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Height*0.35])
-A = subfigure([], Grid, [1, 1], [], true, ...
+A = chART.sub_plot([], Grid, [1, 1], [], true, ...
     PlotProps.Indexes.Letters{1}, PlotProps);
 
 Data = log(squeeze(raw_chData(:, [2 3], 1, :, :)));
@@ -143,7 +143,7 @@ title('Log', 'FontSize', PlotProps.Text.TitleSize)
 ylabel('PSD (log)')
 
 
-A = subfigure([], Grid, [1, 2], [], true, ...
+A = chART.sub_plot([], Grid, [1, 2], [], true, ...
     PlotProps.Indexes.Letters{2}, PlotProps);
 
 Data = squeeze(chData(:, [2 3], 1, :, :));
@@ -163,7 +163,7 @@ for Indx_N = 1:numel(Nights)
 
 %            Data = squeeze(bData(:, Indx_N, :));
     Data = squeeze(raw_bData(:, Indx_N, :));
-    A = subfigure([], Grid, [1, Indx_N], [], true, ...
+    A = chART.sub_plot([], Grid, [1, Indx_N], [], true, ...
         PlotProps.Indexes.Letters{Indx_N}, PlotProps);
     plotConfettiSpaghetti(Data, [], [], PlotProps.Color.Participants, yLims, PlotProps)
     title(Nights{Indx_N})
@@ -192,7 +192,7 @@ figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps
 for Indx_N = 1:numel(Nights)
 
     Data = squeeze(EdgeHours(:, Indx_N, :, :, :));
-    A = subfigure([], Grid, [1, Indx_N], [], true, PlotProps.Indexes.Letters{Indx_N}, PlotProps);
+    A = chART.sub_plot([], Grid, [1, Indx_N], [], true, PlotProps.Indexes.Letters{Indx_N}, PlotProps);
     plotConfettiSpaghetti(Data, [], [], PlotProps.Color.Participants, yLims, PlotProps)
     ylim(yLims)
 end

@@ -58,7 +58,7 @@ figure('Units','centimeters','Position',[0 0 PlotProps.Figure.Width*0.5, PlotPro
 %%% RTs
 [Data, ~] = tabulateTable(Answers, 'RT', 'mean', Participants, Sessions, []); % TODO: copy function from Paper1 repo
 
-A = subfigure([], Grid, [1, 1], [], true, ...
+A = chART.sub_plot([], Grid, [1, 1], [], true, ...
     PlotProps.Indexes.Letters{1}, PlotProps);
 plotBrokenSpaghetti(Data, [], [], [], PlotProps.Color.Participants, Flip, PlotProps)
 title('Reaction Times', 'FontSize', PlotProps.Text.TitleSize)
@@ -68,7 +68,7 @@ ylabel('Seconds')
 %%% STD RTs
 [Data, ~] = tabulateTable(Answers, 'RT', 'std', Participants, Sessions, []);
 
-A = subfigure([], Grid, [2, 1], [], true, ...
+A = chART.sub_plot([], Grid, [2, 1], [], true, ...
     PlotProps.Indexes.Letters{2}, PlotProps);
 plotBrokenSpaghetti(Data, [], [], [], PlotProps.Color.Participants, Flip, PlotProps)
 title('RT Standard Deviations', 'FontSize', PlotProps.Text.TitleSize)
@@ -84,7 +84,7 @@ Matrix(:, :, 3) = Matrix(:, :, 3)-1;
 
 Data = squeeze(Matrix(:, :, 4));
 
-A = subfigure([], Grid, [3, 1], [], true, ...
+A = chART.sub_plot([], Grid, [3, 1], [], true, ...
     PlotProps.Indexes.Letters{3}, PlotProps);
 plotBrokenSpaghetti(Data, [], [], [], PlotProps.Color.Participants, Flip, PlotProps)
 title('Lapses', 'FontSize', PlotProps.Text.TitleSize)
@@ -97,7 +97,7 @@ Matrix(:, :, 5) = 1 - (Matrix(:, :, 3)+Matrix(:, :, 4))/199;
 
 Data = squeeze(Matrix(:, :, 5));
 
-A = subfigure([], Grid, [4, 1], [], true, ...
+A = chART.sub_plot([], Grid, [4, 1], [], true, ...
     PlotProps.Indexes.Letters{4}, PlotProps);
 plotBrokenSpaghetti(Data, [], [], [], PlotProps.Color.Participants, Flip, PlotProps)
 title('Performance', 'FontSize', PlotProps.Text.TitleSize)

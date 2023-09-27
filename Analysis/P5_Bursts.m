@@ -153,7 +153,7 @@ for Indx_V = 1:numel(Variables)
         Variable = Variables{Indx_V};
         Data = squeeze(AllData(:, :, :, Indx_B, Indx_V));
         % plot
-        A = subfigure([], Grid, [Indx_V, Indx_B], [], true, ...
+        A = chART.sub_plot([], Grid, [Indx_V, Indx_B], [], true, ...
             PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
         plotBrokenRain(Data, [], YLim, TaskColors, Tasks, PlotProps)
         if Indx_B ==1

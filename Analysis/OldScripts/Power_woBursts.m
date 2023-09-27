@@ -71,7 +71,7 @@ Colors = flip(flip(getColors([numel(Tasks), numel(Sessions)-3]), 3), 1);
 figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width PlotProps.Figure.Width])
 for Indx_Ch = 1:numel(ChLabels)
     for Indx_T = 1:numel(Tasks)
-        A = subfigure([], Grid, [Indx_Ch, Indx_T], [], false, ...
+        A = chART.sub_plot([], Grid, [Indx_Ch, Indx_T], [], false, ...
             '', PlotProps);
 
         Data = squeeze(chData(:, 4:11, Indx_T, Indx_Ch, :));

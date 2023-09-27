@@ -40,10 +40,10 @@ Dims = size(Data);
 % assign rainbow colors if none are provided
 OriginalColors = Colors;
 if isempty(Colors)
-    Colors = reduxColormap(PlotProps.Color.Maps.Rainbow, Dims(1));
+    Colors = chART.utils.resize_colormap(PlotProps.Color.Maps.Rainbow, Dims(1));
 end
 
-Colors = makePale(Colors, .4);
+Colors = chART.utils.pale_colors(Colors, .4);
 
 %%% plot each participant
 hold on
@@ -115,7 +115,7 @@ end
 
 % plot significance stars on top
 if ~isempty(Stats)
-    plotHangmanStars(Stats, XPoints, [], ColorGroups, PlotProps)
+    chART.plot.paired_significance_stars(Stats, XPoints, [], ColorGroups, PlotProps)
 end
 
 
@@ -131,4 +131,4 @@ end
 
 axis square
 
-setAxisProperties(PlotProps)
+chART.set_axis_properties(PlotProps)
