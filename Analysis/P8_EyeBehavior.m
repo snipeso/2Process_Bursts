@@ -37,20 +37,11 @@ Grid = [1, 2];
 Indx=1;
 Colors = P.TaskColors;
 
-figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.7 PlotProps.Figure.Height*0.28])
+figure('units', 'centimeters', 'position', [0 0 PlotProps.Figure.Width*.35 PlotProps.Figure.Height*.25])
+plotBrokenSpaghetti(squeeze(Microsleeps(:, :, 2)), [], [0 40], [], PlotProps.Color.Participants, false, PlotProps)
 
-A = chART.sub_plot([], Grid, [1, 1], [], true, ...
-    PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
-plotBrokenRain(Blinks, [], [0 53], Colors, Tasks, PlotProps)
-set(legend, 'location', 'northwest')
-ylabel('Blinks/min')
-
-
-A = chART.sub_plot([], Grid, [1, 2], [], true, ...
-    PlotProps.Indexes.Letters{Indx}, PlotProps); Indx = Indx+1;
-plotBrokenRain(Microsleeps, [], [0 40], Colors, Tasks, PlotProps)
 legend off
-ylabel('Microsleeps (%)')
+ylabel('Ocular microsleeps (%)')
 
 chART.save_figure(TitleTag, Paths.Paper, PlotProps)
 
